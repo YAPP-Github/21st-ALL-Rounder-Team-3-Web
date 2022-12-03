@@ -22,7 +22,36 @@
     "react-router-dom": "^6.5.0",
     "recoil": "^0.7.6",
     "styled-components": "^5.3.6",
+<<<<<<< HEAD
     "styled-loader": "^0.0.0"
+=======
+    "typescript": "^4.9.3",
+    "web-vitals": "^2.1.4"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+>>>>>>> 87e1c0d (init - reset css 방식 수정)
   },
   "devDependencies": {
     "@babel/core": "^7.20.5",
