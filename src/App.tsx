@@ -1,5 +1,12 @@
+import { RouterProvider } from "react-router-dom";
+import router from "./routConfig";
+
 const App = () => {
-  return <div>timi</div>;
+  return (
+    <>
+      <RouterProvider router={router} />
+    </>
+  );
 };
 
 export default App;
