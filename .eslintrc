@@ -1,0 +1,179 @@
+{
+  "env": {
+    "es6": true,
+    "browser": true
+  },
+  "extends": ["airbnb", "airbnb-typescript", "plugin:react/jsx-runtime", "prettier", "prettier/@typescript-eslint"],
+  "plugins": ["react", "react-hooks", "import"],
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "ecmaFeatures": {
+      "jsx": true
+    },
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
+  "rules": {
+    /** ******** GENERAL ********* */
+
+    "camelcase": "off",
+    "default-case": "off",
+    "global-require": "warn",
+    "lines-between-class-members": ["error", "always", { "exceptAfterSingleLine": true }],
+    "no-plusplus": "off",
+    "no-underscore-dangle": "off",
+    "no-param-reassign": "off",
+    "no-shadow": "off", // -> warn???
+    "no-unused-vars": "warn",
+    "no-use-before-define": "off",
+    "no-useless-escape": "warn",
+    "no-useless-catch": "off",
+    "no-empty": "off",
+    "operator-linebreak": "off",
+    "no-return-assign": "off",
+    "consistent-return": "off",
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "ForInStatement",
+        "message": "for..in loops iterate over the entire prototype chain, which is virtually never what you want. Use Object.{keys,values,entries}, and iterate over the resulting array."
+      },
+      {
+        "selector": "LabeledStatement",
+        "message": "Labels are a form of GOTO; using them makes code confusing and hard to maintain and understand."
+      },
+      {
+        "selector": "WithStatement",
+        "message": "`with` is disallowed in strict mode because it makes code impossible to predict and optimize."
+      }
+    ],
+
+    /** ******** STYLES ********* */
+
+    /** ******** BEST-PRACTICES ********* */
+
+    // specify curly brace conventions for all control statements
+    // https://eslint.org/docs/rules/curly
+    "curly": ["error", "all"],
+
+    // enforce that class methods use "this"
+    // https://eslint.org/docs/rules/class-methods-use-this
+    "class-methods-use-this": "off",
+
+    // encourages use of dot notation whenever possible
+    // https://eslint.org/docs/rules/dot-notation
+    "dot-notation": "warn",
+
+    // require the use of === and !==
+    // https://eslint.org/docs/rules/eqeqeq
+    "eqeqeq": ["error", "always", { "null": "ignore" }],
+
+    // make sure for-in loops have an if statement
+    // https://eslint.org/docs/rules/guard-for-in
+    "guard-for-in": "off",
+
+    // enforce a maximum number of classes per file
+    // https://eslint.org/docs/rules/max-classes-per-file
+    "max-classes-per-file": ["warn", 1],
+
+    // https://typescript-eslint.io/rules/quotes/
+    "quotes": "off",
+    "@typescript-eslint/quotes": "off",
+
+    /** ******** IMPORT ********* */
+
+    "import/extensions": "off",
+    "import/no-named-as-default": "off",
+    "import/no-extraneous-dependencies": "off",
+    "import/no-unresolved": "off",
+
+    // https://github.com/import-js/eslint-plugin-import/blob/main/docs/rules/order.md
+    "import/order": [
+      "error",
+      {
+        "groups": ["external", ["sibling", "parent"], ["internal", "builtin", "index", "unknown"]],
+        "pathGroups": [
+          {
+            "pattern": "+(react|react-native)",
+            "group": "external",
+            "position": "before"
+          }
+        ],
+        "pathGroupsExcludedImportTypes": [""],
+        "alphabetize": {
+          "order": "asc"
+        },
+        "newlines-between": "always"
+      }
+    ],
+    "import/prefer-default-export": "off",
+    "import/no-mutable-exports": "off",
+
+    /** ******** REACT ********* */
+
+    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-boolean-value.md
+    "react/jsx-boolean-value": "off",
+
+    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-filename-extension.md
+    "react/jsx-filename-extension": [
+      "warn",
+      {
+        "extensions": [".jsx", ".tsx"]
+      }
+    ],
+
+    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/jsx-sort-props.md
+    "react/jsx-sort-props": "off",
+
+    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-access-state-in-setstate.md
+    "react/no-access-state-in-setstate": "error",
+
+    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-did-mount-set-state.md
+    "react/no-did-mount-set-state": "error",
+
+    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-did-update-set-state.md
+    "react/no-did-update-set-state": "error",
+
+    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-multi-comp.md
+    "react/no-multi-comp": "off",
+
+    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-unescaped-entities.md
+    "react/no-unescaped-entities": [
+      "error",
+      {
+        "forbid": [">", "}"]
+      }
+    ],
+
+    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/no-unknown-property.md
+    "react/no-unknown-property": "error",
+
+    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/prefer-stateless-function.md
+    "react/prefer-stateless-function": "off",
+
+    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/prop-types.md
+    "react/prop-types": "off",
+
+    // https://github.com/yannickcr/eslint-plugin-react/blob/master/docs/rules/self-closing-comp.md
+    "react/self-closing-comp": [
+      "error",
+      {
+        "component": true,
+        "html": true
+      }
+    ],
+
+    "react/function-component-definition": [2, { "namedComponents": "arrow-function" }],
+
+    /** ******** REACT HOOKS ********* */
+
+    // https://reactjs.org/docs/hooks-rules.html
+    "react-hooks/exhaustive-deps": "warn",
+    "react-hooks/rules-of-hooks": "error"
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
+  }
+}
