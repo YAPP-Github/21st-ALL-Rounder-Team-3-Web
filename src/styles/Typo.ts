@@ -32,20 +32,27 @@ export const typo_h4 = css`
 
 export const typo_body1 = css`
   font-weight: 500;
-  font-size: 14px;
+  font-size: 16px;
   line-height: 140%;
 `;
 
 export const typo_body2 = css`
-  font-weight: 400;
+  font-weight: 500;
   font-size: 14px;
   line-height: 140%;
 `;
 
 export const typo_body3 = css`
   font-weight: 400;
+  font-size: 14px;
+  line-height: 140%;
+`;
+
+export const typo_body4 = css`
+  font-weight: 400;
   font-size: 12px;
   line-height: 140%;
+  color: #999999;
 `;
 
 export const typo_cation1_semibold = css`
