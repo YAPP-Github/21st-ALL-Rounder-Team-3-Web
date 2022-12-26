@@ -23,6 +23,30 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(woff|woff2|eot|ttf|otf)$/i,
+        type: "asset/resource",
+        use: [
+          {
+            loader: "file-loader",
+            options: {
+              name: "assets/fonts/[name].[hash:8].[ext]",
+            },
+          },
+        ],
+      },
+      {
+        test: /\.(jpe?g|png|gif)$/i,
+        type: "asset/resource",
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              name: "assets/images/[name].[hash:8].[ext]",
+            },
+          },
+        ],
+      },
+      {
         test: /\.(ts|tsx|js|jsx)$/,
         use: "babel-loader",
         exclude: /node_modules/,
