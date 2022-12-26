@@ -1,0 +1,19 @@
+import IconArrowBack from "./IconArrowBack.svg";
+import IconCheckBox from "./IconCheckBox.svg";
+import IconCheckedBox from "./IconCheckedBox.svg";
+import IconClose from "./IconClose.svg";
+import IconDelete from "./IconDelete.svg";
+import IconDropDown from "./IconDropDown.svg";
+import IconEdit from "./IconEdit.svg";
+import IconShare from "./IconShare.svg";
+
+export default {
+  IconArrowBack,
+  IconCheckBox,
+  IconCheckedBox,
+  IconClose,
+  IconDelete,
+  IconDropDown,
+  IconEdit,
+  IconShare,
+};
