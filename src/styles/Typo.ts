@@ -61,7 +61,6 @@ export const typo_body3_regular = css`
 `;
 
 export const typo_body4_regular = css`
-  ${typo_base};
   font-weight: 400;
   font-size: 12px;
   line-height: 140%;
