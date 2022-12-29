@@ -52,8 +52,8 @@ module.exports = {
         exclude: /node_modules/,
       },
       {
-        test: /\.(png|jpe?g|gif)$/i,
-        type: "asset/resource",
+        test: /\.svg$/,
+        use: ["@svgr/webpack"],
       },
     ],
   },

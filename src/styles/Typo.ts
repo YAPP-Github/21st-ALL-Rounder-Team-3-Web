@@ -53,6 +53,13 @@ export const typo_body2_medium = css`
   line-height: 140%;
 `;
 
+export const typo_body2_medium = css`
+  ${typo_base};
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 140%;
+`;
+
 export const typo_body3_regular = css`
   ${typo_base};
   font-weight: 400;
@@ -61,6 +68,7 @@ export const typo_body3_regular = css`
 `;
 
 export const typo_body4_regular = css`
+  ${typo_base};
   font-weight: 400;
   font-size: 12px;
   line-height: 140%;
