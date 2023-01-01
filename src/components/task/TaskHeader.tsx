@@ -5,7 +5,6 @@ import Badge from "../common/Badge";
 const Wrapper = styled.div`
   height: 150px;
   padding: 20px 16px;
-  background-color: #d3f4eb;
 `;
 
 const Title = styled.h2`
@@ -33,7 +32,7 @@ const ProgressContainer = styled.div<{ percentage: number }>`
 `;
 
 const ProgressTextContainer = styled.div`
-  width: 100%
+  width: 100%;
   position: relative;
   display: flex;
   justify-content: space-between;
