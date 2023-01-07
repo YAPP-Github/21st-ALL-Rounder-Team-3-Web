@@ -1,10 +1,11 @@
 import { createBrowserRouter } from "react-router-dom";
 import { PROJECT_SETTING_URL, TASK_CREATE_URL, TASK_DETAIL_URL, TASK_FEEDBACK_URL } from "./constants/URLConstants";
+import TaskDetail from "./pages/TaskDetail";
 
 const router = createBrowserRouter([
   {
     path: TASK_DETAIL_URL,
-    element: <div>업무 페이지</div>,
+    element: <TaskDetail />,
   },
   {
     path: TASK_FEEDBACK_URL,
