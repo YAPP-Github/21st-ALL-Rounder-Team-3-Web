@@ -49,7 +49,7 @@ export const typo_body1_medium = css`
 export const typo_body2_medium = css`
   ${typo_base};
   font-weight: 500;
-  font-size: 16px;
+  font-size: 14px;
   line-height: 140%;
 `;
 
