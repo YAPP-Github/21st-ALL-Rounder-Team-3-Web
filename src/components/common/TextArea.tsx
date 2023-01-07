@@ -9,19 +9,19 @@ type Props = {
   onChange: (value: string) => void;
 };
 
-const Textㅁrea = ({ value, placeholder, onChange }: Props) => {
+const TextArea = ({ value, placeholder, onChange }: Props) => {
   const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
     onChange(e.target.value);
   };
 
   return (
-    <TextㅁreaWrapper>
+    <TextAreaWrapper>
       <WriteArea value={value} placeholder={placeholder} onChange={e => handleChange(e)} />
-    </TextㅁreaWrapper>
+    </TextAreaWrapper>
   );
 };
 
-const TextㅁreaWrapper = styled.div`
+const TextAreaWrapper = styled.div`
   background-color: ${({ theme }) => theme.colors.gray[100]};
   border: 1px solid ${({ theme }) => theme.colors.gray[200]};
   border-radius: 8px;
@@ -40,4 +40,4 @@ const WriteArea = styled.textarea`
   }
 `;
 
-export default Textㅁrea;
+export default TextArea;
