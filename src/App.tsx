@@ -1,10 +1,14 @@
 import { RouterProvider } from "react-router-dom";
+import styled, { ThemeProvider } from "styled-components";
 import router from "./routConfig";
+import theme from "./styles/theme";
 
 const App = () => {
   return (
     <>
-      <RouterProvider router={router} />
+      <ThemeProvider theme={theme}>
+        <RouterProvider router={router} />
+      </ThemeProvider>
     </>
   );
 };
