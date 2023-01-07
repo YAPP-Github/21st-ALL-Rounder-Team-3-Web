@@ -2,8 +2,17 @@ import React from "react";
 import styled from "styled-components";
 import { typo_body4_regular, typo_body2_medium } from "../../styles/Typo";
 
+const TaskDescription = ({ title, content }: Props) => {
+  return (
+    <Wrapper>
+      <Title>{title}</Title>
+      <Content>{content}</Content>
+    </Wrapper>
+  );
+};
+
 const Wrapper = styled.div`
-  margin-left: 16px;
+  margin: 0 16px;
   flex-direction: column;
   display: flex;
 `;
@@ -22,11 +31,4 @@ type Props = {
   content?: string;
 };
 
-export const TaskDescription = ({ title, content }: Props) => {
-  return (
-    <Wrapper>
-      <Title>{title}</Title>
-      <Content>{content}</Content>
-    </Wrapper>
-  );
-};
+export default TaskDescription;

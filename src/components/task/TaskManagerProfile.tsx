@@ -1,8 +1,25 @@
-import React from "react";
 import styled from "styled-components";
 import { typo_body4_regular, typo_body2_medium } from "../../styles/Typo";
 
-const tmp_image = require("../../assets/images/tmp_profile_img1.png");
+import tmp_image from "../../assets/images/tmp_profile_img1.png";
+
+type Props = {
+  name: string;
+  imageSource: string;
+};
+
+const TaskManagerProfile = ({ name, imageSource }: Props) => {
+  imageSource = tmp_image;
+  return (
+    <Wrapper>
+      <ProfileImg src={imageSource} />
+      <TextWrapper>
+        <ProfilePositionText>업무 담당자</ProfilePositionText>
+        <ProfileName>{name}</ProfileName>
+      </TextWrapper>
+    </Wrapper>
+  );
+};
 
 const Wrapper = styled.div`
   display: flex;
@@ -30,20 +47,4 @@ const ProfileName = styled.div`
   ${typo_body2_medium}
 `;
 
-type Props = {
-  name: string;
-  imageSource: string;
-};
-
-export const TaskManagerProfile = ({ name, imageSource }: Props) => {
-  imageSource = tmp_image;
-  return (
-    <Wrapper>
-      <ProfileImg src={imageSource} />
-      <TextWrapper>
-        <ProfilePositionText>업무 담당자</ProfilePositionText>
-        <ProfileName>{name}</ProfileName>
-      </TextWrapper>
-    </Wrapper>
-  );
-};
+export default TaskManagerProfile;

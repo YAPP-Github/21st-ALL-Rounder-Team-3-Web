@@ -2,48 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import Badge from "../common/Badge";
 
-const Wrapper = styled.div`
-  height: 150px;
-  padding: 20px 16px;
-`;
-
-const Title = styled.h2`
-  margin: 10px 0 20px 0;
-`;
-
-const ProgressContainer = styled.div<{ percentage: number }>`
-  background-color: #f4f4f4;
-  width: 100%;
-  height: 8px;
-  border-radius: 7px;
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    top: 0;
-    left: 0;
-    position: absolute;
-    background-color: #8075f9;
-    border-radius: 7px;
-    content: "";
-    height: 100%;
-    width: ${props => props.percentage}%;
-  }
-`;
-
-const ProgressTextContainer = styled.div`
-  width: 100%;
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  margin-top: 8px;
-`;
-
-const Text = styled.div`
-  color: #8075f9;
-  font-size: 12px;
-`;
-
 const startDate = "2022/12/02";
 const endDate = "2022/12/09";
 
@@ -87,7 +45,7 @@ const getBadgeMessage = (progressStatus: number) => {
   return "진행중";
 };
 
-export const TaskHeader = () => {
+const TaskHeader = () => {
   const percentage = getProgressPercentage(startDate, endDate);
   const dateLeft = getDateLeft(endDate);
   const progressStatus = getProgressStatus(percentage);
@@ -105,3 +63,47 @@ export const TaskHeader = () => {
     </Wrapper>
   );
 };
+
+const Wrapper = styled.div`
+  height: 150px;
+  padding: 20px 16px;
+`;
+
+const Title = styled.h2`
+  margin: 10px 0 20px 0;
+`;
+
+const ProgressContainer = styled.div<{ percentage: number }>`
+  background-color: #f4f4f4;
+  width: 100%;
+  height: 8px;
+  border-radius: 7px;
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    top: 0;
+    left: 0;
+    position: absolute;
+    background-color: #8075f9;
+    border-radius: 7px;
+    content: "";
+    height: 100%;
+    width: ${props => props.percentage}%;
+  }
+`;
+
+const ProgressTextContainer = styled.div`
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  margin-top: 8px;
+`;
+
+const Text = styled.div`
+  color: #8075f9;
+  font-size: 12px;
+`;
+
+export default TaskHeader;
