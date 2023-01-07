@@ -35,16 +35,8 @@ module.exports = {
         ],
       },
       {
-        test: /\.(jpe?g|png|gif)$/i,
+        test: /\.(png|jpe?g|gif)$/i,
         type: "asset/resource",
-        use: [
-          {
-            loader: "url-loader",
-            options: {
-              name: "assets/images/[name].[hash:8].[ext]",
-            },
-          },
-        ],
       },
       {
         test: /\.(ts|tsx|js|jsx)$/,

@@ -1,5 +1,14 @@
 import styled, { css } from "styled-components";
 
+type Props = {
+  color: "purple" | "red" | "green" | "gray";
+  value: string;
+};
+
+const Badge = ({ color, value }: Props) => {
+  return <StyledBadge color={color}>{value}</StyledBadge>;
+};
+
 const PurpleBadge = css`
   background-color: #f5f0ff;
   color: #8075f9;
@@ -42,14 +51,5 @@ const StyledBadge = styled.span`
     if (props.color === "red") return RedBadge;
   }};
 `;
-
-type Props = {
-  color: "purple" | "red" | "green" | "gray";
-  value: string;
-};
-
-const Badge = ({ color, value }: Props) => {
-  return <StyledBadge color={color}>{value}</StyledBadge>;
-};
 
 export default Badge;
