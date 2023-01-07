@@ -4,15 +4,15 @@ import styled from "styled-components";
 import Icons from "@src/assets/icons";
 import { typo_body1_medium } from "@src/styles/Typo";
 
-interface DropDownData {
+export type DropDownData = {
   id: number;
   value: string;
-}
+};
 
-interface Props {
+type Props = {
   data: DropDownData[];
   onChange: (Item: DropDownData) => void;
-}
+};
 
 const DropDown = ({ data, onChange }: Props) => {
   const [{ value, id }, setCurrentValue] = useState<DropDownData>(data[0]);
