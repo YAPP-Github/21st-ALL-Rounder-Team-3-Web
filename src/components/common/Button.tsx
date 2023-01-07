@@ -56,11 +56,12 @@ type Props = {
   disabled?: boolean;
   icon?: ReactNode;
   margin?: number;
+  onClick: () => void;
 };
 
-const Button = ({ type, value, disabled, icon }: Props) => {
+const Button = ({ type, value, disabled, icon, onClick }: Props) => {
   return (
-    <StyledButton btnType={type} disabled={disabled}>
+    <StyledButton btnType={type} disabled={disabled} onClick={onClick}>
       <IconWrapper>{icon && icon}</IconWrapper>
       {value}
     </StyledButton>
