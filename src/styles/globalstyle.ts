@@ -17,6 +17,14 @@ const GlobalStyle = createGlobalStyle`
     src: url(${NotoSansKR}) format("woff2");
   }
 
+  body {
+    &::-webkit-scrollbar {
+      display: none;
+    }
+    
+    scrollbar-width: none;
+  }
+
   * {
     margin: 0;
     padding: 0;
