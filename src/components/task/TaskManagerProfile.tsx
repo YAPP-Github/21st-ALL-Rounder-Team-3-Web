@@ -1,13 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import * as typo from "../../styles/Typo";
+import { typo_body4_regular, typo_body2_medium } from "../../styles/Typo";
 
 const tmp_image = require("../../assets/images/tmp_profile_img1.png");
 
 const Wrapper = styled.div`
   display: flex;
   margin-left: 16px;
-  flex-direction: row;
 `;
 
 const ProfileImg = styled.img`
@@ -22,13 +21,13 @@ const TextWrapper = styled.span`
   justify-content: center;
 `;
 
-const ProfilePositionText = styled.text`
-  ${typo.typo_body4}
+const ProfilePositionText = styled.div`
+  ${typo_body4_regular}
   margin-bottom: 4px;
 `;
 
-const ProfileName = styled.text`
-  ${typo.typo_body2}
+const ProfileName = styled.div`
+  ${typo_body2_medium}
 `;
 
 type Props = {

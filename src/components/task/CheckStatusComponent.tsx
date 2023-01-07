@@ -17,4 +17,4 @@ const TitleTextWrapper = styled.div`
   display: flex;
 `;
 
-const Title = styled.text``;
+const Title = styled.div``;

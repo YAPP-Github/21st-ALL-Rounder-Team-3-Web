@@ -39,7 +39,7 @@ const ProgressTextContainer = styled.div`
   margin-top: 8px;
 `;
 
-const Text = styled.text`
+const Text = styled.div`
   color: #8075f9;
   font-size: 12px;
 `;
