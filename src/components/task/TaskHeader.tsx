@@ -53,7 +53,7 @@ const TaskHeader = () => {
   const badgeMessage = getBadgeMessage(progressStatus);
   return (
     <Wrapper>
-      <Badge value={badgeMessage} color="purple" />
+      <Badge value={badgeMessage} color="gray" />
       <Title>DBPia, RISS 논문 리서치</Title>
       <ProgressContainer percentage={percentage}></ProgressContainer>
       <ProgressTextContainer>
