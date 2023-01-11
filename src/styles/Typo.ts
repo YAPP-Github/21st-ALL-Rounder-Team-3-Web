@@ -65,7 +65,6 @@ export const typo_body4_regular = css`
   font-weight: 400;
   font-size: 12px;
   line-height: 140%;
-  color: #999999;
 `;
 
 export const typo_cation1_semibold = css`
