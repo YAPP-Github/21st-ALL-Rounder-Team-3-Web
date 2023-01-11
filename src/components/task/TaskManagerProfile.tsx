@@ -23,7 +23,6 @@ const TaskManagerProfile = ({ name, imageSource }: Props) => {
 
 const Wrapper = styled.div`
   display: flex;
-  margin-left: 16px;
 `;
 
 const ProfileImg = styled.img`
@@ -38,13 +37,15 @@ const TextWrapper = styled.span`
   justify-content: center;
 `;
 
-const ProfilePositionText = styled.div`
-  ${typo_body4_regular}
+const ProfilePositionText = styled.p`
+  ${typo_body4_regular};
+  color: ${({ theme }) => theme.colors.gray[500]};
   margin-bottom: 4px;
 `;
 
-const ProfileName = styled.div`
+const ProfileName = styled.p`
   ${typo_body2_medium}
+  color: ${({ theme }) => theme.colors.black};
 `;
 
 export default TaskManagerProfile;

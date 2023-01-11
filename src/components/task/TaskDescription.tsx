@@ -11,19 +11,17 @@ const TaskDescription = ({ title, content }: Props) => {
   );
 };
 
-const Wrapper = styled.div`
-  margin: 0 16px;
-  flex-direction: column;
-  display: flex;
-`;
+const Wrapper = styled.div``;
 
-const Title = styled.div`
+const Title = styled.p`
   ${typo_body4_regular};
+  color: ${({ theme }) => theme.colors.gray[500]};
   margin-bottom: 4px;
 `;
 
 const Content = styled.div`
   ${typo_body2_medium};
+  color: ${({ theme }) => theme.colors.black};
 `;
 
 type Props = {
