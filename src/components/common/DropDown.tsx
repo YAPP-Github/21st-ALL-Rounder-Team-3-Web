@@ -15,7 +15,7 @@ type Props = {
 };
 
 const DropDown = ({ data, onChange }: Props) => {
-  const [{ value, id }, setCurrentValue] = useState<DropDownData>(data[0]);
+  const [{ id, value }, setCurrentValue] = useState<DropDownData>(data[0]);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpen = () => {
