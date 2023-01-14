@@ -2,6 +2,24 @@ import { ReactNode } from "react";
 import styled, { css } from "styled-components";
 import { typo_h3_semibold } from "@src/styles/Typo";
 
+type Props = {
+  type: "primary" | "secondary";
+  value: string;
+  disabled?: boolean;
+  icon?: ReactNode;
+  margin?: number;
+  onClick: () => void;
+};
+
+const Button = ({ type, value, disabled, icon, onClick }: Props) => {
+  return (
+    <BaseButton btnType={type} disabled={disabled} onClick={onClick}>
+      <IconWrapper>{icon && icon}</IconWrapper>
+      {value}
+    </BaseButton>
+  );
+};
+
 const PrimaryButtonStyle = css`
   background-color: ${({ theme }) => theme.colors.main[500]};
   color: ${({ theme }) => theme.colors.white};
@@ -48,23 +66,5 @@ const IconWrapper = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
-type Props = {
-  type: "primary" | "secondary";
-  value: string;
-  disabled?: boolean;
-  icon?: ReactNode;
-  margin?: number;
-  onClick: () => void;
-};
-
-const Button = ({ type, value, disabled, icon, onClick }: Props) => {
-  return (
-    <BaseButton btnType={type} disabled={disabled} onClick={onClick}>
-      <IconWrapper>{icon && icon}</IconWrapper>
-      {value}
-    </BaseButton>
-  );
-};
 
 export default Button;
