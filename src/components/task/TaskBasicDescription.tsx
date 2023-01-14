@@ -26,7 +26,7 @@ const TaskBasicDescription = ({
       <Divider marginBottom={10} marginTop={10} />
       <TaskDescription title="업무 기간" content={`${startDate} ~ ${dueDate}`} />
       <Divider marginBottom={10} marginTop={10} />
-      <TaskDescription title="업무 설명" content={description} />
+      <TaskDescription title="업무 내용" content={description} />
       <Divider marginBottom={10} marginTop={10} />
       <TaskDescription title="URL" content={urlList[0].url} />
     </>
