@@ -1,14 +1,18 @@
 import { ReactNode } from "react";
 import styled from "styled-components";
+import TopBar, { TobBarProps } from "../common/TobBar";
 
-type Props = {
+type Props = TobBarProps & {
   children: ReactNode;
 };
 
-const DefaultLayout = ({ children }: Props) => {
+const DefaultLayout = ({ title, onBack, withWrite, withDelete, children }: Props) => {
   return (
     <Container>
-      <BaseWrapper>{children}</BaseWrapper>
+      <Wrapper>
+        <TopBar title={title} onBack={onBack} withWrite={withWrite} withDelete={withDelete} />
+        {children}
+      </Wrapper>
     </Container>
   );
 };
@@ -19,7 +23,7 @@ const Container = styled.div`
   align-items: flex-end;
 `;
 
-const BaseWrapper = styled.div`
+const Wrapper = styled.div`
   overflow: hidden;
   position: relative;
   width: 100%;
