@@ -2,14 +2,14 @@ import Icons from "@src/assets/icons";
 import { typo_h3_semibold } from "@src/styles/Typo";
 import styled from "styled-components";
 
-export type TobBarProps = {
+export type TopBarProps = {
   title: string;
   onBack: () => void;
   withModify?: boolean;
   withDelete?: boolean;
 };
 
-const TopBar = ({ title, onBack, withModify, withDelete }: TobBarProps) => {
+const TopBar = ({ title, onBack, withModify, withDelete }: TopBarProps) => {
   return (
     <Wrapper>
       <BackButtonWrapper onClick={onBack}>

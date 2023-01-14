@@ -1,8 +1,8 @@
 import { ReactNode } from "react";
 import styled from "styled-components";
-import TopBar, { TobBarProps } from "../common/TobBar";
+import TopBar, { TopBarProps } from "../common/TopBar";
 
-type Props = TobBarProps & {
+type Props = TopBarProps & {
   children: ReactNode;
 };
 
