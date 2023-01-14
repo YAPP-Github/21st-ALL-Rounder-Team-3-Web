@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 
 type Props = {
-  color: "purple" | "green" | "gray";
+  color?: "purple" | "green" | "gray";
   value: string;
 };
 

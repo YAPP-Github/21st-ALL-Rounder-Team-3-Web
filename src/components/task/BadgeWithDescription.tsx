@@ -2,25 +2,22 @@ import styled from "styled-components";
 import { typo_body4_regular, typo_cation1_semibold } from "@src/styles/Typo";
 
 type Props = {
-  badgeType: "request" | "finished";
+  feedbackStatus: "pending" | "finished";
   manager?: string;
 };
 
-const getTextByType = (type: "request" | "finished", manager?: string) => {
-  let title = "",
-    description = "";
-  if (type == "request") {
-    title = "확인 요청";
-    description = "완료된 내용을 확인하시고 확인을 진행해주세요!";
-  } else if ((type = "finished")) {
-    title = "확인 완료";
-    description = `이미 ${manager}님의 업무를 확인했어요`!;
-  }
+const getTextByType = (feedbackStatus: string, manager?: string) => {
+  let title = feedbackStatus === "pending" ? "확인 요청" : "확인 완료";
+  let description =
+    feedbackStatus === "pending"
+      ? "완료된 내용을 확인하시고 피드백을 진행해주세요!"
+      : `이미 ${manager}님의 업무를 피드백 완료했어요!`;
+
   return { title, description };
 };
 
-const BadgeWithDescription = ({ badgeType, manager }: Props) => {
-  const { title, description } = getTextByType(badgeType, manager);
+const BadgeWithDescription = ({ feedbackStatus, manager }: Props) => {
+  const { title, description } = getTextByType(feedbackStatus, manager);
 
   return (
     <Container>
@@ -50,7 +47,7 @@ const Title = styled.div`
 
 const Content = styled.div`
   ${typo_body4_regular};
-  color: #555555;
+  color: ${({ theme }) => theme.colors.gray[600]};
 `;
 
 export default BadgeWithDescription;

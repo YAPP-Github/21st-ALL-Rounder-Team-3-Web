@@ -1,64 +1,73 @@
-import React from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Badge from "../common/Badge";
 
 const startDate = "2022/12/02";
 const endDate = "2022/12/09";
 
-const getProgressPercentage = (startDate: string, endDate: string) => {
+const getProgressPercentage = (startDate: string, endDate: string, taskStatus: string) => {
+  //기간이 지나지 않았더라도 피드백을 요청했을 경우 프로그레스 바 전체가 다 차도록 처리
+  if (taskStatus === "FEEDBACK" || taskStatus === "DONE") return 100;
+  if (taskStatus === "BEFORE") return 0;
+
   const startTime = new Date(startDate).getTime();
   const endTime = new Date(endDate).getTime();
   const todayTime = new Date().getTime();
-
-  return ((todayTime - startTime) / (endTime - startTime)) * 100;
+  console.log(Math.abs(((todayTime - startTime) / (endTime - startTime)) * 100));
+  return Math.abs(((todayTime - startTime) / (endTime - startTime)) * 100);
 };
 
-const getDateLeft = (endDate: string) => {
-  const endTime = new Date(endDate).getTime();
+const getDateLeft = (dueDate: string) => {
+  const endTime = new Date(dueDate).getTime();
   const todayTime = new Date().getTime();
-
   const timeDifference = endTime - todayTime;
-  const leftDays = new Date(Math.abs(timeDifference)).getDate() - 1;
-
+  const leftDays = Math.floor(Math.abs(timeDifference) / (24 * 60 * 60 * 1000));
   if (timeDifference > 0) return `D-${leftDays}`;
   return `D+${leftDays}`;
 };
 
-const BEFORE_PROGRESS = 0;
-const IN_PROGRESS = 1;
-const AFTER_PROGRESS = 2;
-
-const getProgressStatus = (percentage: number) => {
-  if (percentage <= 0) return BEFORE_PROGRESS;
-  if (percentage < 100) return IN_PROGRESS;
-
-  return AFTER_PROGRESS;
+const getProgressStatusMessage = (taskStatus: string) => {
+  if (taskStatus === "BEFORE") return "아직 업무 시작 전이에요";
+  if (taskStatus === "INPROGRESS") return "으쌰으쌰 진행중이에요🔥";
+  return "업무를 완료했어요 🎉";
 };
 
-const getProgressStatusMessage = (progressStatus: number) => {
-  if (progressStatus === 0) return "아직 업무 시작 전이에요";
-  if (progressStatus === 1) return "으쌰으쌰 진행중이에요🔥";
-  return "업무 완료했어요 🎉";
+const getBadgeMessage = (taskStatus: string, feedbackLeftDays: number) => {
+  const feedbackLeftDaysValue = feedbackLeftDays === 0 ? "DAY" : feedbackLeftDays;
+  if (taskStatus === "BEFORE") return "시작 전";
+  if (taskStatus === "INPROGRESS") return "진행 중";
+  else if (taskStatus === "FEEDBACK") return `피드백 요청 D-${feedbackLeftDaysValue}`;
+  return "완료";
 };
 
-const getBadgeMessage = (progressStatus: number) => {
-  return "진행중";
+const getProgressColor = (taskStatus: string) => {
+  if (taskStatus === "BEFORE" || taskStatus === "DONE") return "gray";
+  if (taskStatus === "INPROGRESS") return "green";
+  return "purple";
 };
 
-const TaskHeader = () => {
-  const percentage = getProgressPercentage(startDate, endDate);
-  const dateLeft = getDateLeft(endDate);
-  const progressStatus = getProgressStatus(percentage);
-  const progressStatusMessage = getProgressStatusMessage(progressStatus);
-  const badgeMessage = getBadgeMessage(progressStatus);
+interface Props {
+  title: string;
+  taskStatus: string;
+  startDate: string;
+  dueDate: string;
+  feedbackRequestDate: string;
+  feedbackLeftDays: number;
+}
+
+const TaskHeader = ({ title, taskStatus, startDate, dueDate, feedbackRequestDate, feedbackLeftDays }: Props) => {
+  const percentage = getProgressPercentage(startDate, dueDate, taskStatus);
+  const dateLeft = getDateLeft(dueDate);
+  const progressStatusMessage = getProgressStatusMessage(taskStatus);
+  const progressColor = getProgressColor(taskStatus);
+  const badgeMessage = getBadgeMessage(taskStatus, feedbackLeftDays);
   return (
     <Wrapper>
-      <Badge value={badgeMessage} color="gray" />
-      <Title>DBPia, RISS 논문 리서치</Title>
-      <ProgressContainer percentage={percentage}></ProgressContainer>
-      <ProgressTextContainer>
-        <Text>{progressStatusMessage}</Text>
-        <Text>{dateLeft}</Text>
+      <Badge value={badgeMessage} color={progressColor} />
+      <Title>{title}</Title>
+      <ProgressContainer percentage={percentage} color={progressColor}></ProgressContainer>
+      <ProgressTextContainer taskStatus={taskStatus}>
+        <Text color={progressColor}>{progressStatusMessage}</Text>
+        {taskStatus === "BEFORE" || taskStatus === "INPROGRESS" ? <Text color={progressColor}>{dateLeft}</Text> : null}
       </ProgressTextContainer>
     </Wrapper>
   );
@@ -73,8 +82,8 @@ const Title = styled.h2`
   margin: 10px 0 20px 0;
 `;
 
-const ProgressContainer = styled.div<{ percentage: number }>`
-  background-color: #f4f4f4;
+const ProgressContainer = styled.div<{ percentage: number; color: string }>`
+  background-color: ${({ theme }) => theme.colors.gray[200]};
   width: 100%;
   height: 8px;
   border-radius: 7px;
@@ -85,7 +94,20 @@ const ProgressContainer = styled.div<{ percentage: number }>`
     top: 0;
     left: 0;
     position: absolute;
-    background-color: #8075f9;
+    ${props => {
+      if (props.color === "gray")
+        return css`
+          background-color: ${({ theme }) => theme.colors.gray[500]};
+        `;
+      if (props.color === "green")
+        return css`
+          background-color: ${({ theme }) => theme.colors.sub[500]};
+        `;
+      if (props.color === "purple")
+        return css`
+          background-color: ${({ theme }) => theme.colors.main[500]};
+        `;
+    }}
     border-radius: 7px;
     content: "";
     height: 100%;
@@ -93,7 +115,7 @@ const ProgressContainer = styled.div<{ percentage: number }>`
   }
 `;
 
-const ProgressTextContainer = styled.div`
+const ProgressTextContainer = styled.div<{ taskStatus: string }>`
   width: 100%;
   position: relative;
   display: flex;
@@ -101,8 +123,21 @@ const ProgressTextContainer = styled.div`
   margin-top: 8px;
 `;
 
-const Text = styled.div`
-  color: #8075f9;
+const Text = styled.div<{ color: string }>`
+  ${props => {
+    if (props.color === "gray")
+      return css`
+        color: ${({ theme }) => theme.colors.gray[500]};
+      `;
+    if (props.color === "green")
+      return css`
+        color: ${({ theme }) => theme.colors.sub[500]};
+      `;
+    if (props.color === "purple")
+      return css`
+        color: ${({ theme }) => theme.colors.main[500]};
+      `;
+  }}
   font-size: 12px;
 `;
 

@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import styled, { css } from "styled-components";
 import BadgeWithDescription from "./BadgeWithDescription";
 import {
@@ -11,8 +10,6 @@ import {
 import tmp_image1 from "../../assets/images/tmp_profile_img1.png";
 import tmp_image2 from "../../assets/images/tmp_profile_img2.png";
 import tmp_image3 from "../../assets/images/tmp_profile_img3.png";
-
-const MARGIN = 32 + 28;
 
 type Profile = {
   key: number;
@@ -31,24 +28,21 @@ const uncheckedList: Profile[] = [
   { key: 2, imgUrl: tmp_image1, name: "나연" },
   { key: 3, imgUrl: tmp_image1, name: "가은" },
   { key: 4, imgUrl: tmp_image2, name: "나은" },
-  { key: 5, imgUrl: tmp_image3, name: "다은" },
-  { key: 6, imgUrl: tmp_image3, name: "다은" },
 ];
 
-function getWindowSize() {
-  const width = window.innerWidth;
-  return width;
-}
+type Props = {
+  feedbackLeftDays: number;
+  taskStatus: string;
+  feedbackStatus: "pending" | "finished";
+};
 
-type Props = {};
-
-const CheckStatus = () => {
+const CheckStatus = ({ feedbackLeftDays, taskStatus, feedbackStatus }: Props) => {
   return (
     <Wrapper>
-      <BadgeWithDescription badgeType="finished" manager="예진" />
+      <BadgeWithDescription feedbackStatus={feedbackStatus} manager="예진" />
       <TitleTextWrapper>
         <Title>피드백 현황</Title>
-        <FeedbackPeriodText>피드백 기간이 2일 남았어요</FeedbackPeriodText>
+        <FeedbackPeriodText>피드백 기간이 {feedbackLeftDays}일 남았어요</FeedbackPeriodText>
       </TitleTextWrapper>
       <ProfileListContainer>
         <ProfileListTextWrapper>
@@ -67,8 +61,20 @@ const CheckStatus = () => {
         </ProfileListWrapper>
       </ProfileListContainer>
       <ProfileListContainer>
-        <ProfileListTitle>확인 완료</ProfileListTitle>
-        <ProfileListStatusNumber>2</ProfileListStatusNumber>
+        <ProfileListTextWrapper>
+          <ProfileListTitle>확인 완료</ProfileListTitle>
+          <ProfileListStatusNumber>{checkedList.length}</ProfileListStatusNumber>
+        </ProfileListTextWrapper>
+        <ProfileListWrapper>
+          {checkedList.map(element => {
+            return (
+              <ProfileWrapper key={element.key}>
+                <ProfileImg src={element.imgUrl} />
+                <ProfileName>{element.name}</ProfileName>
+              </ProfileWrapper>
+            );
+          })}
+        </ProfileListWrapper>
       </ProfileListContainer>
     </Wrapper>
   );
