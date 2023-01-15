@@ -1,32 +1,35 @@
 import styled, { css } from "styled-components";
 
+type Props = {
+  color?: "purple" | "green" | "gray";
+  value: string;
+};
+
+const Badge = ({ color, value }: Props) => {
+  return <BaseBadge color={color}>{value}</BaseBadge>;
+};
+
 const PurpleBadge = css`
-  background-color: #f5f0ff;
-  color: #8075f9;
-  border: 1px solid #f1ebff;
+  background-color: ${({ theme }) => theme.colors.main[100]};
+  color: ${({ theme }) => theme.colors.main[500]};
+  border: 1px solid ${({ theme }) => theme.colors.main[200]};
 `;
 
 const GreenBadge = css`
-  background-color: #f1faf7;
-  color: #1ac694;
-  border: 1px solid #d3f4eb;
-`;
-
-const RedBadge = css`
-  background-color: #fff0f0;
-  color: #ed3b3b;
-  border: 1px solid #ffe6e6;
+  background-color: ${({ theme }) => theme.colors.sub[100]};
+  color: ${({ theme }) => theme.colors.sub[500]};
+  border: 1px solid ${({ theme }) => theme.colors.sub[300]};
 `;
 
 const GrayBadge = css`
-  background-color: #fafafa;
-  color: #999999;
-  border: 1px solid #f4f4f4;
+  background-color: ${({ theme }) => theme.colors.gray[200]};
+  color: ${({ theme }) => theme.colors.gray[600]};
+  border: 1px solid ${({ theme }) => theme.colors.gray[300]};
 `;
 
-const StyledBadge = styled.span`
+const BaseBadge = styled.span`
   padding: 2px 10px;
-  border-radius: 4px;
+  border-radius: 50px;
   font-size: 12px;
   font-weight: 400;
   line-height: 140%;
@@ -39,17 +42,7 @@ const StyledBadge = styled.span`
     if (props.color === "purple") return PurpleBadge;
     if (props.color === "green") return GreenBadge;
     if (props.color === "gray") return GrayBadge;
-    if (props.color === "red") return RedBadge;
   }};
 `;
-
-type Props = {
-  color: "purple" | "red" | "green" | "gray";
-  value: string;
-};
-
-const Badge = ({ color, value }: Props) => {
-  return <StyledBadge color={color}>{value}</StyledBadge>;
-};
 
 export default Badge;
