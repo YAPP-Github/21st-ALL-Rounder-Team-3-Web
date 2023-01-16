@@ -18,7 +18,7 @@ const data = {
     startDate: "2022-10-10",
     dueDate: "2023-10-15",
 
-    feedbackRequestDate: "2023-01-12",
+    feedbackRequestDate: "2023-01-14",
 
     memo: "어려워",
     taskStatus: "FEEDBACK",
@@ -38,16 +38,16 @@ const tmpUrlList = [
 ];
 
 const getFeedbackLeftDays = () => {
-  const FEEDBACK_DUE_TIME = 3 * 24 * 60 * 60 * 1000; //3일 to millisecond
+  const FEEDBACK_DUE_TIME = 3 * 24 * 60 * 60 * 1000; //3일(피드백 기간) to millisecond
   const feedbackDueTime = new Date(data.taskInfo.feedbackRequestDate).getTime() + FEEDBACK_DUE_TIME;
   const currentTime = new Date().getTime();
 
   return Math.floor((feedbackDueTime - currentTime) / (24 * 60 * 60 * 1000));
 };
 
-const TaskDetailPage = () => {
+const OthersTaskDetailPage = () => {
   const feedbackLeftDays = getFeedbackLeftDays();
-  // const feedbackStatus => confirmedMemberInfos 리스트와 비교하여 사용자가 해당 업무에 피드백을 했는지 여부 파악
+
   return (
     <>
       <TaskHeader
@@ -84,4 +84,4 @@ const TaskBasicDescriptionWrapper = styled.div`
   padding: 0 16px;
 `;
 
-export default TaskDetailPage;
+export default OthersTaskDetailPage;
