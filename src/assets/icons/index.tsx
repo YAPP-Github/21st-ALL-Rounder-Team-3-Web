@@ -6,6 +6,7 @@ import IconDelete from "./IconDelete.svg";
 import IconDropDown from "./IconDropDown.svg";
 import IconEdit from "./IconEdit.svg";
 import IconShare from "./IconShare.svg";
+import IconLink from "./IconLink.svg";
 
 export default {
   IconArrowBack,
@@ -16,4 +17,5 @@ export default {
   IconDropDown,
   IconEdit,
   IconShare,
+  IconLink,
 };
