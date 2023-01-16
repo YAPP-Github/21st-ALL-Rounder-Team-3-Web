@@ -7,7 +7,7 @@ type Props = {
 };
 
 const getTextByType = (feedbackStatus: string, manager?: string) => {
-  let title = feedbackStatus === "pending" ? "확인 요청" : "확인 완료";
+  let title = feedbackStatus === "pending" ? "피드백 요청" : "피드백 완료";
   let description =
     feedbackStatus === "pending"
       ? "완료된 내용을 확인하시고 피드백을 진행해주세요!"
