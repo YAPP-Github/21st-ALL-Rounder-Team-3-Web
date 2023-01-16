@@ -5,6 +5,9 @@ import TaskManagerProfile from "@src/components/task/TaskManagerProfile";
 import TaskDescription from "@src/components/task/TaskDescription";
 import CheckStatus from "@src/components/task/CheckStatus";
 import TaskBasicDescription from "@src/components/task/TaskBasicDescription";
+import Icons from "@src/assets/icons/index";
+import { typo_body4_regular, typo_h4_semibold } from "@src/styles/Typo";
+import { Link } from "react-router-dom";
 
 //postman return 값
 const data = {
@@ -24,6 +27,9 @@ const data = {
     taskStatus: "FEEDBACK",
     confirmCount: 1,
     participantCount: 1,
+
+    urlLink: "https://comic.naver.com/index",
+    urlDescription: "발표 대본 파일",
   },
   confirmedMemberInfos: [
     {
@@ -65,9 +71,18 @@ const OthersTaskDetailPage = () => {
           representativeUrl={""}
           startDate={data.taskInfo.startDate}
           dueDate={data.taskInfo.dueDate}
-          urlList={tmpUrlList}
           description={data.taskInfo.memo}
         />
+        <Divider marginBottom={10} marginTop={10} />
+        {data.taskInfo.taskStatus === "FEEDBACK" || data.taskInfo.taskStatus === "DONE" ? (
+          <UrlWrapper>
+            <UrlTitle>URL</UrlTitle>
+            <UrlContent href={data.taskInfo.urlLink}>
+              <Icons.IconLink />
+              {data.taskInfo.urlDescription}
+            </UrlContent>
+          </UrlWrapper>
+        ) : null}
       </TaskBasicDescriptionWrapper>
       {data.taskInfo.taskStatus === "FEEDBACK" ? (
         <CheckStatus
@@ -82,6 +97,21 @@ const OthersTaskDetailPage = () => {
 
 const TaskBasicDescriptionWrapper = styled.div`
   padding: 0 16px;
+`;
+
+const UrlWrapper = styled.div``;
+
+const UrlTitle = styled.p`
+  ${typo_body4_regular};
+  color: ${({ theme }) => theme.colors.gray[500]};
+  margin-bottom: 4px;
+`;
+
+const UrlContent = styled.a`
+  display: flex;
+  ${typo_h4_semibold};
+  color: ${({ theme }) => theme.colors.black};
+  text-decoration: underline;
 `;
 
 export default OthersTaskDetailPage;

@@ -63,7 +63,6 @@ const MyTaskDetailPage = () => {
           representativeUrl={""}
           startDate={data.taskInfo.startDate}
           dueDate={data.taskInfo.dueDate}
-          urlList={tmpUrlList}
           description={data.taskInfo.memo}
         />
       </TaskBasicDescriptionWrapper>
