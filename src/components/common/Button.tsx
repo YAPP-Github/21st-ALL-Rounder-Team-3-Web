@@ -1,30 +1,47 @@
 import { ReactNode } from "react";
 import styled, { css } from "styled-components";
+import { typo_h3_semibold } from "@src/styles/Typo";
+
+type Props = {
+  type: "primary" | "secondary";
+  value: string;
+  disabled?: boolean;
+  icon?: ReactNode;
+  margin?: number;
+  onClick: () => void;
+};
+
+const Button = ({ type, value, disabled, icon, onClick }: Props) => {
+  return (
+    <BaseButton btnType={type} disabled={disabled} onClick={onClick}>
+      <IconWrapper>{icon && icon}</IconWrapper>
+      {value}
+    </BaseButton>
+  );
+};
 
 const PrimaryButtonStyle = css`
-  background-color: #8075f9;
-  color: #ffffff;
+  background-color: ${({ theme }) => theme.colors.main[500]};
+  color: ${({ theme }) => theme.colors.white};
 `;
 
 const SecondaryButtonStyle = css`
-  background-color: #ffffff;
-  color: #8075f9;
-  border: 1px solid #8075f9;
+  background-color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.colors.main[500]};
+  border: 1px solid ${({ theme }) => theme.colors.main[500]};
 `;
 
 const DisabledButtonStyle = css`
-  background-color: #cccccc;
+  background-color: ${({ theme }) => theme.colors.main[200]};
   border: 0;
-  color: #ffffff;
+  color: ${({ theme }) => theme.colors.white};
 `;
 
-const StyledButton = styled.button<{ btnType: string; disabled?: boolean }>`
+const BaseButton = styled.button<{ btnType: string; disabled?: boolean }>`
   border-radius: 16px;
   padding: 12px 0;
   width: 100%;
-  font-size: 16px;
-  font-weight: 700;
-  line-height: 140%;
+  ${typo_h3_semibold};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -49,22 +66,5 @@ const IconWrapper = styled.div`
   justify-content: center;
   align-items: center;
 `;
-
-type Props = {
-  type: "primary" | "secondary";
-  value: string;
-  disabled?: boolean;
-  icon?: ReactNode;
-  margin?: number;
-};
-
-const Button = ({ type, value, disabled, icon }: Props) => {
-  return (
-    <StyledButton btnType={type} disabled={disabled}>
-      <IconWrapper>{icon && icon}</IconWrapper>
-      {value}
-    </StyledButton>
-  );
-};
 
 export default Button;
