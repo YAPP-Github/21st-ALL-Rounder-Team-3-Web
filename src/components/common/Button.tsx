@@ -21,20 +21,20 @@ const Button = ({ type, value, disabled, icon, onClick }: Props) => {
 };
 
 const PrimaryButtonStyle = css`
-  background-color: ${({ theme }) => theme.colors.main[500]};
-  color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.primaryPurple[500]};
+  color: ${({ theme }) => theme.white};
 `;
 
 const SecondaryButtonStyle = css`
-  background-color: ${({ theme }) => theme.colors.white};
-  color: ${({ theme }) => theme.colors.main[500]};
-  border: 1px solid ${({ theme }) => theme.colors.main[500]};
+  background-color: ${({ theme }) => theme.white};
+  color: ${({ theme }) => theme.primaryPurple[500]};
+  border: 1px solid ${({ theme }) => theme.primaryPurple[500]};
 `;
 
 const DisabledButtonStyle = css`
-  background-color: ${({ theme }) => theme.colors.main[200]};
+  background-color: ${({ theme }) => theme.primaryPurple[200]};
   border: 0;
-  color: ${({ theme }) => theme.colors.white};
+  color: ${({ theme }) => theme.white};
 `;
 
 const BaseButton = styled.button<{ btnType: string; disabled?: boolean }>`

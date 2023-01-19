@@ -54,8 +54,8 @@ const DropDownWrapper = styled.div`
   position: relative;
 
   padding: 10px 8px 10px 12px;
-  background-color: ${({ theme }) => theme.colors.gray[100]};
-  border: 1px solid ${({ theme }) => theme.colors.gray[200]};
+  background-color: ${({ theme }) => theme.gray[100]};
+  border: 1px solid ${({ theme }) => theme.gray[200]};
   border-radius: 8px;
 `;
 
@@ -68,7 +68,7 @@ const CurrentValueWrapper = styled.div`
 const Value = styled.p`
   flex: 1;
   ${typo_body1_medium};
-  color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.black};
 `;
 
 const ListWrapper = styled.div`
@@ -80,8 +80,8 @@ const ListWrapper = styled.div`
   padding: 4px;
   width: 100%;
   max-height: 208px;
-  background-color: ${({ theme }) => theme.colors.gray[100]};
-  border: 1px solid ${({ theme }) => theme.colors.gray[200]};
+  background-color: ${({ theme }) => theme.gray[100]};
+  border: 1px solid ${({ theme }) => theme.gray[200]};
   border-radius: 8px;
 
   &::-webkit-scrollbar {
@@ -92,7 +92,7 @@ const ListWrapper = styled.div`
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: ${({ theme }) => theme.colors.gray[500]};
+    background-color: ${({ theme }) => theme.gray[500]};
     background-clip: padding-box;
     border: 4px solid transparent;
     border-radius: 6px;
@@ -108,11 +108,11 @@ const ItemValue = styled.p`
 const Item = styled.div<{ isSelected: boolean }>`
   width: 100%;
   padding: 10px 8px;
-  background-color: ${({ theme, isSelected }) => (isSelected ? theme.colors.main[100] : "transparent")};
+  background-color: ${({ theme, isSelected }) => (isSelected ? theme.primaryPurple[100] : "transparent")};
   border-radius: 8px;
 
   & > ${ItemValue} {
-    color: ${({ theme, isSelected }) => (isSelected ? theme.colors.main[500] : theme.colors.black)};
+    color: ${({ theme, isSelected }) => (isSelected ? theme.primaryPurple[500] : theme.black)};
   }
 `;
 

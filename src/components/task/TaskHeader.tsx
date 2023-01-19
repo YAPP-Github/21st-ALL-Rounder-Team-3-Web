@@ -83,7 +83,7 @@ const Title = styled.h2`
 `;
 
 const ProgressContainer = styled.div<{ percentage: number; color: string }>`
-  background-color: ${({ theme }) => theme.colors.gray[200]};
+  background-color: ${({ theme }) => theme.gray[200]};
   width: 100%;
   height: 8px;
   border-radius: 7px;
@@ -97,15 +97,15 @@ const ProgressContainer = styled.div<{ percentage: number; color: string }>`
     ${props => {
       if (props.color === "gray")
         return css`
-          background-color: ${({ theme }) => theme.colors.gray[500]};
+          background-color: ${({ theme }) => theme.gray[500]};
         `;
       if (props.color === "green")
         return css`
-          background-color: ${({ theme }) => theme.colors.sub[500]};
+          background-color: ${({ theme }) => theme.sub[500]};
         `;
       if (props.color === "purple")
         return css`
-          background-color: ${({ theme }) => theme.colors.main[500]};
+          background-color: ${({ theme }) => theme.primaryPurple[500]};
         `;
     }}
     border-radius: 7px;
@@ -127,15 +127,15 @@ const Text = styled.div<{ color: string }>`
   ${props => {
     if (props.color === "gray")
       return css`
-        color: ${({ theme }) => theme.colors.gray[500]};
+        color: ${({ theme }) => theme.gray[500]};
       `;
     if (props.color === "green")
       return css`
-        color: ${({ theme }) => theme.colors.sub[500]};
+        color: ${({ theme }) => theme.sub[500]};
       `;
     if (props.color === "purple")
       return css`
-        color: ${({ theme }) => theme.colors.main[500]};
+        color: ${({ theme }) => theme.primaryPurple[500]};
       `;
   }}
   font-size: 12px;

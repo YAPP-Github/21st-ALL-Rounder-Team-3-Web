@@ -22,21 +22,21 @@ const TextArea = ({ value, placeholder, onChange }: Props) => {
 };
 
 const TextAreaWrapper = styled.div`
-  background-color: ${({ theme }) => theme.colors.gray[100]};
-  border: 1px solid ${({ theme }) => theme.colors.gray[200]};
+  background-color: ${({ theme }) => theme.gray[100]};
+  border: 1px solid ${({ theme }) => theme.gray[200]};
   border-radius: 8px;
 `;
 
 const WriteArea = styled.textarea`
   ${typo_body1_medium};
-  color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.black};
   width: 100%;
   height: 108px;
   padding: 10px 12px;
   resize: none;
 
   &::placeholder {
-    color: ${({ theme }) => theme.colors.gray[400]};
+    color: ${({ theme }) => theme.gray[400]};
   }
 `;
 

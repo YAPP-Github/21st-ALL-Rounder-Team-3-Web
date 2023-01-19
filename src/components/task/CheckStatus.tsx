@@ -101,7 +101,7 @@ const Title = styled.div`
 const FeedbackPeriodText = styled.div`
   ${typo_body4_regular};
   margin-left: 10px;
-  color: ${({ theme }) => theme.colors.main[500]};
+  color: ${({ theme }) => theme.primaryPurple[500]};
 `;
 
 const ProfileListContainer = styled.div`
@@ -109,7 +109,7 @@ const ProfileListContainer = styled.div`
   border-radius: 16px;
   margin-bottom: 10px;
 
-  background-color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.white};
 `;
 
 const ProfileListWrapper = styled.span`
@@ -126,7 +126,7 @@ const ProfileListTitle = styled.p`
 
 const ProfileListStatusNumber = styled.div`
   ${typo_h4_semibold};
-  color: ${({ theme }) => theme.colors.main[500]};
+  color: ${({ theme }) => theme.primaryPurple[500]};
   padding-left: 4px;
 `;
 
