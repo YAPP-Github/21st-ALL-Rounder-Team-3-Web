@@ -5,11 +5,11 @@ import styled from "styled-components";
 export type TopBarProps = {
   title: string;
   onBack: () => void;
-  withEdit?: boolean;
-  withDelete?: boolean;
+  withEditIcon?: boolean;
+  withDeleteIcon?: boolean;
 };
 
-const TopBar = ({ title, onBack, withEdit, withDelete }: TopBarProps) => {
+const TopBar = ({ title, onBack, withEditIcon, withDeleteIcon }: TopBarProps) => {
   return (
     <Wrapper>
       <BackButtonWrapper onClick={onBack}>
@@ -17,8 +17,8 @@ const TopBar = ({ title, onBack, withEdit, withDelete }: TopBarProps) => {
       </BackButtonWrapper>
       <Title>{title}</Title>
       <IconWrapper>
-        {withEdit && <Icons.IconEdit />}
-        {withDelete && <Icons.IconDelete />}
+        {withEditIcon && <Icons.IconEdit />}
+        {withDeleteIcon && <Icons.IconDelete />}
       </IconWrapper>
     </Wrapper>
   );

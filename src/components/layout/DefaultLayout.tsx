@@ -6,11 +6,11 @@ type Props = TopBarProps & {
   children: ReactNode;
 };
 
-const DefaultLayout = ({ title, onBack, withEdit, withDelete, children }: Props) => {
+const DefaultLayout = ({ title, onBack, withEditIcon, withDeleteIcon, children }: Props) => {
   return (
     <Container>
       <Wrapper>
-        <TopBar title={title} onBack={onBack} withEdit={withEdit} withDelete={withDelete} />
+        <TopBar title={title} onBack={onBack} withEditIcon={withEditIcon} withDeleteIcon={withDeleteIcon} />
         {children}
       </Wrapper>
     </Container>
