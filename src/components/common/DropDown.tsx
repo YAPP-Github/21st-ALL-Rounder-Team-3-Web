@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import Icons from "@src/assets/icons";
 import { typo_body1_medium } from "@src/styles/Typo";
@@ -32,7 +32,7 @@ const DropDown = ({ data, onChange }: Props) => {
   }, [value]);
 
   return (
-    <DropDownWrapper>
+    <DropDownWrapper focused={isOpen}>
       <CurrentValueWrapper onClick={handleOpen}>
         <Value>{value}</Value>
         <Icons.IconDropDown />
@@ -50,13 +50,23 @@ const DropDown = ({ data, onChange }: Props) => {
   );
 };
 
-const DropDownWrapper = styled.div`
+const DropDownWrapper = styled.div<{ focused: boolean }>`
   position: relative;
 
   padding: 10px 8px 10px 12px;
   background-color: ${({ theme }) => theme.gray[100]};
   border: 1px solid ${({ theme }) => theme.gray[200]};
   border-radius: 8px;
+  transition: border 0.2s;
+
+  ${({ focused }) => {
+    return (
+      focused &&
+      css`
+        border: 1px solid ${({ theme }) => theme.primaryPurple[500]};
+      `
+    );
+  }}
 `;
 
 const CurrentValueWrapper = styled.div`
