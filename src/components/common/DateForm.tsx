@@ -55,7 +55,7 @@ const FormWrapper = styled.div<{ focused: boolean }>`
   justify-content: space-between;
   align-items: center;
   gap: 8px;
-  padding: 12px 8px 8px;
+  padding: 8px 8px 8px 12px;
   margin-bottom: 8px;
   background-color: ${({ theme }) => theme.gray[100]};
   border: 1px solid ${({ theme }) => theme.gray[200]};

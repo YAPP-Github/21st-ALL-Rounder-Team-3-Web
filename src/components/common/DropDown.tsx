@@ -85,6 +85,7 @@ const ListWrapper = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
   position: absolute;
+  z-index: 100;
   left: 0;
   top: calc(100% + 4px);
   padding: 4px;
