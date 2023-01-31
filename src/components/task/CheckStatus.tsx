@@ -34,12 +34,13 @@ type Props = {
   feedbackLeftDays: number;
   taskStatus: string;
   feedbackStatus: "pending" | "finished";
+  taskManager: string;
 };
 
-const CheckStatus = ({ feedbackLeftDays, taskStatus, feedbackStatus }: Props) => {
+const CheckStatus = ({ feedbackLeftDays, taskStatus, feedbackStatus, taskManager }: Props) => {
   return (
     <Wrapper>
-      <BadgeWithDescription feedbackStatus={feedbackStatus} manager="예진" />
+      <BadgeWithDescription feedbackStatus={feedbackStatus} manager={taskManager} />
       <TitleTextWrapper>
         <Title>피드백 현황</Title>
         <FeedbackPeriodText>
