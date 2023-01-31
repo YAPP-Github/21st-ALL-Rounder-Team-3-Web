@@ -12,14 +12,14 @@ const data = {
       name: "가연",
       imageUrl: "https://1",
     },
-    title: "2차 세계 대전",
+    title: "2차 세계 대전 MY",
     startDate: "2022-10-10",
     dueDate: "2023-10-15",
 
     feedbackRequestDate: "2023-01-12",
 
     memo: "어려워",
-    taskStatus: "FEEDBACK",
+    taskStatus: "LATE", //BEFORE, INPROGRESS, FEEDBACK, DONE, LATE
     confirmCount: 1,
     participantCount: 1,
   },
