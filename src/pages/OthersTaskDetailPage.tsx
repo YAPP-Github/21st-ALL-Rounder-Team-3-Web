@@ -1,13 +1,10 @@
 import TaskHeader from "@src/components/task/TaskHeader";
 import Divider from "@src/components/common/Divider";
 import styled from "styled-components";
-import TaskManagerProfile from "@src/components/task/TaskManagerProfile";
-import TaskDescription from "@src/components/task/TaskDescription";
 import CheckStatus from "@src/components/task/CheckStatus";
 import TaskBasicDescription from "@src/components/task/TaskBasicDescription";
 import Icons from "@src/assets/icons/index";
 import { typo_body4_regular, typo_h4_semibold } from "@src/styles/Typo";
-import { Link } from "react-router-dom";
 
 //postman return 값
 const data = {
@@ -21,10 +18,10 @@ const data = {
     startDate: "2022-10-10",
     dueDate: "2023-10-15",
 
-    feedbackRequestDate: "2023-01-14",
+    feedbackRequestDate: "2023-02-01",
 
     memo: "어려워",
-    taskStatus: "FEEDBACK",
+    taskStatus: "FEEDBACK", //BEFORE, INPROGRESS, FEEDBACK, DONE, LATE
     confirmCount: 1,
     participantCount: 1,
 
@@ -38,10 +35,6 @@ const data = {
     },
   ],
 };
-
-const tmpUrlList = [
-  { description: "발표 대본 파일", url: "https://my.spline.design/keyboard-7f4fb3554eafc2ad173ced22f55b8c7c/" },
-];
 
 const getFeedbackLeftDays = () => {
   const FEEDBACK_DUE_TIME = 3 * 24 * 60 * 60 * 1000; //3일(피드백 기간) to millisecond
@@ -69,8 +62,8 @@ const OthersTaskDetailPage = () => {
         <TaskBasicDescription
           representativeName={data.taskInfo.representative.name}
           representativeUrl={""}
-          startDate={data.taskInfo.startDate}
-          dueDate={data.taskInfo.dueDate}
+          startDate={new Date(data.taskInfo.startDate)}
+          dueDate={new Date(data.taskInfo.dueDate)}
           description={data.taskInfo.memo}
         />
         <Divider marginBottom={10} marginTop={10} />
@@ -89,6 +82,7 @@ const OthersTaskDetailPage = () => {
           feedbackLeftDays={feedbackLeftDays}
           taskStatus={data.taskInfo.taskStatus}
           feedbackStatus={"finished"}
+          taskManager={data.taskInfo.representative.name}
         />
       ) : null}
     </>

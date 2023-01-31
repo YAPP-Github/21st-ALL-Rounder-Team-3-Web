@@ -31,10 +31,6 @@ const data = {
   ],
 };
 
-const tmpUrlList = [
-  { description: "발표 대본 파일", url: "https://my.spline.design/keyboard-7f4fb3554eafc2ad173ced22f55b8c7c/" },
-];
-
 const getFeedbackLeftDays = () => {
   const FEEDBACK_DUE_TIME = 3 * 24 * 60 * 60 * 1000; //3일 to millisecond
   const feedbackDueTime = new Date(data.taskInfo.feedbackRequestDate).getTime() + FEEDBACK_DUE_TIME;
