@@ -7,6 +7,7 @@ interface Props {
   value: string;
   placeholder: string;
   maxLength?: number;
+  withError?: boolean;
   onChange: (value: string) => void;
 }
 
@@ -17,10 +18,12 @@ const ERROR_MESSAGE: { [key in ErrorCode]: string } = {
   MAX_LENGTH: "",
 };
 
-const Input = ({ value, placeholder, maxLength, onChange }: Props) => {
+const Input = ({ value, placeholder, maxLength, withError, onChange }: Props) => {
   const [focused, setFocused] = useState(false);
   const [currentLength, setCurrentLength] = useState(0);
   const [errorCode, setErrorCode] = useState<ErrorCode>();
+
+  const isError = useMemo(() => !!withError && !!errorCode, [errorCode]);
 
   const setMaxLengthErrorCode = (value: string) => {
     if (value.length === maxLength) {
@@ -59,7 +62,7 @@ const Input = ({ value, placeholder, maxLength, onChange }: Props) => {
 
   return (
     <>
-      <InputWrapper focused={focused} error={errorCode}>
+      <InputWrapper focused={focused} error={isError}>
         <BaseInput
           value={value}
           placeholder={placeholder}
@@ -69,21 +72,21 @@ const Input = ({ value, placeholder, maxLength, onChange }: Props) => {
           maxLength={maxLength}
         />
 
-        <IconWrapper>{!focused && value && <Icons.IconClose onClick={handleClear} />}</IconWrapper>
+        <IconWrapper>{!focused && value && <Icons.IconCircleClose onClick={handleClear} />}</IconWrapper>
       </InputWrapper>
-      <HelpMessage error={errorCode}>
+      <HelpMessage error={isError}>
         {focused && maxLength && (
           <>
             {currentLength}/{maxLength}
           </>
         )}
-        {!focused && errorCode && <>{ERROR_MESSAGE[errorCode]}</>}
+        {!focused && isError && errorCode && <>{ERROR_MESSAGE[errorCode]}</>}
       </HelpMessage>
     </>
   );
 };
 
-const InputWrapper = styled.div<{ focused: boolean; error?: ErrorCode }>`
+const InputWrapper = styled.div<{ focused: boolean; error?: boolean }>`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -127,7 +130,7 @@ const IconWrapper = styled.div`
   height: 24px;
 `;
 
-const HelpMessage = styled.p<{ error?: ErrorCode }>`
+const HelpMessage = styled.p<{ error?: boolean }>`
   ${typo_cation1_regular};
   color: ${({ theme }) => theme.primaryPurple[500]};
   text-align: right;
