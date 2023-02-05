@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
 import Icons from "@src/assets/icons";
 import { typo_body1_medium } from "@src/styles/Typo";
@@ -32,7 +32,7 @@ const DropDown = ({ data, onChange }: Props) => {
   }, [value]);
 
   return (
-    <DropDownWrapper>
+    <DropDownWrapper focused={isOpen}>
       <CurrentValueWrapper onClick={handleOpen}>
         <Value>{value}</Value>
         <Icons.IconDropDown />
@@ -50,13 +50,23 @@ const DropDown = ({ data, onChange }: Props) => {
   );
 };
 
-const DropDownWrapper = styled.div`
+const DropDownWrapper = styled.div<{ focused: boolean }>`
   position: relative;
 
   padding: 10px 8px 10px 12px;
-  background-color: ${({ theme }) => theme.colors.gray[100]};
-  border: 1px solid ${({ theme }) => theme.colors.gray[200]};
+  background-color: ${({ theme }) => theme.gray[100]};
+  border: 1px solid ${({ theme }) => theme.gray[200]};
   border-radius: 8px;
+  transition: border 0.2s;
+
+  ${({ focused }) => {
+    return (
+      focused &&
+      css`
+        border: 1px solid ${({ theme }) => theme.primaryPurple[500]};
+      `
+    );
+  }}
 `;
 
 const CurrentValueWrapper = styled.div`
@@ -68,20 +78,21 @@ const CurrentValueWrapper = styled.div`
 const Value = styled.p`
   flex: 1;
   ${typo_body1_medium};
-  color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.black};
 `;
 
 const ListWrapper = styled.div`
   overflow-y: auto;
   overflow-x: hidden;
   position: absolute;
+  z-index: 100;
   left: 0;
   top: calc(100% + 4px);
   padding: 4px;
   width: 100%;
   max-height: 208px;
-  background-color: ${({ theme }) => theme.colors.gray[100]};
-  border: 1px solid ${({ theme }) => theme.colors.gray[200]};
+  background-color: ${({ theme }) => theme.gray[100]};
+  border: 1px solid ${({ theme }) => theme.gray[200]};
   border-radius: 8px;
 
   &::-webkit-scrollbar {
@@ -92,7 +103,7 @@ const ListWrapper = styled.div`
   }
 
   &::-webkit-scrollbar-thumb {
-    background-color: ${({ theme }) => theme.colors.gray[500]};
+    background-color: ${({ theme }) => theme.gray[500]};
     background-clip: padding-box;
     border: 4px solid transparent;
     border-radius: 6px;
@@ -108,11 +119,11 @@ const ItemValue = styled.p`
 const Item = styled.div<{ isSelected: boolean }>`
   width: 100%;
   padding: 10px 8px;
-  background-color: ${({ theme, isSelected }) => (isSelected ? theme.colors.main[100] : "transparent")};
+  background-color: ${({ theme, isSelected }) => (isSelected ? theme.primaryPurple[100] : "transparent")};
   border-radius: 8px;
 
   & > ${ItemValue} {
-    color: ${({ theme, isSelected }) => (isSelected ? theme.colors.main[500] : theme.colors.black)};
+    color: ${({ theme, isSelected }) => (isSelected ? theme.primaryPurple[500] : theme.black)};
   }
 `;
 

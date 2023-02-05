@@ -39,13 +39,13 @@ const TextWrapper = styled.span`
 
 const ProfilePositionText = styled.p`
   ${typo_body4_regular};
-  color: ${({ theme }) => theme.colors.gray[500]};
+  color: ${({ theme }) => theme.gray[500]};
   margin-bottom: 4px;
 `;
 
 const ProfileName = styled.p`
   ${typo_body2_medium}
-  color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.black};
 `;
 
 export default TaskManagerProfile;

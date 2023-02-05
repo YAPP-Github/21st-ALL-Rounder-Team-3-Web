@@ -15,13 +15,13 @@ const Wrapper = styled.div``;
 
 const Title = styled.p`
   ${typo_body4_regular};
-  color: ${({ theme }) => theme.colors.gray[500]};
+  color: ${({ theme }) => theme.gray[500]};
   margin-bottom: 4px;
 `;
 
 const Content = styled.div`
   ${typo_body2_medium};
-  color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.black};
 `;
 
 type Props = {

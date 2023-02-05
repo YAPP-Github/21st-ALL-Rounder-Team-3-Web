@@ -10,21 +10,21 @@ const Badge = ({ color, value }: Props) => {
 };
 
 const PurpleBadge = css`
-  background-color: ${({ theme }) => theme.colors.main[100]};
-  color: ${({ theme }) => theme.colors.main[500]};
-  border: 1px solid ${({ theme }) => theme.colors.main[200]};
+  background-color: ${({ theme }) => theme.primaryPurple[100]};
+  color: ${({ theme }) => theme.primaryPurple[500]};
+  border: 1px solid ${({ theme }) => theme.primaryPurple[200]};
 `;
 
 const GreenBadge = css`
-  background-color: ${({ theme }) => theme.colors.sub[100]};
-  color: ${({ theme }) => theme.colors.sub[500]};
-  border: 1px solid ${({ theme }) => theme.colors.sub[300]};
+  background-color: ${({ theme }) => theme.sub[100]};
+  color: ${({ theme }) => theme.sub[500]};
+  border: 1px solid ${({ theme }) => theme.sub[300]};
 `;
 
 const GrayBadge = css`
-  background-color: ${({ theme }) => theme.colors.gray[200]};
-  color: ${({ theme }) => theme.colors.gray[600]};
-  border: 1px solid ${({ theme }) => theme.colors.gray[300]};
+  background-color: ${({ theme }) => theme.gray[200]};
+  color: ${({ theme }) => theme.gray[600]};
+  border: 1px solid ${({ theme }) => theme.gray[300]};
 `;
 
 const BaseBadge = styled.span`

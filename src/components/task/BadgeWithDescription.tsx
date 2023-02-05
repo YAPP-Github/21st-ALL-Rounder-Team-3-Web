@@ -41,13 +41,13 @@ const Container = styled.div`
 
 const Title = styled.div`
   ${typo_cation1_semibold};
-  color: ${({ theme }) => theme.colors.sub[500]};
+  color: ${({ theme }) => theme.sub[500]};
   margin-right: 8px;
 `;
 
 const Content = styled.div`
   ${typo_body4_regular};
-  color: ${({ theme }) => theme.colors.gray[600]};
+  color: ${({ theme }) => theme.gray[600]};
 `;
 
 export default BadgeWithDescription;

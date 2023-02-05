@@ -29,7 +29,7 @@ const Wrapper = styled.div`
   justify-content: space-between;
   align-items: center;
   padding: 12px 12px 12px 10px;
-  background-color: ${({ theme }) => theme.colors.white};
+  background-color: ${({ theme }) => theme.white};
 `;
 
 const BackButtonWrapper = styled.div`
@@ -38,7 +38,7 @@ const BackButtonWrapper = styled.div`
 
 const Title = styled.p`
   ${typo_h3_semibold};
-  color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.black};
 `;
 
 const IconWrapper = styled.div`
