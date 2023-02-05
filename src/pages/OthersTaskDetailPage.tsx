@@ -5,20 +5,23 @@ import CheckStatus from "@src/components/task/CheckStatus";
 import TaskBasicDescription from "@src/components/task/TaskBasicDescription";
 import Icons from "@src/assets/icons/index";
 import { typo_body4_regular, typo_h4_semibold } from "@src/styles/Typo";
+import FixedBottomButtonLayout from "@src/components/layout/FixedBottomButtonLayout";
+import Button from "@src/components/common/Button";
+import icons from "@src/assets/icons/index";
 
 //postman return 값
 const data = {
   taskInfo: {
     id: 1,
     representative: {
-      name: "가연",
+      name: "지수",
       imageUrl: "https://1",
     },
     title: "2차 세계 대전",
     startDate: "2022-10-10",
     dueDate: "2023-10-15",
 
-    feedbackRequestDate: "2023-02-01",
+    feedbackRequestDate: "2023-02-05",
 
     memo: "어려워",
     taskStatus: "FEEDBACK", //BEFORE, INPROGRESS, FEEDBACK, DONE, LATE
@@ -65,6 +68,7 @@ const OthersTaskDetailPage = () => {
           startDate={new Date(data.taskInfo.startDate)}
           dueDate={new Date(data.taskInfo.dueDate)}
           description={data.taskInfo.memo}
+          taskStatus={data.taskInfo.taskStatus}
         />
         <Divider marginBottom={10} marginTop={10} />
         {data.taskInfo.taskStatus === "FEEDBACK" || data.taskInfo.taskStatus === "DONE" ? (
@@ -85,6 +89,21 @@ const OthersTaskDetailPage = () => {
           taskManager={data.taskInfo.representative.name}
         />
       ) : null}
+
+      <Margin bottom="100" />
+
+      {data.taskInfo.taskStatus === "FEEDBACK" ? (
+        <>
+          <FixedBottomButtonLayout
+            children={
+              <>
+                <Button type={"secondary"} icon={<Icons.IconAlertCircle />} value={"아쉬워요"} onClick={() => {}} />
+                <Button type={"primary"} icon={<Icons.IconCheckContained />} value={"완벽해요"} onClick={() => {}} />
+              </>
+            }
+          />
+        </>
+      ) : null}
     </>
   );
 };
@@ -97,15 +116,20 @@ const UrlWrapper = styled.div``;
 
 const UrlTitle = styled.p`
   ${typo_body4_regular};
-  color: ${({ theme }) => theme.colors.gray[500]};
+  color: ${({ theme }) => theme.gray[500]};
   margin-bottom: 4px;
 `;
 
 const UrlContent = styled.a`
   display: flex;
   ${typo_h4_semibold};
-  color: ${({ theme }) => theme.colors.black};
+  color: ${({ theme }) => theme.black};
   text-decoration: underline;
+`;
+
+const Margin = styled.div<{ top?: string; bottom?: string }>`
+  margin-top: ${props => (props.top ? `${props.top}px` : "0px")};
+  margin-bottom: ${props => (props.bottom ? `${props.bottom}px` : "0px")};
 `;
 
 export default OthersTaskDetailPage;

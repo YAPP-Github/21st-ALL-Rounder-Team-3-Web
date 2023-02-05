@@ -38,9 +38,14 @@ type Props = {
 };
 
 const CheckStatus = ({ feedbackLeftDays, taskStatus, feedbackStatus, taskManager }: Props) => {
+  const badgeTitle = feedbackStatus === "pending" ? "피드백 요청" : "피드백 완료";
+  const badgeContent =
+    feedbackStatus === "pending"
+      ? "완료된 내용을 확인하시고 피드백을 진행해주세요!"
+      : `이미 ${taskManager}님의 업무를 피드백 완료했어요!`;
   return (
     <Wrapper>
-      <BadgeWithDescription feedbackStatus={feedbackStatus} manager={taskManager} />
+      <BadgeWithDescription title={badgeTitle} content={badgeContent} />
       <TitleTextWrapper>
         <Title>피드백 현황</Title>
         <FeedbackPeriodText>
