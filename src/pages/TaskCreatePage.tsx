@@ -29,12 +29,29 @@ const TaskCreatePage = () => {
   const [startDate, setStartDate] = useState<Date>();
   const [endDate, setEndDate] = useState<Date>();
 
+  function getCookie(cookieName: string) {
+    const cookieData = document.cookie;
+    let start = cookieData.indexOf(`${cookieName}=`);
+    let value = "";
+
+    if (start !== -1) {
+      start += cookieName.length + 1;
+      let end = cookieData.indexOf(";", start);
+      if (end == -1) end = cookieData.length;
+      value = cookieData.substring(start, end);
+    }
+
+    return value;
+  }
+
+  console.log(getCookie("access_token"));
+
   const readyToCreate = useMemo(() => {
     return !!assignees && !!taskTitle && !!startDate && !!endDate && !!taskDescription;
   }, [assignees, taskTitle, startDate, endDate, taskDescription]);
 
   return (
-    <DefaultLayout onBack={() => {}} title="업무 생성하기">
+    <DefaultLayout onBack={() => {}} title={getCookie("access_token")}>
       <Wrapper>
         <ListWrapper>
           <ListTitleWrapper>
