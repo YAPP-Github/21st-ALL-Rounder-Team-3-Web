@@ -29,7 +29,7 @@ const GrayBadge = css`
 
 const RedBadge = css`
   background-color: #ffefef;
-  color: ${({ theme }) => theme.colors.error};
+  color: ${({ theme }) => theme.error};
   border: 1px solid #ffc8c8;
 `;
 
