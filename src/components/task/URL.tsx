@@ -8,25 +8,25 @@ type Props = {
 };
 
 const URL = ({ urlLink, urlDescription }: Props) => (
-  <UrlWrapper>
-    <UrlTitle>URL</UrlTitle>
-    <UrlContent href={urlLink}>
+  <Wrapper>
+    <Title>URL</Title>
+    <Content href={urlLink}>
       <Icons.IconLink />
       <Margin />
       {urlDescription}
-    </UrlContent>
-  </UrlWrapper>
+    </Content>
+  </Wrapper>
 );
 
-const UrlWrapper = styled.div``;
+const Wrapper = styled.div``;
 
-const UrlTitle = styled.p`
+const Title = styled.p`
   ${typo_body4_regular};
   color: ${({ theme }) => theme.gray[500]};
   margin-bottom: 4px;
 `;
 
-const UrlContent = styled.a`
+const Content = styled.a`
   display: flex;
   ${typo_h4_semibold};
   color: ${({ theme }) => theme.black};
