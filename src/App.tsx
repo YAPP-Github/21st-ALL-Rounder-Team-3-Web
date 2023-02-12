@@ -10,17 +10,17 @@ import httpService from "./core/services/httpService";
 
 const getCookie = (cookieName: string) => {
   const cookieData = document.cookie;
-  let start = cookieData.indexOf(`${cookieName}=`);
-  let value = "";
+  const findCookie = cookieData.indexOf(`${cookieName}=`) !== -1;
 
-  if (start !== -1) {
-    start += cookieName.length + 1;
-    let end = cookieData.indexOf(";", start);
-    if (end == -1) end = cookieData.length;
-    value = cookieData.substring(start, end);
+  if (findCookie) {
+    const startIndex = cookieData.indexOf(`${cookieName}=`) + cookieName.length + 1;
+    const endIndex =
+      cookieData.indexOf(";", startIndex) !== -1 ? cookieData.indexOf(";", startIndex) : cookieData.length;
+
+    return cookieData.substring(startIndex, endIndex);
   }
 
-  return value;
+  return;
 };
 
 const App = () => {
@@ -29,11 +29,13 @@ const App = () => {
 
   useEffect(() => {
     // TODO: bridge 코드로 access token 가져오기
-    const accessToken = getCookie("access_token");
-    console.log("!", accessToken);
-
-    httpService.setAccessToken(accessToken);
-  }, []);
+    if (accessToken) {
+      console.log("ACCESS_TOKEN", accessToken);
+      httpService.setAccessToken(accessToken);
+    } else {
+      console.error("cookie does not contain access_token");
+    }
+  }, [document.cookie]);
 
   return (
     <>
