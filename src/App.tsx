@@ -30,7 +30,7 @@ const App = () => {
 
   useEffect(() => {
     // TODO: bridge 코드로 access token 가져오기
-    httpService.setAccessToken(accessToken);
+    // httpService.setAccessToken(accessToken);
   }, []);
 
   return (
