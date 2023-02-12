@@ -13,6 +13,8 @@ import URL from "@src/components/task/URL";
 import Icons from "@src/assets/icons/index";
 import { typo_body2_medium, typo_h3_semibold } from "@src/styles/Typo";
 import FeedbackResult from "@src/components/task/FeedbackResult";
+import DefaultLayout from "@src/components/layout/DefaultLayout";
+import { useParams } from "react-router-dom";
 
 //postman return 값
 const data = {
@@ -71,6 +73,8 @@ const MyTaskDetailPage = () => {
   const feedbackLeftDays = getFeedbackLeftDays();
   // const feedbackStatus => confirmedMemberInfos 리스트와 비교하여 사용자가 해당 업무에 피드백을 했는지 여부 파악
 
+  const { projectId, taskId } = useParams();
+
   const requestFeedback = () => {
     //console.log("titleerror1 : ", titleInputError);
     if (!urlTitle && urlContent) setTitleInputError(true);
@@ -86,8 +90,25 @@ const MyTaskDetailPage = () => {
 
   const cancelFeedbackRequest = () => {};
 
+  const handleBackClick = () => {
+    window.Android.navigateToMain();
+  };
+
+  const handleEditClick = () => {
+    if (projectId && taskId) {
+      window.Android.navigateToEdit(projectId, taskId);
+    }
+  };
+
   return (
-    <>
+    <DefaultLayout
+      title=""
+      onBack={handleBackClick}
+      onEdit={handleEditClick}
+      onDelete={handleBackClick}
+      withEditIcon
+      withDeleteIcon
+    >
       <TaskHeader
         title={data.taskInfo.title}
         taskStatus={data.taskInfo.taskStatus}
@@ -203,7 +224,7 @@ const MyTaskDetailPage = () => {
           }
         />
       )}
-    </>
+    </DefaultLayout>
   );
 };
 

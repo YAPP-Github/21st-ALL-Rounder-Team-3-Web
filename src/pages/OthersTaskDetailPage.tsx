@@ -9,6 +9,8 @@ import Button from "@src/components/common/Button";
 import URL from "@src/components/task/URL";
 import BadgeWithDescription from "@src/components/task/BadgeWithDescription";
 import FeedbackResult from "@src/components/task/FeedbackResult";
+import DefaultLayout from "@src/components/layout/DefaultLayout";
+import { useParams } from "react-router-dom";
 
 //postman return 값
 const data = {
@@ -60,9 +62,20 @@ const getFeedbackLeftDays = () => {
 
 const OthersTaskDetailPage = () => {
   const feedbackLeftDays = getFeedbackLeftDays();
+  const { projectId, taskId } = useParams();
+
+  const handleBackClick = () => {
+    window.Android.navigateToMain();
+  };
+
+  const handleFeedbackClick = () => {
+    if (projectId && taskId) {
+      window.Android.navigateToFeedback(projectId, taskId);
+    }
+  };
 
   return (
-    <>
+    <DefaultLayout onBack={handleBackClick} title="">
       <TaskHeader
         title={data.taskInfo.title}
         taskStatus={data.taskInfo.taskStatus}
@@ -130,14 +143,19 @@ const OthersTaskDetailPage = () => {
           <FixedBottomButtonLayout
             children={
               <>
-                <Button type={"secondary"} icon={<Icons.IconAlertCircle />} value={"아쉬워요"} onClick={() => {}} />
+                <Button
+                  type={"secondary"}
+                  icon={<Icons.IconAlertCircle />}
+                  value={"아쉬워요"}
+                  onClick={handleFeedbackClick}
+                />
                 <Button type={"primary"} icon={<Icons.IconCheckContained />} value={"완벽해요"} onClick={() => {}} />
               </>
             }
           />
         </>
       ) : null}
-    </>
+    </DefaultLayout>
   );
 };
 

@@ -8,12 +8,29 @@ import router from "./routeConfig";
 import { useEffect } from "react";
 import httpService from "./core/services/httpService";
 
+const getCookie = (cookieName: string) => {
+  const cookieData = document.cookie;
+  let start = cookieData.indexOf(`${cookieName}=`);
+  let value = "";
+
+  if (start !== -1) {
+    start += cookieName.length + 1;
+    let end = cookieData.indexOf(";", start);
+    if (end == -1) end = cookieData.length;
+    value = cookieData.substring(start, end);
+  }
+
+  return value;
+};
+
 const App = () => {
   const [bottomSheet] = useRecoilState(globalBottomSheet);
+  const accessToken = getCookie("access_token");
+  console.log("!", accessToken);
 
   useEffect(() => {
     // TODO: bridge 코드로 access token 가져오기
-    // httpService.setAccessToken();
+    httpService.setAccessToken(accessToken);
   }, []);
 
   return (

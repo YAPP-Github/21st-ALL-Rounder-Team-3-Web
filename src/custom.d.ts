@@ -1,3 +1,15 @@
+declare global {
+  interface Window {
+    Android: {
+      navigateToMain: () => void;
+      navigateToMyTask: (projectId: string, taskId: string) => void;
+      navigateToOtherTask: (projectId: string, taskId: string) => void;
+      navigateToEdit: (projectId: string, taskId: string) => void;
+      navigateToFeedback: (projectId: string, taskId: string) => void;
+    };
+  }
+}
+
 declare module "*.svg" {
   import React = require("react");
   const ReactComponent: React.FunctionComponent<React.SVGProps<SVGSVGElement>>;
@@ -37,3 +49,5 @@ declare namespace Intl {
     timeZone?: string | undefined;
   }
 }
+
+export {};

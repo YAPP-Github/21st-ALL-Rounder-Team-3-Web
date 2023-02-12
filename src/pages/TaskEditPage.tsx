@@ -7,6 +7,7 @@ import DefaultLayout from "@src/components/layout/DefaultLayout";
 import FixedBottomButtonLayout from "@src/components/layout/FixedBottomButtonLayout";
 import { typo_body3_regular } from "@src/styles/Typo";
 import { useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
 import styled from "styled-components";
 
 const TEMP_DROPDOWN_DATA = [
@@ -29,12 +30,24 @@ const TaskEditPage = () => {
   const [startDate, setStartDate] = useState<Date>();
   const [dueDate, setDueDate] = useState<Date>();
 
+  const { projectId, taskId } = useParams();
+
   const readyToEdit = useMemo(() => {
     return !!assignees && !!taskTitle && !!startDate && !!dueDate && !!taskDescription;
   }, [assignees, taskTitle, startDate, dueDate, taskDescription]);
 
+  const handleBackClick = () => {
+    if (projectId && taskId) {
+      window.Android.navigateToMyTask(projectId, taskId);
+    }
+  };
+
+  const handleSubmitClick = () => {
+    handleBackClick();
+  };
+
   return (
-    <DefaultLayout onBack={() => {}} title="업무 수정하기">
+    <DefaultLayout onBack={handleBackClick} title="업무 수정하기">
       <Wrapper>
         <ListWrapper>
           <ListTitleWrapper>
@@ -75,7 +88,7 @@ const TaskEditPage = () => {
         </ListWrapper>
       </Wrapper>
       <FixedBottomButtonLayout>
-        <Button type="primary" value="생성하기" onClick={() => {}} disabled={!readyToEdit} />
+        <Button type="primary" value="생성하기" onClick={handleSubmitClick} disabled={!readyToEdit} />
       </FixedBottomButtonLayout>
     </DefaultLayout>
   );

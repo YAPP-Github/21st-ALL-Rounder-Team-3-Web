@@ -15,7 +15,7 @@ import styled from "styled-components";
 const TaskFeedbackPage = () => {
   const [feedbacks, setFeedbacks] = useState<Feedbacks[]>(FEEDBACKS);
   const [otherFeedback, setOtherFeedback] = useState("");
-  const { taskId } = useParams();
+  const { projectId, taskId } = useParams();
 
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
   const { mutate } = useSendFeedbackMutation();
@@ -63,10 +63,17 @@ const TaskFeedbackPage = () => {
     );
   };
 
+  const handleBackClick = () => {
+    if (projectId && taskId) {
+      window.Android.navigateToOtherTask(projectId, taskId);
+    }
+  };
+
   const handleSubmit = () => {
-    if (taskId) {
+    if (projectId && taskId) {
       mutate({ taskId, checkList: selectedFeedback, detail: otherFeedback });
       // TODO: navigate
+      handleBackClick();
     }
   };
 

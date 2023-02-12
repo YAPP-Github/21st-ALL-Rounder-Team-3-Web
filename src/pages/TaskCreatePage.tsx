@@ -36,14 +36,20 @@ const TaskCreatePage = () => {
 
   const readyToCreate = !!assignees && !!title && !!startDate && !!dueDate && !!memo;
 
+  const handleBackClick = () => {
+    window.Android.navigateToMain();
+  };
+
   const handleCreateClick = () => {
     if (projectId) {
       // mutate({ projectId, participantId: assignees.id, title, memo, startDate, dueDate });
     }
+
+    handleBackClick();
   };
 
   return (
-    <DefaultLayout onBack={() => {}} title="업무 생성하기">
+    <DefaultLayout onBack={handleBackClick} title="업무 생성하기">
       <Wrapper>
         <ListWrapper>
           <ListTitleWrapper>
@@ -81,7 +87,7 @@ const TaskCreatePage = () => {
         </ListWrapper>
       </Wrapper>
       <FixedBottomButtonLayout>
-        <Button type="primary" value="생성하기" onClick={() => {}} disabled={!readyToCreate} />
+        <Button type="primary" value="생성하기" onClick={handleCreateClick} disabled={!readyToCreate} />
       </FixedBottomButtonLayout>
     </DefaultLayout>
   );
