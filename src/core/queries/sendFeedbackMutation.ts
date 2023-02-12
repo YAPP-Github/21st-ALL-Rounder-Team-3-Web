@@ -1,12 +1,18 @@
 import { useMutation } from "react-query";
 import httpService from "../services/httpService";
 
-const fetchSendFeedback = (taskId: string) => {
-  return httpService.post(`/tasks/${taskId}/feedbacks`);
+type Payload = {
+  taskId: string;
+  checkList: number[];
+  detail: string;
+};
+
+const fetchSendFeedback = ({ taskId, checkList, detail }: Payload) => {
+  return httpService.post(`/tasks/${taskId}/feedbacks`, { checkList, detail });
 };
 
 const useSendFeedbackMutation = () => {
-  return useMutation((taskId: string) => fetchSendFeedback(taskId));
+  return useMutation((payload: Payload) => fetchSendFeedback(payload));
 };
 
 export default useSendFeedbackMutation;

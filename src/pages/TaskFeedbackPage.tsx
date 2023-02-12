@@ -4,6 +4,7 @@ import Button from "@src/components/common/Button";
 import TextArea from "@src/components/common/TextArea";
 import DefaultLayout from "@src/components/layout/DefaultLayout";
 import FixedBottomButtonLayout from "@src/components/layout/FixedBottomButtonLayout";
+import { FEEDBACK_MAP } from "@src/constants/feedback";
 import useBottomSheet from "@src/core/hooks/useBottomSheet";
 import useSendFeedbackMutation from "@src/core/queries/sendFeedbackMutation";
 import { typo_h1_semibold, typo_body2_medium, typo_h4_semibold, typo_body4_regular } from "@src/styles/Typo";
@@ -20,6 +21,7 @@ const TaskFeedbackPage = () => {
   const { mutate } = useSendFeedbackMutation();
 
   const hasFeedback = Boolean(feedbacks.find(category => !!category.selectedItems.length) && otherFeedback);
+  const selectedFeedback = feedbacks.reduce<number[]>((acc, cur) => [...acc, ...cur.selectedItems], []);
 
   const handleCategoryClick = (category: Feedbacks) => {
     openBottomSheet({
@@ -63,7 +65,7 @@ const TaskFeedbackPage = () => {
 
   const handleSubmit = () => {
     if (taskId) {
-      mutate(taskId);
+      mutate({ taskId, checkList: selectedFeedback, detail: otherFeedback });
       // TODO: navigate
     }
   };
@@ -111,31 +113,6 @@ const TaskFeedbackPage = () => {
       </FixedBottomButtonLayout>
     </DefaultLayout>
   );
-};
-
-export const FEEDBACK_MAP: { [key: number]: string } = {
-  11: "자료조사가 부족한 것 같아요.",
-  12: "자료 양이 좀 부족해요.",
-  13: "시각 자료가 더 있으면 좋겠어요.",
-  14: "구체적인 예시가 있으면 좋겠어요.",
-  15: "프로젝트와 관련 없는 자료가 많아요.",
-  16: "자료의 출처를 보완해주세요.",
-  17: "자료가 너무 많아서 요약이 필요해요.",
-  21: "발표 준비가 아쉬워요.",
-  22: "대본이 더 구체적이었으면 좋겠어요.",
-  23: "좀 더 흥미로운 내용이 첨가되었으면 좋겠어요.",
-  24: "너무 분량이 적은 것 같아요.",
-  25: "너무 분량이 많은 것 같아요.",
-  31: "피피티 보완이 필요해요.",
-  32: "전반적인 디자인이 수정되었으면 좋겠어요.",
-  33: "가독성이 떨어져요. 폰트/레이아웃을 수정해주세요.",
-  34: "이미지가 추가되었으면 좋겠어요.",
-  35: "누락된 내용이 있는 것 같아요. 확인해주세요.",
-  41: "업무 완성도를 높여주세요.",
-  42: "의논한 내용이 반영되지 않았아요.",
-  43: "분량이 부족한 것 같아요.",
-  44: "좀 더 새로운 내용이 필요해요.",
-  51: "업무 기한을 지켜주세요.",
 };
 
 export interface Feedbacks {
