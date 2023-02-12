@@ -160,10 +160,14 @@ const MyTaskDetailPage = () => {
             <ResultContiner>
               <FeedbackResult
                 value={"완벽해요"}
-                icon={<Icons.IconCheckContainedGray />}
+                icon={<Icons.IconCheckContained stroke="#55555" />}
                 count={data.taskInfo.perfectCount}
               />
-              <FeedbackResult value={"아쉬워요"} icon={<Icons.IconAlertCircleGray />} count={data.taskInfo.badCount} />
+              <FeedbackResult
+                value={"아쉬워요"}
+                icon={<Icons.IconAlertCircle stroke="#55555" />}
+                count={data.taskInfo.badCount}
+              />
             </ResultContiner>
             <Margin top={20} />
 

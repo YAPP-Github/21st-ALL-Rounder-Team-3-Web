@@ -4,7 +4,6 @@ import styled from "styled-components";
 import CheckStatus from "@src/components/task/CheckStatus";
 import TaskBasicDescription from "@src/components/task/TaskBasicDescription";
 import Icons from "@src/assets/icons/index";
-import { typo_body2_medium, typo_body4_regular, typo_h4_semibold } from "@src/styles/Typo";
 import FixedBottomButtonLayout from "@src/components/layout/FixedBottomButtonLayout";
 import Button from "@src/components/common/Button";
 import URL from "@src/components/task/URL";
@@ -26,7 +25,7 @@ const data = {
     feedbackRequestDate: "2023-01-12",
 
     memo: "어려워",
-    taskStatus: "DONE", //BEFORE, INPROGRESS, FEEDBACK, DONE, LATE
+    taskStatus: "FEEDBACK", //BEFORE, INPROGRESS, FEEDBACK, DONE, LATE
     confirmCount: 1,
     participantCount: 1,
 
@@ -110,10 +109,14 @@ const OthersTaskDetailPage = () => {
             <ResultContiner>
               <FeedbackResult
                 value={"완벽해요"}
-                icon={<Icons.IconCheckContainedGray />}
+                icon={<Icons.IconCheckContained stroke={"#555555"} />}
                 count={data.taskInfo.perfectCount}
               />
-              <FeedbackResult value={"아쉬워요"} icon={<Icons.IconAlertCircleGray />} count={data.taskInfo.badCount} />
+              <FeedbackResult
+                value={"아쉬워요"}
+                icon={<Icons.IconAlertCircle stroke="#555555" />}
+                count={data.taskInfo.badCount}
+              />
             </ResultContiner>
             <Margin top={20} />
           </DescriptionWrapper>
