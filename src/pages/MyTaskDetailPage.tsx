@@ -146,7 +146,7 @@ const MyTaskDetailPage = () => {
         <>
           <DescriptionWrapper>
             <Divider height={1} marginTop={10} marginBottom={10} />
-            <URL urlLink={data.taskInfo.urlLink} urlDescription={data.taskInfo.urlDescription} />
+            <URL link={data.taskInfo.urlLink} description={data.taskInfo.urlDescription} />
           </DescriptionWrapper>
           <Margin top={24} />
           <Divider height={8} marginBottom={24} />

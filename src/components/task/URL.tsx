@@ -3,16 +3,16 @@ import styled from "styled-components";
 import Icons from "@src/assets/icons/index";
 
 type Props = {
-  urlLink: string;
-  urlDescription: string;
+  link: string;
+  description: string;
 };
 
-const URL = ({ urlLink, urlDescription }: Props) => (
+const URL = ({ link, description }: Props) => (
   <Wrapper>
     <Title>URL</Title>
-    <Content href={urlLink}>
+    <Content href={link}>
       <Icons.IconLink />
-      {urlDescription}
+      {description}
     </Content>
   </Wrapper>
 );

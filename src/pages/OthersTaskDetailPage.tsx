@@ -83,7 +83,7 @@ const OthersTaskDetailPage = () => {
         />
         <Divider marginBottom={10} marginTop={10} />
         {data.taskInfo.taskStatus === "FEEDBACK" || data.taskInfo.taskStatus === "DONE" ? (
-          <URL urlLink={data.taskInfo.urlLink} urlDescription={data.taskInfo.urlDescription}></URL>
+          <URL link={data.taskInfo.urlLink} description={data.taskInfo.urlDescription}></URL>
         ) : null}
       </DescriptionWrapper>
 
