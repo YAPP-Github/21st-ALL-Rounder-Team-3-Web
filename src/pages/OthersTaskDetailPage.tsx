@@ -116,10 +116,6 @@ const OthersTaskDetailPage = () => {
               <FeedbackResult value={"아쉬워요"} icon={<Icons.IconAlertCircleGray />} count={data.taskInfo.badCount} />
             </ResultContiner>
             <Margin top={20} />
-
-            {data.feedbackList.map(item => (
-              <FeedbackContainer>{item} </FeedbackContainer>
-            ))}
           </DescriptionWrapper>
         </>
       ) : null}
@@ -159,14 +155,6 @@ const ResultContiner = styled.div`
   padding: 12px 16px;
   background-color: ${({ theme }) => theme.white};
   border-top: 1px solid ${({ theme }) => theme.gray[300]};
-`;
-
-const FeedbackContainer = styled.div`
-  background-color: ${({ theme }) => theme.sub[100]};
-  border-radius: 16px;
-  padding: 10px 19px;
-  ${typo_body2_medium}
-  margin-bottom: 10px;
 `;
 
 export default OthersTaskDetailPage;
