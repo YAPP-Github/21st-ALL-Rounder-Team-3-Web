@@ -1,5 +1,6 @@
+import { FEEDBACK_MAP } from "@src/constants/feedback";
 import useBottomSheet from "@src/core/hooks/useBottomSheet";
-import { Feedbacks, FEEDBACK_MAP } from "@src/pages/TaskFeedbackPage";
+import { Feedbacks } from "@src/pages/TaskFeedbackPage";
 import { typo_body3_regular } from "@src/styles/Typo";
 import { useState } from "react";
 import styled from "styled-components";
@@ -28,30 +29,30 @@ const TaskFeedbackBottomSheet = ({
 
   return (
     <>
-      <BottomSheetContentWrapper>
+      <Wrapper>
         {category.items.map(item => (
-          <BottomSheetContentItem
+          <Item
             key={item}
             selected={!!selected.find(selectedItem => selectedItem === item)}
             onClick={() => handleItemClick(item)}
           >
             {FEEDBACK_MAP[item]}
-          </BottomSheetContentItem>
+          </Item>
         ))}
-      </BottomSheetContentWrapper>
+      </Wrapper>
       <Button value="선택 완료" type="primary" onClick={handleButtonClick} />
     </>
   );
 };
 
-const BottomSheetContentWrapper = styled.div`
+const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   gap: 12px;
   margin: 40px 0;
 `;
 
-const BottomSheetContentItem = styled.div<{ selected: boolean }>`
+const Item = styled.div<{ selected: boolean }>`
   ${typo_body3_regular};
   color: ${({ theme, selected }) => (selected ? theme.primaryPurple[500] : theme.gray[500])};
   display: flex;
