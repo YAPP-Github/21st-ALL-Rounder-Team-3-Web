@@ -45,7 +45,7 @@ const CheckStatus = ({ feedbackLeftDays, taskStatus, feedbackStatus, taskManager
       : `이미 ${taskManager}님의 업무를 피드백 완료했어요!`;
   return (
     <Wrapper>
-      <BadgeWithDescription title={badgeTitle} content={badgeContent} />
+      <BadgeWithDescription title={badgeTitle} content={badgeContent} background={"green"} />
       <TitleTextWrapper>
         <Title>피드백 현황</Title>
         <FeedbackPeriodText>
