@@ -9,6 +9,7 @@ import IconShare from "./IconShare.svg";
 import IconLink from "./IconLink.svg";
 import IconAlertCircle from "./IconAlertCircle.svg";
 import IconCheckContained from "./IconCheckContained.svg";
+import IconCircleClose from "./IconCircleClose.svg";
 
 export default {
   IconArrowBack,
@@ -22,4 +23,5 @@ export default {
   IconLink,
   IconAlertCircle,
   IconCheckContained,
+  IconCircleClose,
 };
