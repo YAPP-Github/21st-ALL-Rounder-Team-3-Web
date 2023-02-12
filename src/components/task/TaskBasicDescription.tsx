@@ -3,7 +3,7 @@ import Divider from "../common/Divider";
 import TaskDescription from "./TaskDescription";
 import TaskManagerProfile from "./TaskManagerProfile";
 import { useEffect, useState } from "react";
-import formatDate from "@src/utils/formatDate";
+import { formatDate } from "@src/utils/formatDate";
 
 type Props = {
   representativeName: string;
