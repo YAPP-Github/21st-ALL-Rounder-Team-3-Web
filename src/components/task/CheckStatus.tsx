@@ -92,9 +92,10 @@ const CheckStatus = ({ feedbackLeftDays, taskStatus, feedbackStatus, taskManager
 
 const Wrapper = styled.div`
   margin-top: 24px;
+  margin-bottom: 50px;
   padding: 24px 16px;
 
-  background-color: #fafafa;
+  background-color: ${({ theme }) => theme.gray[100]};
 `;
 
 const TitleTextWrapper = styled.div`
