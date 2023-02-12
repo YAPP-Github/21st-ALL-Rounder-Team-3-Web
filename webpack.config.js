@@ -45,7 +45,7 @@ module.exports = {
       },
       {
         test: /\.svg$/,
-        use: ["@svgr/webpack"],
+        use: { loader: "@svgr/webpack", options: { svgo: false, svgProps: { display: "flex" } } },
       },
       {
         test: /\.css$/,
