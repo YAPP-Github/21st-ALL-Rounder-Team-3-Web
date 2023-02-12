@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 
 type Props = {
-  color?: "purple" | "green" | "gray";
+  color?: "purple" | "green" | "gray" | "red";
   value: string;
 };
 
@@ -27,6 +27,12 @@ const GrayBadge = css`
   border: 1px solid ${({ theme }) => theme.gray[300]};
 `;
 
+const RedBadge = css`
+  background-color: #ffefef;
+  color: ${({ theme }) => theme.error};
+  border: 1px solid #ffc8c8;
+`;
+
 const BaseBadge = styled.span`
   padding: 2px 10px;
   border-radius: 50px;
@@ -42,6 +48,7 @@ const BaseBadge = styled.span`
     if (props.color === "purple") return PurpleBadge;
     if (props.color === "green") return GreenBadge;
     if (props.color === "gray") return GrayBadge;
+    if (props.color === "red") return RedBadge;
   }};
 `;
 

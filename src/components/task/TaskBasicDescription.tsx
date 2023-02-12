@@ -2,14 +2,16 @@ import styled from "styled-components";
 import Divider from "../common/Divider";
 import TaskDescription from "./TaskDescription";
 import TaskManagerProfile from "./TaskManagerProfile";
+import { useEffect, useState } from "react";
+import formatDate from "@src/utils/formatDate";
 
 type Props = {
   representativeName: string;
   representativeUrl: string;
-  startDate: string;
-  dueDate: string;
+  startDate: Date;
+  dueDate: Date;
   description: string;
-  urlList: { description: string; url: string }[];
+  taskStatus: string;
 };
 
 const TaskBasicDescription = ({
@@ -18,17 +20,15 @@ const TaskBasicDescription = ({
   startDate,
   dueDate,
   description,
-  urlList,
+  taskStatus,
 }: Props) => {
   return (
     <>
       <TaskManagerProfile name={representativeName} imageSource={representativeUrl} />
       <Divider marginBottom={10} marginTop={10} />
-      <TaskDescription title="업무 기간" content={`${startDate} ~ ${dueDate}`} />
+      <TaskDescription title="업무 기간" content={`${formatDate(startDate)} ~ ${formatDate(dueDate)}`} />
       <Divider marginBottom={10} marginTop={10} />
       <TaskDescription title="업무 내용" content={description} />
-      <Divider marginBottom={10} marginTop={10} />
-      <TaskDescription title="URL" content={urlList[0].url} />
     </>
   );
 };

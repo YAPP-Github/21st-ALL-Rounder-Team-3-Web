@@ -1,42 +1,40 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import { typo_body4_regular, typo_cation1_semibold } from "@src/styles/Typo";
 
 type Props = {
-  feedbackStatus: "pending" | "finished";
-  manager?: string;
+  title: string;
+  content: string;
+  background: string;
 };
 
-const getTextByType = (feedbackStatus: string, manager?: string) => {
-  let title = feedbackStatus === "pending" ? "확인 요청" : "확인 완료";
-  let description =
-    feedbackStatus === "pending"
-      ? "완료된 내용을 확인하시고 피드백을 진행해주세요!"
-      : `이미 ${manager}님의 업무를 피드백 완료했어요!`;
-
-  return { title, description };
-};
-
-const BadgeWithDescription = ({ feedbackStatus, manager }: Props) => {
-  const { title, description } = getTextByType(feedbackStatus, manager);
-
+const BadgeWithDescription = ({ title, content, background }: Props) => {
   return (
-    <Container>
+    <Container background={background}>
       <Title>{title}</Title>
-      <Content>{description}</Content>
+      <Content>{content}</Content>
     </Container>
   );
 };
 
-const Container = styled.div`
-  margin: 0 16px;
+const Container = styled.div<{ background: string }>`
   padding: 0 16px;
-  background-color: #f1faf7;
   height: 33px;
   border-radius: 8px;
 
   align-items: center;
   display: flex;
   justify-content: center;
+
+  ${props => {
+    if (props.background === "gray")
+      return css`
+        background-color: ${({ theme }) => theme.gray[100]};
+      `;
+    if (props.background === "green")
+      return css`
+        background-color: ${({ theme }) => theme.sub[100]};
+      `;
+  }};
 `;
 
 const Title = styled.div`

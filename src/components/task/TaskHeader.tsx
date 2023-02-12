@@ -12,7 +12,7 @@ const getProgressPercentage = (startDate: string, endDate: string, taskStatus: s
   const startTime = new Date(startDate).getTime();
   const endTime = new Date(endDate).getTime();
   const todayTime = new Date().getTime();
-  console.log(Math.abs(((todayTime - startTime) / (endTime - startTime)) * 100));
+  //console.log(Math.abs(((todayTime - startTime) / (endTime - startTime)) * 100));
   return Math.abs(((todayTime - startTime) / (endTime - startTime)) * 100);
 };
 
@@ -28,13 +28,14 @@ const getDateLeft = (dueDate: string) => {
 const getProgressStatusMessage = (taskStatus: string) => {
   if (taskStatus === "BEFORE") return "아직 업무 시작 전이에요";
   if (taskStatus === "INPROGRESS") return "으쌰으쌰 진행중이에요🔥";
+  if (taskStatus === "LATE") return "기간이 지났어요🥲";
   return "업무를 완료했어요 🎉";
 };
 
 const getBadgeMessage = (taskStatus: string, feedbackLeftDays: number) => {
   const feedbackLeftDaysValue = feedbackLeftDays === 0 ? "DAY" : feedbackLeftDays;
   if (taskStatus === "BEFORE") return "시작 전";
-  if (taskStatus === "INPROGRESS") return "진행 중";
+  if (taskStatus === "INPROGRESS" || taskStatus === "LATE") return "진행 중";
   else if (taskStatus === "FEEDBACK") return `피드백 요청 D-${feedbackLeftDaysValue}`;
   return "완료";
 };
@@ -42,6 +43,7 @@ const getBadgeMessage = (taskStatus: string, feedbackLeftDays: number) => {
 const getProgressColor = (taskStatus: string) => {
   if (taskStatus === "BEFORE" || taskStatus === "DONE") return "gray";
   if (taskStatus === "INPROGRESS") return "green";
+  if (taskStatus === "LATE") return "red";
   return "purple";
 };
 
@@ -67,7 +69,9 @@ const TaskHeader = ({ title, taskStatus, startDate, dueDate, feedbackRequestDate
       <ProgressContainer percentage={percentage} color={progressColor}></ProgressContainer>
       <ProgressTextContainer taskStatus={taskStatus}>
         <Text color={progressColor}>{progressStatusMessage}</Text>
-        {taskStatus === "BEFORE" || taskStatus === "INPROGRESS" ? <Text color={progressColor}>{dateLeft}</Text> : null}
+        {taskStatus === "BEFORE" || taskStatus === "INPROGRESS" || taskStatus === "LATE" ? (
+          <Text color={progressColor}>{dateLeft}</Text>
+        ) : null}
       </ProgressTextContainer>
     </Wrapper>
   );
@@ -107,6 +111,10 @@ const ProgressContainer = styled.div<{ percentage: number; color: string }>`
         return css`
           background-color: ${({ theme }) => theme.primaryPurple[500]};
         `;
+      if (props.color === "red")
+        return css`
+          background-color: ${({ theme }) => theme.error};
+        `;
     }}
     border-radius: 7px;
     content: "";
@@ -123,7 +131,7 @@ const ProgressTextContainer = styled.div<{ taskStatus: string }>`
   margin-top: 8px;
 `;
 
-const Text = styled.div<{ color: string }>`
+const Text = styled.p<{ color: string }>`
   ${props => {
     if (props.color === "gray")
       return css`
@@ -136,6 +144,10 @@ const Text = styled.div<{ color: string }>`
     if (props.color === "purple")
       return css`
         color: ${({ theme }) => theme.primaryPurple[500]};
+      `;
+    if (props.color === "red")
+      return css`
+        color: ${({ theme }) => theme.error};
       `;
   }}
   font-size: 12px;

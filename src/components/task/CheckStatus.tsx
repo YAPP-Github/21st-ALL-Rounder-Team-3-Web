@@ -34,19 +34,29 @@ type Props = {
   feedbackLeftDays: number;
   taskStatus: string;
   feedbackStatus: "pending" | "finished";
+  taskManager: string;
 };
 
-const CheckStatus = ({ feedbackLeftDays, taskStatus, feedbackStatus }: Props) => {
+const CheckStatus = ({ feedbackLeftDays, taskStatus, feedbackStatus, taskManager }: Props) => {
+  const badgeTitle = feedbackStatus === "pending" ? "피드백 요청" : "피드백 완료";
+  const badgeContent =
+    feedbackStatus === "pending"
+      ? "완료된 내용을 확인하시고 피드백을 진행해주세요!"
+      : `이미 ${taskManager}님의 업무를 피드백 완료했어요!`;
   return (
     <Wrapper>
-      <BadgeWithDescription feedbackStatus={feedbackStatus} manager="예진" />
+      <BadgeWithDescription title={badgeTitle} content={badgeContent} background={"green"} />
       <TitleTextWrapper>
         <Title>피드백 현황</Title>
-        <FeedbackPeriodText>피드백 기간이 {feedbackLeftDays}일 남았어요</FeedbackPeriodText>
+        <FeedbackPeriodText>
+          {feedbackLeftDays === 0
+            ? `피드백 마감날입니다! 얼른 진행해주세요~`
+            : `피드백 기간이 ${feedbackLeftDays}일 남았어요`}
+        </FeedbackPeriodText>
       </TitleTextWrapper>
       <ProfileListContainer>
         <ProfileListTextWrapper>
-          <ProfileListTitle>확인 미완료</ProfileListTitle>
+          <ProfileListTitle>피드백 미완료</ProfileListTitle>
           <ProfileListStatusNumber>{uncheckedList.length}</ProfileListStatusNumber>
         </ProfileListTextWrapper>
         <ProfileListWrapper>
@@ -62,7 +72,7 @@ const CheckStatus = ({ feedbackLeftDays, taskStatus, feedbackStatus }: Props) =>
       </ProfileListContainer>
       <ProfileListContainer>
         <ProfileListTextWrapper>
-          <ProfileListTitle>확인 완료</ProfileListTitle>
+          <ProfileListTitle>피드백 완료</ProfileListTitle>
           <ProfileListStatusNumber>{checkedList.length}</ProfileListStatusNumber>
         </ProfileListTextWrapper>
         <ProfileListWrapper>
@@ -82,9 +92,10 @@ const CheckStatus = ({ feedbackLeftDays, taskStatus, feedbackStatus }: Props) =>
 
 const Wrapper = styled.div`
   margin-top: 24px;
+  margin-bottom: 50px;
   padding: 24px 16px;
 
-  background-color: #fafafa;
+  background-color: ${({ theme }) => theme.gray[100]};
 `;
 
 const TitleTextWrapper = styled.div`
