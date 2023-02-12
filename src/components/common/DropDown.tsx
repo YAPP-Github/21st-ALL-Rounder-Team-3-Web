@@ -31,6 +31,10 @@ const DropDown = ({ data, onChange }: Props) => {
     onChange({ value, id });
   }, [value]);
 
+  useEffect(() => {
+    setCurrentValue(data[0]);
+  }, [data]);
+
   return (
     <DropDownWrapper focused={isOpen}>
       <CurrentValueWrapper onClick={handleOpen}>
