@@ -1,7 +1,7 @@
 import IconArrowBack from "./IconArrowBack.svg";
 import IconCheckBox from "./IconCheckBox.svg";
 import IconCheckedBox from "./IconCheckedBox.svg";
-import IconClose from "./IconClose.svg";
+import IconCircleClose from "./IconCircleClose.svg";
 import IconDelete from "./IconDelete.svg";
 import IconDropDown from "./IconDropDown.svg";
 import IconEdit from "./IconEdit.svg";
@@ -9,13 +9,13 @@ import IconShare from "./IconShare.svg";
 import IconLink from "./IconLink.svg";
 import IconAlertCircle from "./IconAlertCircle.svg";
 import IconCheckContained from "./IconCheckContained.svg";
-import IconCircleClose from "./IconCircleClose.svg";
+import IconClose from "./IconClose.svg";
 
 export default {
   IconArrowBack,
   IconCheckBox,
   IconCheckedBox,
-  IconClose,
+  IconCircleClose,
   IconDelete,
   IconDropDown,
   IconEdit,
@@ -23,5 +23,5 @@ export default {
   IconLink,
   IconAlertCircle,
   IconCheckContained,
-  IconCircleClose,
+  IconClose,
 };
