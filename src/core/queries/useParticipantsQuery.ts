@@ -17,7 +17,7 @@ const getParticipant = async (projectId: string): Promise<ParticipantItem[]> => 
 };
 
 const useParticipantsQuery = (projectId: string) => {
-  return useQuery(participantKey.get, () => getParticipant(projectId));
+  return useQuery(participantKey.project, () => getParticipant(projectId));
 };
 
 export default useParticipantsQuery;

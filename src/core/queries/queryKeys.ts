@@ -4,5 +4,5 @@ export const enum QUERY_KEY_NAMESPACE {
 }
 
 export const participantKey = {
-  get: [QUERY_KEY_NAMESPACE.PROJECT, "participant"] as const,
+  project: [QUERY_KEY_NAMESPACE.PROJECT, "participant"] as const,
 };
