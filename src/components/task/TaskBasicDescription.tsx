@@ -2,10 +2,8 @@ import styled from "styled-components";
 import Divider from "../common/Divider";
 import TaskDescription from "./TaskDescription";
 import TaskManagerProfile from "./TaskManagerProfile";
-import Input from "../common/Input";
 import { useEffect, useState } from "react";
-import BadgeWithDescription from "./BadgeWithDescription";
-import FixedBottomButtonLayout from "../layout/FixedBottomButtonLayout";
+import formatDate from "@src/utils/formatDate";
 
 type Props = {
   representativeName: string;
@@ -16,17 +14,6 @@ type Props = {
   taskStatus: string;
 };
 
-const formatDate = (date: Date) => {
-  const options: Intl.DateTimeFormatOptions = {
-    year: "numeric",
-    month: "numeric",
-    weekday: "short",
-    day: "numeric",
-  };
-
-  return new Intl.DateTimeFormat("ko-KR", options).format(date);
-};
-
 const TaskBasicDescription = ({
   representativeName,
   representativeUrl,
@@ -35,9 +22,6 @@ const TaskBasicDescription = ({
   description,
   taskStatus,
 }: Props) => {
-  const [urlTitle, setUrlTitle] = useState<string>("");
-  const [urlContent, setUrlContent] = useState<string>("");
-
   return (
     <>
       <TaskManagerProfile name={representativeName} imageSource={representativeUrl} />
@@ -48,10 +32,5 @@ const TaskBasicDescription = ({
     </>
   );
 };
-
-const Margin = styled.div<{ top?: number; bottom?: number }>`
-  margin-top: ${props => (props.top ? `${props.top}px` : "0px")};
-  margin-bottom: ${props => (props.bottom ? `${props.bottom}px` : "0px")};
-`;
 
 export default TaskBasicDescription;
