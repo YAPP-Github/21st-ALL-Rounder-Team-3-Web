@@ -1,4 +1,4 @@
-const formatDate = (date: Date) => {
+export const formatDate = (date: Date) => {
   const options: Intl.DateTimeFormatOptions = {
     year: "numeric",
     month: "numeric",
@@ -9,4 +9,14 @@ const formatDate = (date: Date) => {
   return new Intl.DateTimeFormat("ko-KR", options).format(date);
 };
 
-export default formatDate;
+export const formatPayloadDate = (date: Date) => {
+  const leftPad = (value: number) => {
+    return value < 10 ? `0${value}` : value;
+  };
+
+  const yyyy = date.getFullYear();
+  const mm = leftPad(date.getMonth() + 1);
+  const dd = leftPad(date.getDate());
+
+  return `${yyyy}-${mm}-${dd}`;
+};
