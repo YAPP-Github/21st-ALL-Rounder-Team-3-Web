@@ -31,16 +31,27 @@ const TaskCreatePage = () => {
 
   const readyToCreate = !!assignees && !!title && !!startDate && !!dueDate && !!memo;
 
+  const handleBackClick = () => {
+    window.Android.navigateToMain();
+  };
+
   const handleCreateClick = () => {
     if (projectId && readyToCreate) {
-      mutate({
-        projectId,
-        participantId: assignees.id,
-        title,
-        memo,
-        startDate: formatPayloadDate(startDate),
-        dueDate: formatPayloadDate(dueDate),
-      });
+      mutate(
+        {
+          projectId,
+          participantId: assignees.id,
+          title,
+          memo,
+          startDate: formatPayloadDate(startDate),
+          dueDate: formatPayloadDate(dueDate),
+        },
+        {
+          onSettled: () => {
+            handleBackClick();
+          },
+        },
+      );
     }
   };
 
