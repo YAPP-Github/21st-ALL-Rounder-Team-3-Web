@@ -113,7 +113,7 @@ const ProgressContainer = styled.div<{ percentage: number; color: string }>`
         `;
       if (props.color === "red")
         return css`
-          background-color: ${({ theme }) => theme.colors.error};
+          background-color: ${({ theme }) => theme.error};
         `;
     }}
     border-radius: 7px;
@@ -147,7 +147,7 @@ const Text = styled.p<{ color: string }>`
       `;
     if (props.color === "red")
       return css`
-        color: ${({ theme }) => theme.colors.error};
+        color: ${({ theme }) => theme.error};
       `;
   }}
   font-size: 12px;
