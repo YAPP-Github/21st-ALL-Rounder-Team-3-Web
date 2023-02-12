@@ -12,6 +12,7 @@ const URL = ({ urlLink, urlDescription }: Props) => (
     <UrlTitle>URL</UrlTitle>
     <UrlContent href={urlLink}>
       <Icons.IconLink />
+      <Margin />
       {urlDescription}
     </UrlContent>
   </UrlWrapper>
@@ -30,6 +31,10 @@ const UrlContent = styled.a`
   ${typo_h4_semibold};
   color: ${({ theme }) => theme.black};
   text-decoration: underline;
+`;
+
+const Margin = styled.div`
+  margin-right: 4px;
 `;
 
 export default URL;
