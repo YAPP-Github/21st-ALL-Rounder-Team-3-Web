@@ -26,11 +26,13 @@ const getCookie = (cookieName: string) => {
 const App = () => {
   const [bottomSheet] = useRecoilState(globalBottomSheet);
   const accessToken = getCookie("access_token");
-  console.log("!", accessToken);
 
   useEffect(() => {
     // TODO: bridge 코드로 access token 가져오기
-    // httpService.setAccessToken(accessToken);
+    const accessToken = getCookie("access_token");
+    console.log("!", accessToken);
+
+    httpService.setAccessToken(accessToken);
   }, []);
 
   return (
