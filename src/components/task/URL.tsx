@@ -1,18 +1,18 @@
 import { typo_body4_regular, typo_h4_semibold } from "@src/styles/Typo";
 import styled from "styled-components";
 import Icons from "@src/assets/icons/index";
+import { TaskDetail } from "@src/core/queries/useTaskDetailQuery";
 
 type Props = {
-  link: string;
-  description: string;
+  data: TaskDetail;
 };
 
-const URL = ({ link, description }: Props) => (
+const URL = ({ data }: Props) => (
   <Wrapper>
     <Title>URL</Title>
-    <Content href={link}>
+    <Content href={data?.taskContents[0].url}>
       <Icons.IconLink />
-      {description}
+      {data?.taskContents[0].title}
     </Content>
   </Wrapper>
 );
