@@ -3,7 +3,7 @@ import { Calendar } from "react-calendar";
 import styled, { css } from "styled-components";
 import "react-calendar/dist/Calendar.css";
 import { typo_body1_medium } from "@src/styles/Typo";
-import formatDate from "@src/utils/formatDate";
+import { formatDate } from "@src/utils/formatDate";
 
 type Props = {
   value: Date | undefined;

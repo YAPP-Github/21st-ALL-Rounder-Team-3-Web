@@ -1,11 +1,24 @@
 import { createBrowserRouter } from "react-router-dom";
-import { TASK_CREATE_URL, TASK_DETAIL_URL, TASK_EDIT_URL, TASK_FEEDBACK_URL } from "./constants/URLConstants";
+import {
+  MY_TASK_DETAIL_URL,
+  TASK_CREATE_URL,
+  TASK_DETAIL_URL,
+  TASK_EDIT_URL,
+  TASK_FEEDBACK_URL,
+} from "./constants/URLConstants";
+import MyTaskDetailPage from "./pages/MyTaskDetailPage";
+import OthersTaskDetailPage from "./pages/OthersTaskDetailPage";
+import TaskCreatePage from "./pages/TaskCreatePage";
 import TaskFeedbackPage from "./pages/TaskFeedbackPage";
 
 const router = createBrowserRouter([
   {
     path: TASK_DETAIL_URL,
-    element: <></>,
+    element: <OthersTaskDetailPage />,
+  },
+  {
+    path: MY_TASK_DETAIL_URL,
+    element: <MyTaskDetailPage />,
   },
   {
     path: TASK_FEEDBACK_URL,
@@ -13,7 +26,7 @@ const router = createBrowserRouter([
   },
   {
     path: TASK_CREATE_URL,
-    element: <></>,
+    element: <TaskCreatePage />,
   },
   {
     path: TASK_EDIT_URL,
