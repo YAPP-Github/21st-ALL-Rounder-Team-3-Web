@@ -5,64 +5,56 @@ import Input from "@src/components/common/Input";
 import TextArea from "@src/components/common/TextArea";
 import DefaultLayout from "@src/components/layout/DefaultLayout";
 import FixedBottomButtonLayout from "@src/components/layout/FixedBottomButtonLayout";
-import useParticipantsQuery from "@src/core/queries/useParticipantsQuery";
-import useSendCreateTaskMutation from "@src/core/queries/useSendCreateTaskMutation";
 import { typo_body3_regular } from "@src/styles/Typo";
-import { formatPayloadDate } from "@src/utils/formatDate";
-import { useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useState } from "react";
+import { useLocation, useParams, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 
-const TaskCreatePage = () => {
-  const [taskManager, setTaskManager] = useState<DropDownData>();
-  const [title, setTitle] = useState("");
-  const [memo, setMemo] = useState("");
-  const [startDate, setStartDate] = useState<Date>();
-  const [dueDate, setDueDate] = useState<Date>();
+const TEMP_DROPDOWN_DATA = [
+  { id: 1, value: "나" },
+  { id: 2, value: "은욱" },
+  { id: 3, value: "예진" },
+  { id: 4, value: "예령" },
+  { id: 5, value: "정현" },
+  { id: 6, value: "혜리" },
+  { id: 7, value: "연수" },
+  { id: 8, value: "상록" },
+  { id: 9, value: "세희" },
+  { id: 10, value: "지율" },
+];
 
-  const { projectId } = useParams();
-  const { data } = useParticipantsQuery(projectId || "");
-  const { mutate } = useSendCreateTaskMutation();
+const useGetQueryString = () => {
+  const [searchParams] = useSearchParams();
 
-  const dropDownData = useMemo(
-    () => (data ? data?.map(item => ({ id: item.id, value: item.name })) : [{ id: 0, value: "" }]),
-    [data],
-  );
+  return (key: string) => searchParams.get(key) ?? "";
+};
 
-  const readyToCreate = !!taskManager && !!title && !!startDate && !!dueDate && !!memo;
+const TaskEditPage = () => {
+  const getQueryString = useGetQueryString();
 
-  const handleBackClick = () => {
-    window.Android.navigateToMain();
+  const dropDownInitialData = {
+    id: Number(getQueryString("assigneesId")),
+    value: getQueryString("assigneesValue")!,
   };
 
-  const handleCreateClick = () => {
-    if (projectId && readyToCreate) {
-      mutate(
-        {
-          projectId,
-          participantId: taskManager.id,
-          title,
-          memo,
-          startDate: formatPayloadDate(startDate),
-          dueDate: formatPayloadDate(dueDate),
-        },
-        {
-          onSettled: () => {
-            handleBackClick();
-          },
-        },
-      );
-    }
-  };
+  const [assignees, setAssignees] = useState<DropDownData>(dropDownInitialData);
+  const [title, setTitle] = useState(getQueryString("title"));
+  const [memo, setMemo] = useState(getQueryString("memo"));
+  const [startDate, setStartDate] = useState<Date>(new Date(getQueryString("startDate")));
+  const [dueDate, setDueDate] = useState<Date>(new Date(getQueryString("dueDate")));
+
+  const readyToEdit = !!assignees && !!title && !!startDate && !!dueDate && !!memo;
+
+  console.log(assignees, title, memo, startDate, dueDate);
 
   return (
-    <DefaultLayout onBack={() => {}} title="업무 생성하기">
+    <DefaultLayout onBack={() => {}} title="업무 수정하기">
       <Wrapper>
         <ListWrapper>
           <ListTitleWrapper>
             <ListTitle>업무 담당</ListTitle>
           </ListTitleWrapper>
-          <DropDown data={dropDownData} onChange={item => setTaskManager(item)} />
+          <DropDown data={TEMP_DROPDOWN_DATA} onChange={item => setAssignees(item)} />
         </ListWrapper>
         <ListWrapper>
           <ListTitleWrapper>
@@ -71,7 +63,7 @@ const TaskCreatePage = () => {
           <Input
             value={title}
             placeholder="업무 제목을 입력해주세요."
-            withError={true}
+            maxLength={20}
             onChange={value => setTitle(value)}
           />
         </ListWrapper>
@@ -93,7 +85,7 @@ const TaskCreatePage = () => {
         </ListWrapper>
       </Wrapper>
       <FixedBottomButtonLayout>
-        <Button type="primary" value="생성하기" onClick={handleCreateClick} disabled={!readyToCreate} />
+        <Button type="primary" value="생성하기" onClick={() => {}} disabled={!readyToEdit} />
       </FixedBottomButtonLayout>
     </DefaultLayout>
   );
@@ -123,4 +115,4 @@ const DateFormWrapper = styled.div`
   gap: 10px;
 `;
 
-export default TaskCreatePage;
+export default TaskEditPage;
