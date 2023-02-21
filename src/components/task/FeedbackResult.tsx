@@ -1,17 +1,16 @@
-import { ReactNode } from "react";
 import styled, { css } from "styled-components";
 import { typo_h3_semibold } from "@src/styles/Typo";
 
 type Props = {
   value: string;
-  icon?: ReactNode;
-  count: number;
+  count?: number;
+  src: string;
 };
 
-const FeedbackResult = ({ value, icon, count }: Props) => {
+const FeedbackResult = ({ value, src, count }: Props) => {
   return (
     <BaseButton>
-      <IconWrapper>{icon && icon}</IconWrapper>
+      <Img src={src}></Img>
       {value}
       <Count>{count}</Count>
     </BaseButton>
@@ -24,16 +23,9 @@ const BaseButton = styled.div`
   border: 1px solid ${({ theme }) => theme.gray[300]};
 
   border-radius: 16px;
-  padding: 12px 0;
+  padding: 13px 0;
   width: 100%;
   ${typo_h3_semibold};
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
-const IconWrapper = styled.div`
-  margin-right: 10px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -43,6 +35,12 @@ const Count = styled.p`
   color: ${({ theme }) => theme.sub[500]};
   ${typo_h3_semibold}
   margin-left: 10px;
+`;
+
+const Img = styled.img`
+  height: 27px;
+  width: 24px;
+  margin-right: 5px;
 `;
 
 export default FeedbackResult;
