@@ -1,11 +1,11 @@
-const getFeedbackLeftDays = (date: string) => {
-  if (!date) {
+const getLeftDays = (dueDate: string) => {
+  if (!dueDate) {
     return 0;
   }
-  const feedbackDueTime = new Date(date).getTime();
+  const dueTime = new Date(dueDate).getTime();
   const currentTime = new Date().getTime();
 
-  return Math.floor((feedbackDueTime - currentTime) / (24 * 60 * 60 * 1000));
+  return Math.floor((dueTime - currentTime) / (24 * 60 * 60 * 1000));
 };
 
-export default getFeedbackLeftDays;
+export default getLeftDays;
