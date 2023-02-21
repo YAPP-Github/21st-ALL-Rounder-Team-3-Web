@@ -15,10 +15,11 @@ export type TaskDetail = {
   dueDate: string;
   memo: string;
   taskStatus: TaskStatus;
+  feedbackDueDate: string;
   confirmCount: number;
-  participantCount: number;
-  feedbackRequestedDate: string;
-  perfectCount: number;
+  feedbackRequiredPersonnel: number;
+  // participantCount: number;
+  // perfectCount: number;
   taskContents: [
     {
       taskContentId: number;
@@ -26,6 +27,8 @@ export type TaskDetail = {
       url: string;
     },
   ];
+  feedbackStatus: "pending" | "finished";
+  // feedbackList: string[];
 };
 
 const getTaskDetail = async (taskId: string): Promise<TaskDetail> => {

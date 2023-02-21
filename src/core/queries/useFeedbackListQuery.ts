@@ -4,8 +4,15 @@ import httpService from "../services/httpService";
 import { feedbackKey } from "./queryKeys";
 
 export type FeedbackList = {
+  evaluations: {
+    GOOD: number;
+    NOT_ENOUGH: number;
+  };
   details: string[];
-  templates: string[];
+  templates: {
+    id: number;
+    count: number;
+  }[];
 };
 
 const getFeedbackList = async (taskId: string): Promise<FeedbackList> => {

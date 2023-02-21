@@ -1,6 +1,7 @@
 export const enum QUERY_KEY_NAMESPACE {
   PROJECT = "project",
   TASK = "task",
+  TASKCONTENT = "taskContent",
   FEEDBACK = "feedback",
 }
 
@@ -10,6 +11,11 @@ export const participantKey = {
 
 export const taskDetailKey = {
   detail: [QUERY_KEY_NAMESPACE.TASK, "taskDetail"] as const,
+  changeInformation: [QUERY_KEY_NAMESPACE.TASK, "changeTaskInformation"] as const,
+};
+
+export const taskContentKey = {
+  post: [QUERY_KEY_NAMESPACE.TASKCONTENT, "postTaskContent"] as const,
 };
 
 export const feedbackKey = {
