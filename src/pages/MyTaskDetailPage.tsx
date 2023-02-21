@@ -115,6 +115,7 @@ const MyTaskDetailPage = () => {
       <Divider height={8} marginBottom={20} />
       <DescriptionWrapper>
         <TaskBasicDescription data={data} />
+        {data?.taskStatus === "FEEDBACK" || data?.taskStatus === "DONE" ? <URL data={data}></URL> : null}
       </DescriptionWrapper>
       {data?.taskStatus === "FEEDBACK" ? (
         <CheckStatus data={data} feedbackLeftDays={feedbackLeftDays} isMyTask={true} />
