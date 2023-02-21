@@ -1,9 +1,8 @@
 import { TaskDetail } from "@src/core/queries/useTaskDetailQuery";
+import getLeftDays from "@src/utils/getLeftDays";
+import { useEffect, useMemo } from "react";
 import styled, { css } from "styled-components";
 import Badge from "../common/Badge";
-
-const startDate = "2022/12/02";
-const endDate = "2022/12/09";
 
 const getProgressPercentage = (startDate?: string, endDate?: string, taskStatus?: string) => {
   if (!startDate || !endDate || !taskStatus) {
@@ -20,18 +19,6 @@ const getProgressPercentage = (startDate?: string, endDate?: string, taskStatus?
   return Math.abs(((todayTime - startTime) / (endTime - startTime)) * 100);
 };
 
-const getDateLeft = (dueDate?: string) => {
-  if (!dueDate) {
-    return;
-  }
-  const endTime = new Date(dueDate).getTime();
-  const todayTime = new Date().getTime();
-  const timeDifference = endTime - todayTime;
-  const leftDays = Math.floor(Math.abs(timeDifference) / (24 * 60 * 60 * 1000));
-  if (timeDifference > 0) return `D-${leftDays}`;
-  return `D+${leftDays}`;
-};
-
 const getProgressStatusMessage = (taskStatus?: string) => {
   if (!taskStatus) {
     return;
@@ -43,11 +30,7 @@ const getProgressStatusMessage = (taskStatus?: string) => {
 };
 
 const getBadgeMessage = (feedbackLeftDays: number, taskStatus?: string) => {
-  if (!taskStatus || !feedbackLeftDays) {
-    return;
-  }
-
-  const feedbackLeftDaysValue = feedbackLeftDays === 0 ? "DAY" : feedbackLeftDays;
+  const feedbackLeftDaysValue = feedbackLeftDays === 0 ? "DAY" : Math.abs(feedbackLeftDays);
   if (taskStatus === "BEFORE") return "시작 전";
   if (taskStatus === "INPROGRESS" || taskStatus === "LATE") return "진행 중";
   else if (taskStatus === "FEEDBACK") return `피드백 요청 D-${feedbackLeftDaysValue}`;
@@ -71,10 +54,11 @@ interface Props {
 
 const TaskHeader = ({ data, feedbackLeftDays }: Props) => {
   const percentage = getProgressPercentage(data?.startDate, data?.dueDate, data?.taskStatus);
-  const dateLeft = getDateLeft(data?.dueDate);
+  const taskLeftDays = getLeftDays(data?.dueDate as string);
   const progressStatusMessage = getProgressStatusMessage(data?.taskStatus);
   const progressColor = getProgressColor(data?.taskStatus);
   const badgeMessage = getBadgeMessage(feedbackLeftDays, data?.taskStatus);
+
   return (
     <Wrapper>
       <Badge value={badgeMessage || ""} color={progressColor} />
@@ -82,9 +66,10 @@ const TaskHeader = ({ data, feedbackLeftDays }: Props) => {
       <ProgressContainer percentage={percentage} color={progressColor}></ProgressContainer>
       <ProgressTextContainer taskStatus={data?.taskStatus}>
         <Text color={progressColor || ""}>{progressStatusMessage}</Text>
-        {data?.taskStatus === "BEFORE" || data?.taskStatus === "INPROGRESS" || data?.taskStatus === "LATE" ? (
-          <Text color={progressColor || ""}>{dateLeft}</Text>
+        {data?.taskStatus === "BEFORE" || data?.taskStatus === "INPROGRESS" ? (
+          <Text color={progressColor || ""}>D-{taskLeftDays}</Text>
         ) : null}
+        {data?.taskStatus === "LATE" ? <Text color={progressColor || ""}>D+{taskLeftDays}</Text> : null}
       </ProgressTextContainer>
     </Wrapper>
   );
