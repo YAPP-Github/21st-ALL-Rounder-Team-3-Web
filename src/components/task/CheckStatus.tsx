@@ -14,25 +14,6 @@ import tmp_image3 from "../../assets/images/tmp_profile_img3.png";
 import { TaskDetail } from "@src/core/queries/useTaskDetailQuery";
 import Margin from "../common/Margin";
 
-type Profile = {
-  key: number;
-  imgUrl: string;
-  name: string;
-};
-
-const checkedList: Profile[] = [
-  { key: 1, imgUrl: tmp_image1, name: "가은" },
-  { key: 2, imgUrl: tmp_image2, name: "나은" },
-  { key: 3, imgUrl: tmp_image3, name: "다은" },
-];
-
-const uncheckedList: Profile[] = [
-  { key: 1, imgUrl: tmp_image3, name: "희두" },
-  { key: 2, imgUrl: tmp_image1, name: "나연" },
-  { key: 3, imgUrl: tmp_image1, name: "가은" },
-  { key: 4, imgUrl: tmp_image2, name: "나은" },
-];
-
 type Props = {
   isMyTask: boolean;
   feedbackLeftDays: number;
@@ -65,11 +46,11 @@ const CheckStatus = ({ feedbackLeftDays, data, isMyTask }: Props) => {
       <ProfileListContainer>
         <ProfileListTextWrapper>
           <ProfileListTitle>미완료한 팀원</ProfileListTitle>
-          <ProfileListStatusNumber>{uncheckedList.length}</ProfileListStatusNumber>
+          <ProfileListStatusNumber>{data.feedbackRequiredPersonnel}</ProfileListStatusNumber>
         </ProfileListTextWrapper>
         <ProfileListTextWrapper>
           <ProfileListTitle>완료한 팀원</ProfileListTitle>
-          <ProfileListStatusNumber>{checkedList.length}</ProfileListStatusNumber>
+          <ProfileListStatusNumber>{data.confirmCount}</ProfileListStatusNumber>
         </ProfileListTextWrapper>
       </ProfileListContainer>
       <Margin bottom={150} />
