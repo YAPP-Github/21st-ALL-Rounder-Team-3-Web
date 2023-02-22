@@ -20,15 +20,17 @@ import { typo_body2_medium } from "@src/styles/Typo";
 import Margin from "@src/components/common/Margin";
 import BottomSheet from "@src/components/common/BottomSheet";
 import useChangeTaskInformationQuery from "@src/core/queries/changeTaskInformationQuery";
+import getLeftDays from "@src/utils/getLeftDays";
 
 const OthersTaskDetailPage = () => {
   const { taskId, projectId } = useParams();
   const { data } = useTaskDetailQuery(taskId || "");
   const { data: feedbackList } = useFeedbackListQuery(taskId || "");
   const { mutate } = useChangeTaskInformationQuery();
-  const feedbackLeftDays = getFeedbackLeftDays(data?.feedbackDueDate as string);
+  const feedbackLeftDays = getLeftDays(data?.feedbackDueDate as string);
+  const startLeftDays = getLeftDays(data?.startDate as string);
 
-  const changeStatus = () => {
+  const changeStatus = (state: "INPROGRESS" | "DONE" | "FEEDBACK") => {
     if (taskId && data) {
       mutate({
         taskId,
@@ -38,16 +40,20 @@ const OthersTaskDetailPage = () => {
           startDate: data.startDate,
           dueDate: data.dueDate,
           memo: data.memo,
-          taskStatus: "DONE",
+          taskStatus: state,
         },
       });
     }
   };
 
-  //피드백 요청 후 3일이 지나면 자동으로 업무 마감
   useMemo(() => {
-    if (data && taskId && data.taskStatus === "FEEDBACK" && feedbackLeftDays < 0) {
-      changeStatus();
+    //시작날짜가 되면 진행중으로 변경
+    if (data && data.taskStatus === "BEFORE" && startLeftDays >= 0) {
+      changeStatus("INPROGRESS");
+    }
+    //피드백 요청 후 3일이 지나면 자동으로 업무 마감
+    if (data && data.taskStatus === "FEEDBACK" && feedbackLeftDays < 0) {
+      changeStatus("DONE");
     }
   }, [data]);
 

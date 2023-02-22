@@ -23,6 +23,7 @@ import BottomSheet from "@src/components/common/BottomSheet";
 import useBottomSheet from "@src/core/hooks/useBottomSheet";
 import useChangeTaskInformationQuery from "@src/core/queries/changeTaskInformationQuery";
 import useSendTaskContentMutation from "@src/core/queries/sendTaskContentMutation";
+import getLeftDays from "@src/utils/getLeftDays";
 
 const MyTaskDetailPage = () => {
   const [urlTitle, setUrlTitle] = useState<string>("");
@@ -37,9 +38,10 @@ const MyTaskDetailPage = () => {
   const { data: feedbackList } = useFeedbackListQuery(taskId || "");
   const { mutate: mutateTaskInformation } = useChangeTaskInformationQuery();
   const { mutate: mutateTaskContent } = useSendTaskContentMutation();
-  const feedbackLeftDays = getFeedbackLeftDays(data?.feedbackDueDate as string);
+  const feedbackLeftDays = getLeftDays(data?.feedbackDueDate as string);
+  const startLeftDays = getLeftDays(data?.startDate as string);
 
-  const changeStatus = (state: "INPROGRESS" | "DONE") => {
+  const changeStatus = (state: "INPROGRESS" | "DONE" | "FEEDBACK") => {
     if (taskId && data) {
       mutateTaskInformation({
         taskId,
@@ -63,6 +65,7 @@ const MyTaskDetailPage = () => {
         url: urlContent,
       });
     }
+    changeStatus("FEEDBACK");
   };
 
   //임시 데이터
@@ -76,8 +79,12 @@ const MyTaskDetailPage = () => {
     console.log("feedbackLeftDays : ", feedbackLeftDays);
   }
 
-  //피드백 요청 후 3일이 지나면 자동으로 업무 마감
   useMemo(() => {
+    //시작날짜가 되면 진행중으로 변경
+    if (data && data.taskStatus === "BEFORE" && startLeftDays >= 0) {
+      changeStatus("INPROGRESS");
+    }
+    //피드백 요청 후 3일이 지나면 자동으로 업무 마감
     if (data && data.taskStatus === "FEEDBACK" && feedbackLeftDays < 0) {
       changeStatus("DONE");
     }
@@ -96,7 +103,14 @@ const MyTaskDetailPage = () => {
           <BlackContent>피드백 요청을 취소하실건가요?</BlackContent>
           <PurpleContent>취소하면 이때까지의 피드백은 무효가 돼요.</PurpleContent>
           <Margin bottom={22} />
-          <Button type={"secondary"} value={"피드백 요청 취소하기"} onClick={() => changeStatus("INPROGRESS")}></Button>
+          <Button
+            type={"secondary"}
+            value={"피드백 요청 취소하기"}
+            onClick={() => {
+              changeStatus("INPROGRESS");
+              closeBottomSheet();
+            }}
+          ></Button>
         </BottomSheetContentWrapper>
       ),
       onClose: closeBottomSheet,
@@ -149,10 +163,6 @@ const MyTaskDetailPage = () => {
 
       {data?.taskStatus === "DONE" ? (
         <>
-          <DescriptionWrapper>
-            <Divider height={1} marginTop={10} marginBottom={10} />
-            <URL data={data} />
-          </DescriptionWrapper>
           <Margin top={24} />
           <Divider height={8} marginBottom={24} />
 
