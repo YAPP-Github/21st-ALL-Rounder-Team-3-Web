@@ -15,9 +15,9 @@ const URL = ({ data }: Props) => (
         <Divider marginBottom={10} marginTop={10} height={1} />
 
         <Title>URL</Title>
-        <Content href={data?.taskContents[0].url}>
+        <Content href={data?.taskContents[data.taskContents.length - 1].url}>
           <Icons.IconLink />
-          {data?.taskContents[0].title}
+          {data?.taskContents[data.taskContents.length - 1].title}
         </Content>
       </>
     ) : null}
