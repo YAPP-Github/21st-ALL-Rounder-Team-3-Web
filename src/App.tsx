@@ -35,7 +35,7 @@ const App = () => {
     } else {
       console.error("cookie does not contain access_token");
     }
-  }, [document.cookie]);
+  }, [document.cookie, accessToken]);
 
   return (
     <>
