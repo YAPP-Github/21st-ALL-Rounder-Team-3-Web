@@ -22,6 +22,7 @@ import useSendTaskContentMutation from "@src/core/queries/sendTaskContentMutatio
 import getLeftDays from "@src/utils/getLeftDays";
 import useChangeTaskStatusQuery from "@src/core/queries/changeTaskStatusQuery";
 import DefaultLayout from "@src/components/layout/DefaultLayout";
+import { FEEDBACK_MAP } from "@src/constants/feedback";
 
 const MyTaskDetailPage = () => {
   const [urlTitle, setUrlTitle] = useState<string>("");
@@ -58,15 +59,6 @@ const MyTaskDetailPage = () => {
     }
     changeStatus("FEEDBACK");
   };
-
-  //임시 데이터
-  if (data && feedbackList) {
-    data.feedbackStatus = "pending";
-    feedbackList.details[0] = "자료조사가 부족한 것 같아요.";
-    feedbackList.details[1] = "시각 자료가 더 있었으면 좋겠어요.";
-    feedbackList.evaluations.GOOD = 3;
-    feedbackList.evaluations.NOT_ENOUGH = 2;
-  }
 
   useMemo(() => {
     if (data && data.taskStatus === "BEFORE" && startLeftDays < 0) {
@@ -138,7 +130,7 @@ const MyTaskDetailPage = () => {
         <TaskBasicDescription data={data} />
         {data?.taskStatus === "FEEDBACK" || data?.taskStatus === "DONE" ? <URL data={data}></URL> : null}
       </DescriptionWrapper>
-      {data?.taskStatus === "FEEDBACK" ? (
+      {feedbackList && data?.taskStatus === "FEEDBACK" ? (
         <CheckStatus data={data} feedbackLeftDays={feedbackLeftDays} isMyTask={true} />
       ) : null}
 
@@ -178,7 +170,10 @@ const MyTaskDetailPage = () => {
               />
             </ResultContiner>
             <Margin top={20} />
-
+            {feedbackList &&
+              feedbackList.templates.map((item, index) => (
+                <FeedbackContainer key={index}>{FEEDBACK_MAP[item.templateId]}</FeedbackContainer>
+              ))}
             {feedbackList &&
               feedbackList.details.map((item, index) => <FeedbackContainer key={index}>{item}</FeedbackContainer>)}
           </DescriptionWrapper>

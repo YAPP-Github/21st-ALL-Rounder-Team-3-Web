@@ -10,7 +10,7 @@ export type FeedbackList = {
   };
   details: string[];
   templates: {
-    id: number;
+    templateId: number;
     count: number;
   }[];
 };

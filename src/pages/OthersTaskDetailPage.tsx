@@ -41,7 +41,7 @@ const OthersTaskDetailPage = () => {
   };
 
   useMemo(() => {
-    if (data && data.taskStatus === "BEFORE" && startLeftDays < 0) {
+    if (data && data.taskStatus === "BEFORE" && startLeftDays <= 0) {
       changeStatus("INPROGRESS");
       useTaskDetailQuery(taskId || "");
     }
@@ -55,10 +55,6 @@ const OthersTaskDetailPage = () => {
     }
   }, [data]);
 
-  if (data && feedbackList) {
-    data.feedbackStatus = "pending";
-  }
-
   return (
     <DefaultLayout onBack={handleBackClick} title="">
       <TaskHeader data={data} feedbackLeftDays={feedbackLeftDays} />
@@ -71,7 +67,9 @@ const OthersTaskDetailPage = () => {
         <CheckStatus feedbackLeftDays={feedbackLeftDays} data={data} isMyTask={false} />
       ) : null}
       {data?.taskStatus === "FEEDBACK" && data?.feedbackStatus === "pending" ? (
-        <FixedBottomButtonLayout children={<Button type={"primary"} value={"피드백 하러가기"} onClick={() => {}} />} />
+        <FixedBottomButtonLayout
+          children={<Button type={"primary"} value={"피드백 하러가기"} onClick={handleFeedbackClick} />}
+        />
       ) : null}
     </DefaultLayout>
   );
