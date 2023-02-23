@@ -12,7 +12,7 @@ const getCookie = (cookieName: string) => {
   const cookieData = document.cookie;
   const findCookie = cookieData.indexOf(`${cookieName}=`) !== -1;
 
-  console.log("!!!findCookie", findCookie);
+  console.log("!!!findCookie", findCookie, cookieData, cookieData.indexOf(`${cookieName}=`));
 
   if (findCookie) {
     const startIndex = cookieData.indexOf(`${cookieName}=`) + cookieName.length + 1;
