@@ -12,11 +12,13 @@ const getCookie = (cookieName: string) => {
   const cookieData = document.cookie;
   const findCookie = cookieData.indexOf(`${cookieName}=`) !== -1;
 
+  console.log("!!!findCookie", findCookie);
+
   if (findCookie) {
     const startIndex = cookieData.indexOf(`${cookieName}=`) + cookieName.length + 1;
     const endIndex =
       cookieData.indexOf(";", startIndex) !== -1 ? cookieData.indexOf(";", startIndex) : cookieData.length;
-
+    console.log("!!!index", startIndex, endIndex, cookieData.substring(startIndex, endIndex));
     return cookieData.substring(startIndex, endIndex);
   }
 
