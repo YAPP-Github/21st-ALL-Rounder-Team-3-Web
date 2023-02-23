@@ -56,7 +56,7 @@ const TaskCreatePage = () => {
   };
 
   return (
-    <DefaultLayout onBack={() => {}} title="업무 생성하기">
+    <DefaultLayout onBack={handleBackClick} title="업무 생성하기">
       <Wrapper>
         <ListWrapper>
           <ListTitleWrapper>

@@ -24,13 +24,12 @@ const TaskFeedbackPage = () => {
   const [feedbacks, setFeedbacks] = useState<Feedbacks[]>(FEEDBACKS);
   const [evaluation, setEvaluation] = useState<boolean | undefined>(undefined);
   const [otherFeedback, setOtherFeedback] = useState("");
-  const { taskId } = useParams();
+  const { projectId, taskId } = useParams();
 
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
   const { mutate } = useSendFeedbackMutation();
 
-  const hasFeedback =
-    evaluation || (evaluation === false && Boolean(feedbacks.find(category => !!category.selectedItems.length)));
+  const hasFeedback = evaluation !== undefined;
   const selectedFeedback = feedbacks.reduce<number[]>((acc, cur) => [...acc, ...cur.selectedItems], []);
 
   const handleCategoryClick = (category: Feedbacks) => {
@@ -81,12 +80,13 @@ const TaskFeedbackPage = () => {
         checkList: selectedFeedback,
         detail: otherFeedback,
       });
-      // TODO: navigate
+
+      window.Android.navigateToOtherTask(projectId!, taskId);
     }
   };
 
   return (
-    <DefaultLayout onBack={() => {}} title="">
+    <DefaultLayout onBack={() => window.Android.navigateToOtherTask(projectId!, taskId!)} title="">
       <Wrapper>
         <HeaderWrapper>
           <TitleWrapper>
@@ -100,7 +100,7 @@ const TaskFeedbackPage = () => {
           <EvaluationWrapper>
             <ImageWrapper selected={evaluation === true} onClick={() => setEvaluation(true)}>
               <img src={feedbackGood} />
-              완벽해요.
+              좋아요.
             </ImageWrapper>
             <ImageWrapper selected={evaluation === false} onClick={() => setEvaluation(false)}>
               <img src={feedbackBad} />

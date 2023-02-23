@@ -2,7 +2,9 @@ declare global {
   interface Window {
     Android: {
       navigateToMain: () => void;
-      navigateToMyTask: (
+      navigateToMyTask: (projectId: string, taskId: string) => void;
+      navigateToOtherTask: (projectId: string, taskId: string) => void;
+      navigateToEdit: (
         projectId: string,
         taskId: string,
         managerId: string,
@@ -12,8 +14,6 @@ declare global {
         startDate: string,
         dueDate: string,
       ) => void;
-      navigateToOtherTask: (projectId: string, taskId: string) => void;
-      navigateToEdit: (projectId: string, taskId: string) => void;
       navigateToFeedback: (projectId: string, taskId: string) => void;
     };
   }
