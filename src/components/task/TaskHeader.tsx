@@ -14,7 +14,6 @@ const getProgressPercentage = (startDate?: string, endDate?: string, taskStatus?
   const startTime = new Date(startDate).getTime();
   const endTime = new Date(endDate).getTime();
   const todayTime = new Date().getTime();
-  //console.log(Math.abs(((todayTime - startTime) / (endTime - startTime)) * 100));
   return Math.abs(((todayTime - startTime) / (endTime - startTime)) * 100);
 };
 
