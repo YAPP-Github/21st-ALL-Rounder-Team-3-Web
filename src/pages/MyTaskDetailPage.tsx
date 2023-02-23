@@ -103,16 +103,21 @@ const MyTaskDetailPage = () => {
   };
 
   const handleEditClick = () => {
-    window.Android.navigateToMyTask(
-      projectId!,
-      taskId!,
-      String(taskManager!.id),
-      taskManager!.value,
-      title,
-      memo,
-      String(startDate),
-      String(dueDate),
-    );
+    if (data) {
+      const taskManagerId = data.representative.participantId;
+      const taskManagerValue = data.representative.name;
+
+      window.Android.navigateToEdit(
+        projectId!,
+        taskId!,
+        String(taskManagerId),
+        taskManagerValue,
+        data.title,
+        data.memo,
+        String(data.startDate),
+        String(data.dueDate),
+      );
+    }
   };
 
   const handleBackClick = () => {
