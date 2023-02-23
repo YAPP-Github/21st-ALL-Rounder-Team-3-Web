@@ -3,12 +3,13 @@ import httpService from "../services/httpService";
 
 type Payload = {
   taskId: string;
+  evaluation: "GOOD" | "NOT_ENOUGH";
   checkList: number[];
   detail: string;
 };
 
-const fetchSendFeedback = ({ taskId, checkList, detail }: Payload) => {
-  return httpService.post(`/tasks/${taskId}/feedbacks`, { checkList, detail });
+const fetchSendFeedback = ({ taskId, evaluation, checkList, detail }: Payload) => {
+  return httpService.post(`/tasks/${taskId}/feedbacks`, { evaluation, checkList, detail });
 };
 
 const useSendFeedbackMutation = () => {

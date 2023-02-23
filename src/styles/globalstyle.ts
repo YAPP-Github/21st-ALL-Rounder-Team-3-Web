@@ -31,6 +31,7 @@ const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
   a {
+    -webkit-tap-highlight-color: transparent;
     text-decoration: none;
   }
   button,
@@ -45,6 +46,9 @@ const GlobalStyle = createGlobalStyle`
   }
   li {
     list-style: none;
+  }
+  img {
+    -webkit-tap-highlight-color: transparent;
   }
 `;
 

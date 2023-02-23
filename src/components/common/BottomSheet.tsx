@@ -28,7 +28,7 @@ const BottomSheet = ({ title, description, content, onClose }: BottomSheetProps)
 };
 
 const Wrapper = styled.div`
-  position: absolute;
+  position: fixed;
   z-index: 100;
   top: 0;
   left: 0;

@@ -34,16 +34,7 @@ const TaskEditPage = () => {
   const readyToCreate = !!taskManager && !!title && !!startDate && !!dueDate && !!memo;
 
   const handleBackClick = () => {
-    window.Android.navigateToMyTask(
-      projectId!,
-      taskId!,
-      String(taskManager!.id),
-      taskManager!.value,
-      title,
-      memo,
-      String(startDate),
-      String(dueDate),
-    );
+    window.Android.navigateToMyTask(projectId!, taskId!);
   };
 
   const handleCreateClick = () => {
@@ -67,7 +58,7 @@ const TaskEditPage = () => {
   };
 
   return (
-    <DefaultLayout onBack={() => {}} title="업무 수정하기">
+    <DefaultLayout onBack={handleBackClick} title="업무 수정하기">
       <Wrapper>
         <ListWrapper>
           <ListTitleWrapper>

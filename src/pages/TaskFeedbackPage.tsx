@@ -6,21 +6,30 @@ import DefaultLayout from "@src/components/layout/DefaultLayout";
 import FixedBottomButtonLayout from "@src/components/layout/FixedBottomButtonLayout";
 import { FEEDBACK_MAP } from "@src/constants/feedback";
 import useBottomSheet from "@src/core/hooks/useBottomSheet";
-import useSendFeedbackMutation from "@src/core/queries/sendFeedbackMutation";
-import { typo_h1_semibold, typo_body2_medium, typo_h4_semibold, typo_body4_regular } from "@src/styles/Typo";
+import useSendFeedbackMutation from "@src/core/queries/useSendFeedbackMutation";
+import {
+  typo_h1_semibold,
+  typo_body2_medium,
+  typo_h4_semibold,
+  typo_body4_regular,
+  typo_h3_semibold,
+} from "@src/styles/Typo";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
+import feedbackGood from "../assets/images/feedback_good.png";
+import feedbackBad from "../assets/images/feedback_bad.png";
 
 const TaskFeedbackPage = () => {
   const [feedbacks, setFeedbacks] = useState<Feedbacks[]>(FEEDBACKS);
+  const [evaluation, setEvaluation] = useState<boolean | undefined>(undefined);
   const [otherFeedback, setOtherFeedback] = useState("");
-  const { taskId } = useParams();
+  const { projectId, taskId } = useParams();
 
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
   const { mutate } = useSendFeedbackMutation();
 
-  const hasFeedback = Boolean(feedbacks.find(category => !!category.selectedItems.length) && otherFeedback);
+  const hasFeedback = evaluation !== undefined;
   const selectedFeedback = feedbacks.reduce<number[]>((acc, cur) => [...acc, ...cur.selectedItems], []);
 
   const handleCategoryClick = (category: Feedbacks) => {
@@ -65,21 +74,42 @@ const TaskFeedbackPage = () => {
 
   const handleSubmit = () => {
     if (taskId) {
-      mutate({ taskId, checkList: selectedFeedback, detail: otherFeedback });
-      // TODO: navigate
+      mutate({
+        taskId,
+        evaluation: evaluation ? "GOOD" : "NOT_ENOUGH",
+        checkList: selectedFeedback,
+        detail: otherFeedback,
+      });
+
+      window.Android.navigateToOtherTask(projectId!, taskId);
     }
   };
 
   return (
-    <DefaultLayout onBack={() => {}} title="">
+    <DefaultLayout onBack={() => window.Android.navigateToOtherTask(projectId!, taskId!)} title="">
       <Wrapper>
         <HeaderWrapper>
           <TitleWrapper>
             <Title>피드백 하기</Title>
           </TitleWrapper>
-          <Description>가연님에게 더 보완할 부분이나, 수정할 내용을 알려주세요!</Description>
+          <Description>가연님의 업무에 대한 피드백을 해주세요.</Description>
+          <Description>모든 피드백은 익명으로 진행됩니다.</Description>
         </HeaderWrapper>
         <ListWrapper>
+          <ListTitle>가연님의 업무는 전반적으로 어땠나요?</ListTitle>
+          <EvaluationWrapper>
+            <ImageWrapper selected={evaluation === true} onClick={() => setEvaluation(true)}>
+              <img src={feedbackGood} />
+              좋아요.
+            </ImageWrapper>
+            <ImageWrapper selected={evaluation === false} onClick={() => setEvaluation(false)}>
+              <img src={feedbackBad} />
+              아쉬워요.
+            </ImageWrapper>
+          </EvaluationWrapper>
+        </ListWrapper>
+        <ListWrapper>
+          <ListTitle>가연님에게 하고 싶은 피드백이 있다면 알려주세요! (선택)</ListTitle>
           {feedbacks.map(category => (
             <CategoryWrapper key={category.id}>
               <Category
@@ -182,6 +212,37 @@ const ListWrapper = styled.div`
   flex-direction: column;
   gap: 16px;
   margin-bottom: 40px;
+`;
+
+const ListTitle = styled.p`
+  ${typo_h3_semibold};
+  color: ${({ theme }) => theme.gray[700]};
+`;
+
+const EvaluationWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 50px;
+  padding: 20px;
+  border-radius: 16px;
+  background-color: ${({ theme }) => theme.gray[100]};
+`;
+
+const ImageWrapper = styled.div<{ selected: boolean }>`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 90px;
+
+  ${typo_h4_semibold};
+  color: ${({ theme, selected }) => (selected ? theme.primaryPurple[500] : theme.gray[500])};
+
+  & > img {
+    cursor: pointer;
+    width: 100%;
+    filter: ${({ selected }) => (selected ? "grayscale(0%)" : "grayscale(100%)")};
+  }
 `;
 
 const CategoryWrapper = styled.div`
