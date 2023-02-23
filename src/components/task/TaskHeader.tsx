@@ -1,6 +1,5 @@
 import { TaskDetail } from "@src/core/queries/useTaskDetailQuery";
 import getLeftDays from "@src/utils/getLeftDays";
-import { useEffect, useMemo } from "react";
 import styled, { css } from "styled-components";
 import Badge from "../common/Badge";
 
@@ -69,7 +68,7 @@ const TaskHeader = ({ data, feedbackLeftDays }: Props) => {
         {data?.taskStatus === "BEFORE" || data?.taskStatus === "INPROGRESS" ? (
           <Text color={progressColor || ""}>D-{taskLeftDays}</Text>
         ) : null}
-        {data?.taskStatus === "LATE" ? <Text color={progressColor || ""}>D+{taskLeftDays}</Text> : null}
+        {data?.taskStatus === "LATE" ? <Text color={progressColor || ""}>D+{taskLeftDays * -1}</Text> : null}
       </ProgressTextContainer>
     </Wrapper>
   );
