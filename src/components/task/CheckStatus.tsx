@@ -11,9 +11,9 @@ type Props = {
 };
 
 const CheckStatus = ({ feedbackLeftDays, data, isMyTask }: Props) => {
-  const badgeTitle = data.feedbackStatus === "pending" ? "피드백 요청" : "피드백 완료";
+  const badgeTitle = data.feedbackStatus === "PENDING" ? "피드백 요청" : "피드백 완료";
   const badgeContent =
-    data.feedbackStatus === "pending"
+    data.feedbackStatus === "PENDING"
       ? "완료된 내용을 확인하시고 피드백을 진행해주세요!"
       : `이미 ${data.representative.name}님의 업무를 피드백 완료했어요!`;
   return (
@@ -36,7 +36,7 @@ const CheckStatus = ({ feedbackLeftDays, data, isMyTask }: Props) => {
       <ProfileListContainer>
         <ProfileListTextWrapper>
           <ProfileListTitle>미완료한 팀원</ProfileListTitle>
-          <ProfileListStatusNumber>{data.feedbackRequiredPersonnel}</ProfileListStatusNumber>
+          <ProfileListStatusNumber>{data.feedbackRequiredPersonnel - data.confirmCount}</ProfileListStatusNumber>
         </ProfileListTextWrapper>
         <ProfileListTextWrapper>
           <ProfileListTitle>완료한 팀원</ProfileListTitle>

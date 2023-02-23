@@ -25,7 +25,7 @@ export type TaskDetail = {
       url: string;
     },
   ];
-  feedbackStatus: "pending" | "finished";
+  feedbackStatus: "PENDING" | "FINISHED";
 };
 
 const getTaskDetail = async (taskId: string): Promise<TaskDetail> => {

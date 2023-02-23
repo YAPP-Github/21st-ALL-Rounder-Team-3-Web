@@ -66,7 +66,7 @@ const OthersTaskDetailPage = () => {
       {data?.taskStatus === "FEEDBACK" ? (
         <CheckStatus feedbackLeftDays={feedbackLeftDays} data={data} isMyTask={false} />
       ) : null}
-      {data?.taskStatus === "FEEDBACK" && data?.feedbackStatus === "pending" ? (
+      {data?.taskStatus === "FEEDBACK" && data?.feedbackStatus === "PENDING" ? (
         <FixedBottomButtonLayout
           children={<Button type={"primary"} value={"피드백 하러가기"} onClick={handleFeedbackClick} />}
         />
