@@ -10,7 +10,7 @@ type Props = {
 
 const URL = ({ data }: Props) => (
   <Wrapper>
-    {data?.taskContents[0].title !== "" ? (
+    {data?.taskContents[data.taskContents.length - 1].title !== "" ? (
       <>
         <Divider marginBottom={10} marginTop={10} height={1} />
 
