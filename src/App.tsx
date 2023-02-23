@@ -28,9 +28,7 @@ const App = () => {
   const accessToken = getCookie("access_token");
 
   useEffect(() => {
-    // TODO: bridge 코드로 access token 가져오기
     if (accessToken) {
-      console.log("ACCESS_TOKEN", accessToken);
       httpService.setAccessToken(accessToken);
     } else {
       console.error("cookie does not contain access_token");
