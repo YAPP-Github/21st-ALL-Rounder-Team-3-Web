@@ -62,7 +62,7 @@ const TaskCreatePage = () => {
           <ListTitleWrapper>
             <ListTitle>업무 담당</ListTitle>
           </ListTitleWrapper>
-          <DropDown data={dropDownData} onChange={item => setTaskManager(item)} />
+          <DropDown data={dropDownData} initialData={dropDownData[0]} onChange={item => setTaskManager(item)} />
         </ListWrapper>
         <ListWrapper>
           <ListTitleWrapper>
