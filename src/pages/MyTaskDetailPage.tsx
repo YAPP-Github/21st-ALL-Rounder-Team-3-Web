@@ -30,7 +30,7 @@ const MyTaskDetailPage = () => {
   const [feedbackRequestCondition, setFeedbackRequestCondition] = useState<boolean>(false);
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
 
-  const { taskId, projectId } = useParams();
+  const { projectId, taskId } = useParams();
   const { data, refetch } = useTaskDetailQuery(taskId || "");
   const { data: feedbackList } = useFeedbackListQuery(taskId || "");
   const { mutate: mutateTaskContent } = useSendTaskContentMutation();
@@ -99,16 +99,19 @@ const MyTaskDetailPage = () => {
     const taskManagerId = data!.representative.participantId;
     const taskManagerValue = data!.representative.name;
 
-    window.Android.navigateToEdit(
-      projectId!,
-      taskId!,
-      String(taskManagerId),
-      taskManagerValue,
-      data!.title,
-      data!.memo,
-      String(data!.startDate),
-      String(data!.dueDate),
-    );
+    console.log("!! 아이디 잘 보내나", projectId, taskId);
+    if (projectId && taskId) {
+      window.Android.navigateToEdit(
+        projectId,
+        taskId,
+        String(taskManagerId),
+        taskManagerValue,
+        data!.title,
+        data!.memo,
+        String(data!.startDate),
+        String(data!.dueDate),
+      );
+    }
   };
 
   const handleBackClick = () => {
