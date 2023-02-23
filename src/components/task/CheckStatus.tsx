@@ -1,16 +1,6 @@
 import styled, { css } from "styled-components";
 import BadgeWithDescription from "./BadgeWithDescription";
-import {
-  typo_cation1_semibold,
-  typo_body4_regular,
-  typo_h3_semibold,
-  typo_body2_medium,
-  typo_h4_semibold,
-  typo_h1_bold,
-} from "../../styles/Typo";
-import tmp_image1 from "../../assets/images/tmp_profile_img1.png";
-import tmp_image2 from "../../assets/images/tmp_profile_img2.png";
-import tmp_image3 from "../../assets/images/tmp_profile_img3.png";
+import { typo_body4_regular, typo_h3_semibold, typo_h1_bold } from "../../styles/Typo";
 import { TaskDetail } from "@src/core/queries/useTaskDetailQuery";
 import Margin from "../common/Margin";
 
