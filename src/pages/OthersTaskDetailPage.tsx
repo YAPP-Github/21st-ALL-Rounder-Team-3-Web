@@ -6,7 +6,7 @@ import TaskBasicDescription from "@src/components/task/TaskBasicDescription";
 import FixedBottomButtonLayout from "@src/components/layout/FixedBottomButtonLayout";
 import Button from "@src/components/common/Button";
 import URL from "@src/components/task/URL";
-import { useMemo } from "react";
+import { useEffect, useMemo } from "react";
 import useTaskDetailQuery from "@src/core/queries/useTaskDetailQuery";
 import { useParams } from "react-router-dom";
 import useFeedbackListQuery from "@src/core/queries/useFeedbackListQuery";
@@ -40,7 +40,7 @@ const OthersTaskDetailPage = () => {
     window.Android.navigateToFeedback(projectId!, taskId!);
   };
 
-  useMemo(() => {
+  useEffect(() => {
     if (data && data.taskStatus === "BEFORE" && startLeftDays <= 0) {
       changeStatus("INPROGRESS");
       useTaskDetailQuery(taskId || "");
@@ -53,7 +53,7 @@ const OthersTaskDetailPage = () => {
       changeStatus("DONE");
       useTaskDetailQuery(taskId || "");
     }
-  }, [data]);
+  }, [data, feedbackLeftDays, dueLeftDays, startLeftDays]);
 
   return (
     <DefaultLayout onBack={handleBackClick} title="">

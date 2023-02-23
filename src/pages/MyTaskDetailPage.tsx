@@ -31,8 +31,8 @@ const MyTaskDetailPage = () => {
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
 
   const { taskId, projectId } = useParams();
-  const { data, refetch } = useTaskDetailQuery(taskId || "604");
-  const { data: feedbackList } = useFeedbackListQuery(taskId || "604");
+  const { data, refetch } = useTaskDetailQuery(taskId || "");
+  const { data: feedbackList } = useFeedbackListQuery(taskId || "");
   const { mutate: mutateTaskContent } = useSendTaskContentMutation();
   const { mutate: mutateTaskStatus } = useChangeTaskStatusQuery();
   const feedbackLeftDays = getLeftDays(data?.feedbackDueDate as string);
@@ -46,7 +46,6 @@ const MyTaskDetailPage = () => {
         taskStatus: state,
       });
     }
-    refetch();
   };
 
   const handleRequestButton = () => {
@@ -60,7 +59,7 @@ const MyTaskDetailPage = () => {
     changeStatus("FEEDBACK");
   };
 
-  useMemo(() => {
+  useEffect(() => {
     if (data && data.taskStatus === "BEFORE" && startLeftDays < 0) {
       changeStatus("INPROGRESS");
     }
@@ -86,6 +85,7 @@ const MyTaskDetailPage = () => {
             onClick={() => {
               changeStatus("INPROGRESS");
               closeBottomSheet();
+              refetch();
             }}
           ></Button>
         </BottomSheetContentWrapper>
