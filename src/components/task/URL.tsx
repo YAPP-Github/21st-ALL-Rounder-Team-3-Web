@@ -8,21 +8,36 @@ type Props = {
   data: TaskDetail;
 };
 
-const URL = ({ data }: Props) => (
-  <Wrapper>
-    {data?.taskContents[data.taskContents.length - 1].title !== "" ? (
-      <>
-        <Divider marginBottom={10} marginTop={10} height={1} />
+const createValidUrlPath = (url: string) => {
+  if (!url.match(/^https?:\/\//i)) {
+    url = "http://" + url;
+  }
+  return url;
+};
 
-        <Title>URL</Title>
-        <Content href={data?.taskContents[data.taskContents.length - 1].url}>
-          <Icons.IconLink />
-          {data?.taskContents[data.taskContents.length - 1].title}
-        </Content>
-      </>
-    ) : null}
-  </Wrapper>
-);
+const URL = ({ data }: Props) => {
+  const url = createValidUrlPath(data.taskContents[data.taskContents.length - 1].url);
+
+  return (
+    <Wrapper>
+      {data?.taskContents[data.taskContents.length - 1].title !== "" ? (
+        <>
+          <Divider marginBottom={10} marginTop={10} height={1} />
+
+          <Title>URL</Title>
+          <Content
+            onClick={() => {
+              window.open(url);
+            }}
+          >
+            <Icons.IconLink />
+            {data?.taskContents[data.taskContents.length - 1].title}
+          </Content>
+        </>
+      ) : null}
+    </Wrapper>
+  );
+};
 
 const Wrapper = styled.div``;
 
