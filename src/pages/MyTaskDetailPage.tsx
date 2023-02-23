@@ -10,72 +10,113 @@ import Input from "@src/components/common/Input";
 import { useEffect, useMemo, useState } from "react";
 import BadgeWithDescription from "@src/components/task/BadgeWithDescription";
 import URL from "@src/components/task/URL";
-import Icons from "@src/assets/icons/index";
-import { typo_body2_medium, typo_h3_semibold } from "@src/styles/Typo";
+import { typo_body2_medium, typo_body3_regular, typo_h3_semibold } from "@src/styles/Typo";
 import FeedbackResult from "@src/components/task/FeedbackResult";
-
-//postman return 값
-const data = {
-  taskInfo: {
-    id: 1,
-    representative: {
-      name: "가연",
-      imageUrl: "https://1",
-    },
-    title: "2차 세계 대전",
-    startDate: "2022-10-10",
-    dueDate: "2023-10-15",
-
-    feedbackRequestDate: "2023-01-12",
-
-    memo: "어려워",
-    taskStatus: "INPROGRESS", //BEFORE, INPROGRESS, FEEDBACK, DONE, LATE
-    confirmCount: 1,
-    participantCount: 1,
-
-    urlLink: "https://comic.naver.com/index",
-    urlDescription: "발표 대본 파일",
-
-    perfectCount: 3,
-    badCount: 1,
-  },
-  confirmedMemberInfos: [
-    {
-      name: "m2",
-      imageUrl: "https://1",
-    },
-  ],
-  feedbackList: [
-    "자료 조사가 부족한 것 같아요.",
-    "시각 자료가 더 있었으면 좋겠어요.",
-    "프로젝트와 관련없는 자료가 많아요.",
-    "업무 기한을 지켜주세요.",
-    "맞춤법 맞춰서 작성해주세요~!",
-  ],
-};
-
-const getFeedbackLeftDays = () => {
-  const FEEDBACK_DUE_TIME = 3 * 24 * 60 * 60 * 1000; //3일 to millisecond
-  const feedbackDueTime = new Date(data.taskInfo.feedbackRequestDate).getTime() + FEEDBACK_DUE_TIME;
-  const currentTime = new Date().getTime();
-
-  return Math.floor((feedbackDueTime - currentTime) / (24 * 60 * 60 * 1000));
-};
+import { useParams } from "react-router-dom";
+import useTaskDetailQuery from "@src/core/queries/useTaskDetailQuery";
+import useFeedbackListQuery from "@src/core/queries/useFeedbackListQuery";
+import goodFacialExpressionImg from "@src/assets/images/good_facial_expression_img.png";
+import notEnoughFacialExpressionImg from "@src/assets/images/not_enough_facial_expression_img.png";
+import useBottomSheet from "@src/core/hooks/useBottomSheet";
+import useSendTaskContentMutation from "@src/core/queries/sendTaskContentMutation";
+import getLeftDays from "@src/utils/getLeftDays";
+import useChangeTaskStatusQuery from "@src/core/queries/changeTaskStatusQuery";
+import DefaultLayout from "@src/components/layout/DefaultLayout";
 
 const MyTaskDetailPage = () => {
   const [urlTitle, setUrlTitle] = useState<string>("");
   const [urlContent, setUrlContent] = useState<string>("");
-  const [titleInputError, setTitleInputError] = useState<boolean>(false);
-  const [contentInputError, setContentInputError] = useState<boolean>(false);
   const [feedbackRequestCondition, setFeedbackRequestCondition] = useState<boolean>(false);
-  const feedbackLeftDays = getFeedbackLeftDays();
-  // const feedbackStatus => confirmedMemberInfos 리스트와 비교하여 사용자가 해당 업무에 피드백을 했는지 여부 파악
+  const { openBottomSheet, closeBottomSheet } = useBottomSheet();
 
-  const requestFeedback = () => {
-    //console.log("titleerror1 : ", titleInputError);
-    if (!urlTitle && urlContent) setTitleInputError(true);
-    else if (urlTitle && !urlContent) setContentInputError(true);
-    //console.log("titleerror2 : ", titleInputError);
+  const { taskId, projectId } = useParams();
+  const { data, refetch } = useTaskDetailQuery(taskId || "");
+  const { data: feedbackList } = useFeedbackListQuery(taskId || "");
+  const { mutate: mutateTaskContent } = useSendTaskContentMutation();
+  const { mutate: mutateTaskStatus } = useChangeTaskStatusQuery();
+  const feedbackLeftDays = getLeftDays(data?.feedbackDueDate as string);
+  const startLeftDays = getLeftDays(data?.startDate as string);
+  const dueLeftDays = getLeftDays(data?.dueDate as string);
+
+  const changeStatus = (state: "INPROGRESS" | "DONE" | "FEEDBACK" | "LATE") => {
+    if (taskId && data) {
+      mutateTaskStatus({
+        taskId,
+        taskStatus: state,
+      });
+    }
+    refetch();
+  };
+
+  const handleRequestButton = () => {
+    if (taskId) {
+      mutateTaskContent({
+        taskId,
+        title: urlTitle,
+        url: urlContent,
+      });
+    }
+    changeStatus("FEEDBACK");
+  };
+
+  //임시 데이터
+  if (data && feedbackList) {
+    data.feedbackStatus = "pending";
+    feedbackList.details[0] = "자료조사가 부족한 것 같아요.";
+    feedbackList.details[1] = "시각 자료가 더 있었으면 좋겠어요.";
+    feedbackList.evaluations.GOOD = 3;
+    feedbackList.evaluations.NOT_ENOUGH = 2;
+  }
+
+  useMemo(() => {
+    if (data && data.taskStatus === "BEFORE" && startLeftDays < 0) {
+      changeStatus("INPROGRESS");
+    }
+    if (data && data.taskStatus === "INPROGRESS" && dueLeftDays < 0) {
+      changeStatus("LATE");
+    }
+    if (data && data.taskStatus === "FEEDBACK" && feedbackLeftDays < 0) {
+      changeStatus("DONE");
+    }
+  }, [data]);
+
+  const handleFeedbackCancelButton = () => {
+    openBottomSheet({
+      title: "피드백 요청 취소하기",
+      content: (
+        <BottomSheetContentWrapper>
+          <BlackContent>피드백 요청을 취소하실건가요?</BlackContent>
+          <PurpleContent>취소하면 이때까지의 피드백은 무효가 돼요.</PurpleContent>
+          <Margin bottom={22} />
+          <Button
+            type={"secondary"}
+            value={"피드백 요청 취소하기"}
+            onClick={() => {
+              changeStatus("INPROGRESS");
+              closeBottomSheet();
+            }}
+          ></Button>
+        </BottomSheetContentWrapper>
+      ),
+      onClose: closeBottomSheet,
+    });
+  };
+
+  const handleEditClick = () => {
+    window.Android.navigateToMyTask(
+      projectId!,
+      taskId!,
+      String(taskManager!.id),
+      taskManager!.value,
+      title,
+      memo,
+      String(startDate),
+      String(dueDate),
+    );
+  };
+
+  const handleBackClick = () => {
+    window.Android.navigateToMain();
   };
 
   useEffect(() => {
@@ -84,55 +125,25 @@ const MyTaskDetailPage = () => {
     else setFeedbackRequestCondition(false);
   }, [urlTitle, urlContent]);
 
-  const cancelFeedbackRequest = () => {};
-
   return (
-    <>
-      <TaskHeader
-        title={data.taskInfo.title}
-        taskStatus={data.taskInfo.taskStatus}
-        dueDate={data.taskInfo.dueDate}
-        startDate={data.taskInfo.startDate}
-        feedbackRequestDate={data.taskInfo.feedbackRequestDate}
-        feedbackLeftDays={feedbackLeftDays}
-      />
+    <DefaultLayout onBack={handleBackClick} title="" withEditIcon onEdit={handleEditClick}>
+      <TaskHeader data={data} feedbackLeftDays={feedbackLeftDays} />
       <Divider height={8} marginBottom={20} />
       <DescriptionWrapper>
-        <TaskBasicDescription
-          representativeName={data.taskInfo.representative.name}
-          representativeUrl={""}
-          startDate={new Date(data.taskInfo.startDate)}
-          dueDate={new Date(data.taskInfo.dueDate)}
-          description={data.taskInfo.memo}
-          taskStatus={data.taskInfo.taskStatus}
-        />
+        <TaskBasicDescription data={data} />
+        {data?.taskStatus === "FEEDBACK" || data?.taskStatus === "DONE" ? <URL data={data}></URL> : null}
       </DescriptionWrapper>
-      {data.taskInfo.taskStatus === "FEEDBACK" ? (
-        <CheckStatus
-          feedbackLeftDays={feedbackLeftDays}
-          taskStatus={data.taskInfo.taskStatus}
-          feedbackStatus={"finished"}
-          taskManager={data.taskInfo.representative.name}
-        />
+      {data?.taskStatus === "FEEDBACK" ? (
+        <CheckStatus data={data} feedbackLeftDays={feedbackLeftDays} isMyTask={true} />
       ) : null}
 
-      {data.taskInfo.taskStatus === "LATE" || data.taskInfo.taskStatus === "INPROGRESS" ? (
+      {data?.taskStatus === "LATE" || data?.taskStatus === "INPROGRESS" ? (
         <DescriptionWrapper>
           <Divider marginBottom={10} marginTop={10} />
           <TaskDescription title="URL" />
-          <Input
-            value={urlTitle}
-            placeholder={"링크 제목을 입력해주세요."}
-            onChange={setUrlTitle}
-            withError={titleInputError}
-          />
+          <Input value={urlTitle} placeholder={"링크 제목을 입력해주세요."} onChange={setUrlTitle} />
           <Margin bottom={10} />
-          <Input
-            value={urlContent}
-            placeholder={"완료된 업무 링크를 입력해주세요."}
-            onChange={setUrlContent}
-            withError={contentInputError}
-          />
+          <Input value={urlContent} placeholder={"완료된 업무 링크를 입력해주세요."} onChange={setUrlContent} />
           <Margin bottom={24} />
           <BadgeWithDescription
             title={"피드백 요청"}
@@ -142,38 +153,29 @@ const MyTaskDetailPage = () => {
         </DescriptionWrapper>
       ) : null}
 
-      {data.taskInfo.taskStatus === "DONE" ? (
+      {data?.taskStatus === "DONE" ? (
         <>
-          <DescriptionWrapper>
-            <Divider height={1} marginTop={10} marginBottom={10} />
-            <URL link={data.taskInfo.urlLink} description={data.taskInfo.urlDescription} />
-          </DescriptionWrapper>
           <Margin top={24} />
           <Divider height={8} marginBottom={24} />
 
           <DescriptionWrapper>
             <BadgeWithDescription
               title={"피드백 완료"}
-              content={"피드백은 가장 많이 받은 것부터 보여져요!"}
+              content={"도착한 피드백은 나만 볼 수 있어요!"}
               background={"gray"}
             />
             <ResultContiner>
-              <FeedbackResult
-                value={"완벽해요"}
-                icon={<Icons.IconCheckContained stroke="#55555" />}
-                count={data.taskInfo.perfectCount}
-              />
+              <FeedbackResult value={"좋아요!"} src={goodFacialExpressionImg} count={feedbackList?.evaluations.GOOD} />
               <FeedbackResult
                 value={"아쉬워요"}
-                icon={<Icons.IconAlertCircle stroke="#55555" />}
-                count={data.taskInfo.badCount}
+                src={notEnoughFacialExpressionImg}
+                count={feedbackList?.evaluations.NOT_ENOUGH}
               />
             </ResultContiner>
             <Margin top={20} />
 
-            {data.feedbackList.map(item => (
-              <FeedbackContainer>{item} </FeedbackContainer>
-            ))}
+            {feedbackList &&
+              feedbackList.details.map((item, index) => <FeedbackContainer key={index}>{item}</FeedbackContainer>)}
           </DescriptionWrapper>
         </>
       ) : null}
@@ -184,10 +186,9 @@ const MyTaskDetailPage = () => {
       피드백 -> 피드백 취소하기 버튼
       완료, 진행 전 -> 버튼x
       */}
-      {data.taskInfo.taskStatus === "BEFORE" || data.taskInfo.taskStatus === "DONE" ? null : data.taskInfo
-          .taskStatus === "FEEDBACK" ? (
+      {data?.taskStatus === "BEFORE" || data?.taskStatus === "DONE" ? null : data?.taskStatus === "FEEDBACK" ? (
         <FixedBottomButtonLayout
-          children={<Button type={"secondary"} value={"피드백 요청 취소하기"} onClick={cancelFeedbackRequest} />}
+          children={<Button type={"secondary"} value={"피드백 요청 취소하기"} onClick={handleFeedbackCancelButton} />}
         />
       ) : (
         <FixedBottomButtonLayout
@@ -196,14 +197,12 @@ const MyTaskDetailPage = () => {
               disabled={feedbackRequestCondition}
               type={"primary"}
               value={"피드백 요청하기"}
-              onClick={() => {
-                requestFeedback;
-              }}
+              onClick={handleRequestButton}
             />
           }
         />
       )}
-    </>
+    </DefaultLayout>
   );
 };
 
@@ -219,19 +218,39 @@ const Margin = styled.div<{ top?: number; bottom?: number }>`
 const ResultContiner = styled.div`
   display: flex;
   gap: 10px;
+  margin-top: 10px;
 
   width: 100%;
   padding: 12px 16px;
   background-color: ${({ theme }) => theme.white};
-  border-top: 1px solid ${({ theme }) => theme.gray[300]};
 `;
 
 const FeedbackContainer = styled.div`
   background-color: ${({ theme }) => theme.sub[100]};
+  ${typo_body2_medium};
+  height: 44px;
   border-radius: 16px;
-  padding: 10px 19px;
-  ${typo_body2_medium}
   margin-bottom: 10px;
+  align-items: center;
+  display: flex;
+  padding-left: 19px;
+`;
+
+const BottomSheetContentWrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  margin-top: 16px;
+`;
+
+const BlackContent = styled.p`
+  ${typo_body3_regular};
+`;
+
+const PurpleContent = styled.p`
+  ${typo_body3_regular};
+  color: ${({ theme }) => theme.primaryPurple[500]};
 `;
 
 export default MyTaskDetailPage;

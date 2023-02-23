@@ -1,8 +1,8 @@
 import { createBrowserRouter } from "react-router-dom";
 import {
-  MY_TASK_DETAIL_URL,
   TASK_CREATE_URL,
   TASK_DETAIL_URL,
+  MY_TASK_DETAIL_URL,
   TASK_EDIT_URL,
   TASK_FEEDBACK_URL,
 } from "./constants/URLConstants";

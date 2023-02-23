@@ -1,19 +1,26 @@
 import { typo_body4_regular, typo_h4_semibold } from "@src/styles/Typo";
 import styled from "styled-components";
 import Icons from "@src/assets/icons/index";
+import { TaskDetail } from "@src/core/queries/useTaskDetailQuery";
+import Divider from "../common/Divider";
 
 type Props = {
-  link: string;
-  description: string;
+  data: TaskDetail;
 };
 
-const URL = ({ link, description }: Props) => (
+const URL = ({ data }: Props) => (
   <Wrapper>
-    <Title>URL</Title>
-    <Content href={link}>
-      <Icons.IconLink />
-      {description}
-    </Content>
+    {data?.taskContents[data.taskContents.length - 1].title !== "" ? (
+      <>
+        <Divider marginBottom={10} marginTop={10} height={1} />
+
+        <Title>URL</Title>
+        <Content href={data?.taskContents[data.taskContents.length - 1].url}>
+          <Icons.IconLink />
+          {data?.taskContents[data.taskContents.length - 1].title}
+        </Content>
+      </>
+    ) : null}
   </Wrapper>
 );
 

@@ -1,91 +1,49 @@
 import styled, { css } from "styled-components";
 import BadgeWithDescription from "./BadgeWithDescription";
-import {
-  typo_cation1_semibold,
-  typo_body4_regular,
-  typo_h3_semibold,
-  typo_body2_medium,
-  typo_h4_semibold,
-} from "../../styles/Typo";
-import tmp_image1 from "../../assets/images/tmp_profile_img1.png";
-import tmp_image2 from "../../assets/images/tmp_profile_img2.png";
-import tmp_image3 from "../../assets/images/tmp_profile_img3.png";
-
-type Profile = {
-  key: number;
-  imgUrl: string;
-  name: string;
-};
-
-const checkedList: Profile[] = [
-  { key: 1, imgUrl: tmp_image1, name: "가은" },
-  { key: 2, imgUrl: tmp_image2, name: "나은" },
-  { key: 3, imgUrl: tmp_image3, name: "다은" },
-];
-
-const uncheckedList: Profile[] = [
-  { key: 1, imgUrl: tmp_image3, name: "희두" },
-  { key: 2, imgUrl: tmp_image1, name: "나연" },
-  { key: 3, imgUrl: tmp_image1, name: "가은" },
-  { key: 4, imgUrl: tmp_image2, name: "나은" },
-];
+import { typo_body4_regular, typo_h3_semibold, typo_h1_bold } from "../../styles/Typo";
+import { TaskDetail } from "@src/core/queries/useTaskDetailQuery";
+import Margin from "../common/Margin";
 
 type Props = {
+  isMyTask: boolean;
   feedbackLeftDays: number;
-  taskStatus: string;
-  feedbackStatus: "pending" | "finished";
-  taskManager: string;
+  data: TaskDetail;
 };
 
-const CheckStatus = ({ feedbackLeftDays, taskStatus, feedbackStatus, taskManager }: Props) => {
-  const badgeTitle = feedbackStatus === "pending" ? "피드백 요청" : "피드백 완료";
+const CheckStatus = ({ feedbackLeftDays, data, isMyTask }: Props) => {
+  const badgeTitle = data.feedbackStatus === "pending" ? "피드백 요청" : "피드백 완료";
   const badgeContent =
-    feedbackStatus === "pending"
+    data.feedbackStatus === "pending"
       ? "완료된 내용을 확인하시고 피드백을 진행해주세요!"
-      : `이미 ${taskManager}님의 업무를 피드백 완료했어요!`;
+      : `이미 ${data.representative.name}님의 업무를 피드백 완료했어요!`;
   return (
     <Wrapper>
-      <BadgeWithDescription title={badgeTitle} content={badgeContent} background={"green"} />
+      {!isMyTask && (
+        <>
+          <BadgeWithDescription title={badgeTitle} content={badgeContent} background={"green"} />
+          <Margin bottom={24} />
+        </>
+      )}
+
       <TitleTextWrapper>
         <Title>피드백 현황</Title>
         <FeedbackPeriodText>
           {feedbackLeftDays === 0
             ? `피드백 마감날입니다! 얼른 진행해주세요~`
-            : `피드백 기간이 ${feedbackLeftDays}일 남았어요`}
+            : `피드백 기간이 ${Math.abs(feedbackLeftDays)}일 남았어요`}
         </FeedbackPeriodText>
       </TitleTextWrapper>
       <ProfileListContainer>
         <ProfileListTextWrapper>
-          <ProfileListTitle>피드백 미완료</ProfileListTitle>
-          <ProfileListStatusNumber>{uncheckedList.length}</ProfileListStatusNumber>
+          <ProfileListTitle>미완료한 팀원</ProfileListTitle>
+          <ProfileListStatusNumber>{data.feedbackRequiredPersonnel}</ProfileListStatusNumber>
         </ProfileListTextWrapper>
-        <ProfileListWrapper>
-          {uncheckedList.map(element => {
-            return (
-              <ProfileWrapper key={element.key}>
-                <ProfileImg src={element.imgUrl} />
-                <ProfileName>{element.name}</ProfileName>
-              </ProfileWrapper>
-            );
-          })}
-        </ProfileListWrapper>
-      </ProfileListContainer>
-      <ProfileListContainer>
         <ProfileListTextWrapper>
-          <ProfileListTitle>피드백 완료</ProfileListTitle>
-          <ProfileListStatusNumber>{checkedList.length}</ProfileListStatusNumber>
+          <ProfileListTitle>완료한 팀원</ProfileListTitle>
+          <ProfileListStatusNumber>{data.confirmCount}</ProfileListStatusNumber>
         </ProfileListTextWrapper>
-        <ProfileListWrapper>
-          {checkedList.map(element => {
-            return (
-              <ProfileWrapper key={element.key}>
-                <ProfileImg src={element.imgUrl} />
-                <ProfileName>{element.name}</ProfileName>
-              </ProfileWrapper>
-            );
-          })}
-        </ProfileListWrapper>
       </ProfileListContainer>
+      <Margin bottom={150} />
     </Wrapper>
   );
 };
@@ -99,7 +57,7 @@ const Wrapper = styled.div`
 `;
 
 const TitleTextWrapper = styled.div`
-  margin-top: 24px;
+  /* margin-top: 24px; */
   margin-bottom: 12px;
   display: flex;
   align-items: center;
@@ -116,49 +74,34 @@ const FeedbackPeriodText = styled.div`
 `;
 
 const ProfileListContainer = styled.div`
-  padding: 12px 14px;
-  border-radius: 16px;
   margin-bottom: 10px;
-
-  background-color: ${({ theme }) => theme.white};
-`;
-
-const ProfileListWrapper = styled.span`
+  gap: 12px;
+  width: 100%;
   display: flex;
+  gap: 12px;
+
+  background-color: ${({ theme }) => theme.gray[100]};
 `;
 
 const ProfileListTextWrapper = styled.div`
   display: flex;
+  border-radius: 16px;
+  padding: 12px 14px;
+  flex-direction: column;
+  width: 100%;
+  background-color: ${({ theme }) => theme.white};
 `;
 
 const ProfileListTitle = styled.p`
-  ${typo_body2_medium};
+  ${typo_body4_regular};
+  color: ${({ theme }) => theme.gray[500]};
 `;
 
 const ProfileListStatusNumber = styled.div`
-  ${typo_h4_semibold};
-  color: ${({ theme }) => theme.primaryPurple[500]};
+  ${typo_h1_bold};
+  color: ${({ theme }) => theme.black};
   padding-left: 4px;
-`;
-
-const ProfileWrapper = styled.div`
-  margin-top: 10px;
-  margin-right: 12px;
-  width: 40px;
-
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-`;
-
-const ProfileImg = styled.img`
-  height: 40px;
-  width: 40px;
-`;
-
-const ProfileName = styled.p`
-  padding-top: 4px;
-  ${typo_body4_regular};
+  padding-top: 8px;
 `;
 
 export default CheckStatus;

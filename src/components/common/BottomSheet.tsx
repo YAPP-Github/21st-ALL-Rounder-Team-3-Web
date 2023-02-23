@@ -18,7 +18,9 @@ const BottomSheet = ({ title, description, content, onClose }: BottomSheetProps)
         <Header>
           <Icons.IconClose onClick={onClose} />
         </Header>
-        <Title>{title}</Title>
+        <TitleWrapper>
+          <Title>{title}</Title>
+        </TitleWrapper>
         {content && content}
       </ContentWrapper>
     </Wrapper>
@@ -55,6 +57,13 @@ const Header = styled.div`
   justify-content: flex-end;
   width: 100%;
   margin-bottom: 4px;
+  margin-top: 10px;
+`;
+
+const TitleWrapper = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 const Title = styled.h2`

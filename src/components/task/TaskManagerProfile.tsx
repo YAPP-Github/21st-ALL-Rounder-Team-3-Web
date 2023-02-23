@@ -1,15 +1,12 @@
 import styled from "styled-components";
 import { typo_body4_regular, typo_body2_medium } from "../../styles/Typo";
 
-import tmp_image from "../../assets/images/tmp_profile_img1.png";
-
 type Props = {
-  name: string;
-  imageSource: string;
+  name: string | undefined;
+  imageSource: string | undefined;
 };
 
 const TaskManagerProfile = ({ name, imageSource }: Props) => {
-  imageSource = tmp_image;
   return (
     <Wrapper>
       <ProfileImg src={imageSource} />
@@ -28,6 +25,7 @@ const Wrapper = styled.div`
 const ProfileImg = styled.img`
   height: 48px;
   width: 48px;
+  border-radius: 50%;
 `;
 
 const TextWrapper = styled.span`
