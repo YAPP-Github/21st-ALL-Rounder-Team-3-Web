@@ -29,13 +29,16 @@ const App = () => {
   const [bottomSheet] = useRecoilState(globalBottomSheet);
 
   useEffect(() => {
-    const accessToken = getCookie("access_token");
-    // TODO: bridge 코드로 access token 가져오기
-    if (accessToken) {
-      console.log("ACCESS_TOKEN", accessToken);
-      httpService.setAccessToken(accessToken);
-    } else {
-      console.error("cookie does not contain access_token");
+    console.log("!!!", document.cookie);
+    if (document.cookie) {
+      const accessToken = getCookie("access_token");
+      // TODO: bridge 코드로 access token 가져오기
+      if (accessToken) {
+        console.log("ACCESS_TOKEN", accessToken);
+        httpService.setAccessToken(accessToken);
+      } else {
+        console.error("cookie does not contain access_token");
+      }
     }
   }, [document.cookie]);
 
