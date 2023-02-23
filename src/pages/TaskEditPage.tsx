@@ -26,17 +26,9 @@ const TaskEditPage = () => {
   const { data } = useParticipantsQuery(projectId || "");
   const { mutate } = useTaskEditMutation();
 
-  const dropDownData: DropDownData[] = useMemo(
-    () =>
-      data
-        ? data?.map(item => ({ id: item.id, value: item.name }))
-        : [
-            {
-              id: Number(location.get("assigneesId")),
-              value: location.get("assigneesValue") as string,
-            },
-          ],
-    [data, location],
+  const dropDownData = useMemo(
+    () => (data ? data?.map(item => ({ id: item.id, value: item.name })) : [{ id: 0, value: "" }]),
+    [data],
   );
 
   const readyToCreate = !!taskManager && !!title && !!startDate && !!dueDate && !!memo;
@@ -72,14 +64,7 @@ const TaskEditPage = () => {
           <ListTitleWrapper>
             <ListTitle>업무 담당</ListTitle>
           </ListTitleWrapper>
-          <DropDown
-            data={dropDownData!}
-            initialData={{
-              id: Number(location.get("assigneesId")),
-              value: location.get("assigneesValue") as string,
-            }}
-            onChange={item => setTaskManager(item)}
-          />
+          <DropDown data={dropDownData} initialData={dropDownData[0]} onChange={item => setTaskManager(item)} />
         </ListWrapper>
         <ListWrapper>
           <ListTitleWrapper>
