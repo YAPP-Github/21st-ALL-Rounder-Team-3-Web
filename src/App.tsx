@@ -27,9 +27,9 @@ const getCookie = (cookieName: string) => {
 
 const App = () => {
   const [bottomSheet] = useRecoilState(globalBottomSheet);
-  const accessToken = getCookie("access_token");
 
   useEffect(() => {
+    const accessToken = getCookie("access_token");
     // TODO: bridge 코드로 access token 가져오기
     if (accessToken) {
       console.log("ACCESS_TOKEN", accessToken);
@@ -37,7 +37,7 @@ const App = () => {
     } else {
       console.error("cookie does not contain access_token");
     }
-  }, [document.cookie, accessToken]);
+  }, [document.cookie]);
 
   return (
     <>
