@@ -45,6 +45,8 @@ const MyTaskDetailPage = () => {
         taskId,
         taskStatus: state,
       });
+
+      refetch();
     }
   };
 
@@ -85,7 +87,6 @@ const MyTaskDetailPage = () => {
             onClick={() => {
               changeStatus("INPROGRESS");
               closeBottomSheet();
-              refetch();
             }}
           ></Button>
         </BottomSheetContentWrapper>
@@ -95,21 +96,19 @@ const MyTaskDetailPage = () => {
   };
 
   const handleEditClick = () => {
-    if (data) {
-      const taskManagerId = data.representative.participantId;
-      const taskManagerValue = data.representative.name;
+    const taskManagerId = data!.representative.participantId;
+    const taskManagerValue = data!.representative.name;
 
-      window.Android.navigateToEdit(
-        projectId!,
-        taskId!,
-        String(taskManagerId),
-        taskManagerValue,
-        data.title,
-        data.memo,
-        String(data.startDate),
-        String(data.dueDate),
-      );
-    }
+    window.Android.navigateToEdit(
+      projectId!,
+      taskId!,
+      String(taskManagerId),
+      taskManagerValue,
+      data!.title,
+      data!.memo,
+      String(data!.startDate),
+      String(data!.dueDate),
+    );
   };
 
   const handleBackClick = () => {

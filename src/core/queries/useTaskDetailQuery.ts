@@ -29,15 +29,12 @@ export type TaskDetail = {
 };
 
 const getTaskDetail = async (taskId: string): Promise<TaskDetail> => {
-  console.log("!!! fetch", taskId);
-
   const { data } = await httpService.get(`/tasks/${taskId}`);
   return data.data;
 };
 
 const useTaskDetailQuery = (taskId: string) => {
-  console.log("!!!", taskId);
-  return useQuery(taskDetailKey.detail, () => getTaskDetail(taskId));
+  return useQuery(taskDetailKey.detail, () => getTaskDetail(taskId), { cacheTime: 0 });
 };
 
 export default useTaskDetailQuery;
