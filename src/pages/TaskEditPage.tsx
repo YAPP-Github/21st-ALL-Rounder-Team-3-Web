@@ -6,23 +6,25 @@ import TextArea from "@src/components/common/TextArea";
 import DefaultLayout from "@src/components/layout/DefaultLayout";
 import FixedBottomButtonLayout from "@src/components/layout/FixedBottomButtonLayout";
 import useParticipantsQuery from "@src/core/queries/useParticipantsQuery";
-import useSendCreateTaskMutation from "@src/core/queries/useSendCreateTaskMutation";
+import useTaskEditMutation from "@src/core/queries/useTaskEditMutation";
 import { typo_body3_regular } from "@src/styles/Typo";
 import { formatPayloadDate } from "@src/utils/formatDate";
 import { useMemo, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useSearchParams, useParams } from "react-router-dom";
 import styled from "styled-components";
 
-const TaskCreatePage = () => {
-  const [taskManager, setTaskManager] = useState<DropDownData>();
-  const [title, setTitle] = useState("");
-  const [memo, setMemo] = useState("");
-  const [startDate, setStartDate] = useState<Date>();
-  const [dueDate, setDueDate] = useState<Date>();
+const TaskEditPage = () => {
+  const [location] = useSearchParams();
 
-  const { projectId } = useParams();
+  const [taskManager, setTaskManager] = useState<DropDownData>();
+  const [title, setTitle] = useState(location.get("title")!);
+  const [memo, setMemo] = useState(location.get("memo")!);
+  const [startDate, setStartDate] = useState<Date>(new Date(location.get("startDate") as string));
+  const [dueDate, setDueDate] = useState<Date>(new Date(location.get("dueDate") as string));
+
+  const { projectId, taskId } = useParams();
   const { data } = useParticipantsQuery(projectId || "");
-  const { mutate } = useSendCreateTaskMutation();
+  const { mutate } = useTaskEditMutation();
 
   const dropDownData = useMemo(
     () => (data ? data?.map(item => ({ id: item.id, value: item.name })) : [{ id: 0, value: "" }]),
@@ -32,14 +34,23 @@ const TaskCreatePage = () => {
   const readyToCreate = !!taskManager && !!title && !!startDate && !!dueDate && !!memo;
 
   const handleBackClick = () => {
-    window.Android.navigateToMain();
+    window.Android.navigateToMyTask(
+      projectId!,
+      taskId!,
+      String(taskManager!.id),
+      taskManager!.value,
+      title,
+      memo,
+      String(startDate),
+      String(dueDate),
+    );
   };
 
   const handleCreateClick = () => {
-    if (projectId && readyToCreate) {
+    if (taskId && readyToCreate) {
       mutate(
         {
-          projectId,
+          taskId,
           participantId: taskManager.id,
           title,
           memo,
@@ -56,13 +67,20 @@ const TaskCreatePage = () => {
   };
 
   return (
-    <DefaultLayout onBack={() => {}} title="업무 생성하기">
+    <DefaultLayout onBack={() => {}} title="업무 수정하기">
       <Wrapper>
         <ListWrapper>
           <ListTitleWrapper>
             <ListTitle>업무 담당</ListTitle>
           </ListTitleWrapper>
-          <DropDown data={dropDownData} initialData={dropDownData[0]} onChange={item => setTaskManager(item)} />
+          <DropDown
+            data={dropDownData}
+            initialData={{
+              id: Number(location.get("assigneesId")),
+              value: location.get("assigneesValue") as string,
+            }}
+            onChange={item => setTaskManager(item)}
+          />
         </ListWrapper>
         <ListWrapper>
           <ListTitleWrapper>
@@ -71,7 +89,6 @@ const TaskCreatePage = () => {
           <Input
             value={title}
             placeholder="업무 제목을 입력해주세요."
-            maxLength={20}
             withError={true}
             onChange={value => setTitle(value)}
           />
@@ -94,7 +111,7 @@ const TaskCreatePage = () => {
         </ListWrapper>
       </Wrapper>
       <FixedBottomButtonLayout>
-        <Button type="primary" value="생성하기" onClick={handleCreateClick} disabled={!readyToCreate} />
+        <Button type="primary" value="수정하기" onClick={handleCreateClick} disabled={!readyToCreate} />
       </FixedBottomButtonLayout>
     </DefaultLayout>
   );
@@ -124,4 +141,4 @@ const DateFormWrapper = styled.div`
   gap: 10px;
 `;
 
-export default TaskCreatePage;
+export default TaskEditPage;

@@ -11,11 +11,12 @@ export type DropDownData = {
 
 type Props = {
   data: DropDownData[];
+  initialData: DropDownData;
   onChange: (Item: DropDownData) => void;
 };
 
-const DropDown = ({ data, onChange }: Props) => {
-  const [{ id, value }, setCurrentValue] = useState<DropDownData>(data[0]);
+const DropDown = ({ data, initialData, onChange }: Props) => {
+  const [{ id, value }, setCurrentValue] = useState<DropDownData>(initialData);
   const [isOpen, setIsOpen] = useState(false);
 
   const handleOpen = () => {
@@ -32,7 +33,7 @@ const DropDown = ({ data, onChange }: Props) => {
   }, [value]);
 
   useEffect(() => {
-    setCurrentValue(data[0]);
+    setCurrentValue(initialData);
   }, [data]);
 
   return (
