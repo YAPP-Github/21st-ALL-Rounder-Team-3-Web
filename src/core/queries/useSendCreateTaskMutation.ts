@@ -8,7 +8,6 @@ type Payload = {
   startDate: string;
   dueDate: string;
   memo: string;
-  taskStatus: string;
 };
 
 const sendCreateTask = ({ projectId, ...payload }: Payload) => {
