@@ -62,16 +62,16 @@ const MyTaskDetailPage = () => {
   };
 
   useEffect(() => {
-    if (data && data.taskStatus === "BEFORE" && startLeftDays < 0) {
+    if (data && data.taskStatus === "BEFORE" && startLeftDays <= 0) {
       changeStatus("INPROGRESS");
     }
-    if (data && data.taskStatus === "INPROGRESS" && dueLeftDays < 0) {
+    if (data && data.taskStatus === "INPROGRESS" && dueLeftDays <= 0) {
       changeStatus("LATE");
     }
-    if (data && data.taskStatus === "FEEDBACK" && feedbackLeftDays < 0) {
+    if (data && data.taskStatus === "FEEDBACK" && feedbackLeftDays <= 0) {
       changeStatus("DONE");
     }
-  }, [data]);
+  }, [data, startLeftDays, dueLeftDays, feedbackLeftDays]);
 
   const handleFeedbackCancelButton = () => {
     openBottomSheet({
