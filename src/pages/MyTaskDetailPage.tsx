@@ -31,8 +31,8 @@ const MyTaskDetailPage = () => {
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
 
   const { taskId, projectId } = useParams();
-  const { data, refetch } = useTaskDetailQuery(taskId || "");
-  const { data: feedbackList } = useFeedbackListQuery(taskId || "");
+  const { data, refetch } = useTaskDetailQuery(taskId || "604");
+  const { data: feedbackList } = useFeedbackListQuery(taskId || "604");
   const { mutate: mutateTaskContent } = useSendTaskContentMutation();
   const { mutate: mutateTaskStatus } = useChangeTaskStatusQuery();
   const feedbackLeftDays = getLeftDays(data?.feedbackDueDate as string);
