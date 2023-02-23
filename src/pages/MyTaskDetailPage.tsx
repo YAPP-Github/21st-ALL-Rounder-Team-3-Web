@@ -21,6 +21,7 @@ import useBottomSheet from "@src/core/hooks/useBottomSheet";
 import useSendTaskContentMutation from "@src/core/queries/sendTaskContentMutation";
 import getLeftDays from "@src/utils/getLeftDays";
 import useChangeTaskStatusQuery from "@src/core/queries/changeTaskStatusQuery";
+import DefaultLayout from "@src/components/layout/DefaultLayout";
 
 const MyTaskDetailPage = () => {
   const [urlTitle, setUrlTitle] = useState<string>("");
@@ -101,6 +102,23 @@ const MyTaskDetailPage = () => {
     });
   };
 
+  const handleEditClick = () => {
+    window.Android.navigateToMyTask(
+      projectId!,
+      taskId!,
+      String(taskManager!.id),
+      taskManager!.value,
+      title,
+      memo,
+      String(startDate),
+      String(dueDate),
+    );
+  };
+
+  const handleBackClick = () => {
+    window.Android.navigateToMain();
+  };
+
   useEffect(() => {
     if (!urlTitle && urlContent) setFeedbackRequestCondition(true);
     else if (urlTitle && !urlContent) setFeedbackRequestCondition(true);
@@ -108,7 +126,7 @@ const MyTaskDetailPage = () => {
   }, [urlTitle, urlContent]);
 
   return (
-    <>
+    <DefaultLayout onBack={handleBackClick} title="" withEditIcon onEdit={handleEditClick}>
       <TaskHeader data={data} feedbackLeftDays={feedbackLeftDays} />
       <Divider height={8} marginBottom={20} />
       <DescriptionWrapper>
@@ -184,7 +202,7 @@ const MyTaskDetailPage = () => {
           }
         />
       )}
-    </>
+    </DefaultLayout>
   );
 };
 

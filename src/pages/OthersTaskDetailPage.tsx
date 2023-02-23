@@ -12,6 +12,7 @@ import { useParams } from "react-router-dom";
 import useFeedbackListQuery from "@src/core/queries/useFeedbackListQuery";
 import getLeftDays from "@src/utils/getLeftDays";
 import useChangeTaskStatusQuery from "@src/core/queries/changeTaskStatusQuery";
+import DefaultLayout from "@src/components/layout/DefaultLayout";
 
 const OthersTaskDetailPage = () => {
   const { taskId, projectId } = useParams();
@@ -29,6 +30,14 @@ const OthersTaskDetailPage = () => {
         taskStatus: state,
       });
     }
+  };
+
+  const handleBackClick = () => {
+    window.Android.navigateToMain();
+  };
+
+  const handleFeedbackClick = () => {
+    window.Android.navigateToFeedback(projectId!, taskId!);
   };
 
   useMemo(() => {
@@ -51,7 +60,7 @@ const OthersTaskDetailPage = () => {
   }
 
   return (
-    <>
+    <DefaultLayout onBack={handleBackClick} title="">
       <TaskHeader data={data} feedbackLeftDays={feedbackLeftDays} />
       <Divider height={8} marginBottom={20} />
       <DescriptionWrapper>
@@ -64,7 +73,7 @@ const OthersTaskDetailPage = () => {
       {data?.taskStatus === "FEEDBACK" && data?.feedbackStatus === "pending" ? (
         <FixedBottomButtonLayout children={<Button type={"primary"} value={"피드백 하러가기"} onClick={() => {}} />} />
       ) : null}
-    </>
+    </DefaultLayout>
   );
 };
 
