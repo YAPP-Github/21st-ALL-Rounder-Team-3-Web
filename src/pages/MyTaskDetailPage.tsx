@@ -10,51 +10,41 @@ import Input from "@src/components/common/Input";
 import { useEffect, useMemo, useState } from "react";
 import BadgeWithDescription from "@src/components/task/BadgeWithDescription";
 import URL from "@src/components/task/URL";
-import Icons from "@src/assets/icons/index";
 import { typo_body2_medium, typo_body3_regular, typo_h3_semibold } from "@src/styles/Typo";
 import FeedbackResult from "@src/components/task/FeedbackResult";
 import { useParams } from "react-router-dom";
 import useTaskDetailQuery from "@src/core/queries/useTaskDetailQuery";
-import getFeedbackLeftDays from "@src/utils/getLeftDays";
 import useFeedbackListQuery from "@src/core/queries/useFeedbackListQuery";
 import goodFacialExpressionImg from "@src/assets/images/good_facial_expression_img.png";
 import notEnoughFacialExpressionImg from "@src/assets/images/not_enough_facial_expression_img.png";
-import BottomSheet from "@src/components/common/BottomSheet";
 import useBottomSheet from "@src/core/hooks/useBottomSheet";
-import useChangeTaskInformationQuery from "@src/core/queries/changeTaskInformationQuery";
 import useSendTaskContentMutation from "@src/core/queries/sendTaskContentMutation";
 import getLeftDays from "@src/utils/getLeftDays";
+import useChangeTaskStatusQuery from "@src/core/queries/changeTaskStatusQuery";
 
 const MyTaskDetailPage = () => {
   const [urlTitle, setUrlTitle] = useState<string>("");
   const [urlContent, setUrlContent] = useState<string>("");
-  const [titleInputError, setTitleInputError] = useState<boolean>(false);
-  const [contentInputError, setContentInputError] = useState<boolean>(false);
   const [feedbackRequestCondition, setFeedbackRequestCondition] = useState<boolean>(false);
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
 
   const { taskId, projectId } = useParams();
-  const { data } = useTaskDetailQuery(taskId || "");
+  const { data, refetch } = useTaskDetailQuery(taskId || "");
   const { data: feedbackList } = useFeedbackListQuery(taskId || "");
-  const { mutate: mutateTaskInformation } = useChangeTaskInformationQuery();
   const { mutate: mutateTaskContent } = useSendTaskContentMutation();
+  const { mutate: mutateTaskStatus } = useChangeTaskStatusQuery();
   const feedbackLeftDays = getLeftDays(data?.feedbackDueDate as string);
   const startLeftDays = getLeftDays(data?.startDate as string);
+  const dueLeftDays = getLeftDays(data?.dueDate as string);
 
-  const changeStatus = (state: "INPROGRESS" | "DONE" | "FEEDBACK") => {
+  const changeStatus = (state: "INPROGRESS" | "DONE" | "FEEDBACK" | "LATE") => {
     if (taskId && data) {
-      mutateTaskInformation({
+      mutateTaskStatus({
         taskId,
-        taskInformation: {
-          taskId: Number(taskId),
-          title: data.title,
-          startDate: data.startDate,
-          dueDate: data.dueDate,
-          memo: data.memo,
-          taskStatus: state,
-        },
+        taskStatus: state,
       });
     }
+    refetch();
   };
 
   const handleRequestButton = () => {
@@ -75,25 +65,19 @@ const MyTaskDetailPage = () => {
     feedbackList.details[1] = "시각 자료가 더 있었으면 좋겠어요.";
     feedbackList.evaluations.GOOD = 3;
     feedbackList.evaluations.NOT_ENOUGH = 2;
-    console.log("data : ", data);
-    console.log("feedbackLeftDays : ", feedbackLeftDays);
   }
 
   useMemo(() => {
-    //시작날짜가 되면 진행중으로 변경
-    if (data && data.taskStatus === "BEFORE" && startLeftDays >= 0) {
+    if (data && data.taskStatus === "BEFORE" && startLeftDays < 0) {
       changeStatus("INPROGRESS");
     }
-    //피드백 요청 후 3일이 지나면 자동으로 업무 마감
+    if (data && data.taskStatus === "INPROGRESS" && dueLeftDays < 0) {
+      changeStatus("LATE");
+    }
     if (data && data.taskStatus === "FEEDBACK" && feedbackLeftDays < 0) {
       changeStatus("DONE");
     }
   }, [data]);
-
-  const requestFeedback = () => {
-    if (!urlTitle && urlContent) setTitleInputError(true);
-    else if (urlTitle && !urlContent) setContentInputError(true);
-  };
 
   const handleFeedbackCancelButton = () => {
     openBottomSheet({
@@ -139,19 +123,9 @@ const MyTaskDetailPage = () => {
         <DescriptionWrapper>
           <Divider marginBottom={10} marginTop={10} />
           <TaskDescription title="URL" />
-          <Input
-            value={urlTitle}
-            placeholder={"링크 제목을 입력해주세요."}
-            onChange={setUrlTitle}
-            withError={titleInputError}
-          />
+          <Input value={urlTitle} placeholder={"링크 제목을 입력해주세요."} onChange={setUrlTitle} />
           <Margin bottom={10} />
-          <Input
-            value={urlContent}
-            placeholder={"완료된 업무 링크를 입력해주세요."}
-            onChange={setUrlContent}
-            withError={contentInputError}
-          />
+          <Input value={urlContent} placeholder={"완료된 업무 링크를 입력해주세요."} onChange={setUrlContent} />
           <Margin bottom={24} />
           <BadgeWithDescription
             title={"피드백 요청"}
