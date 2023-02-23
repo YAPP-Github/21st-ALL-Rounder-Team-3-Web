@@ -26,7 +26,7 @@ const TaskEditPage = () => {
   const { data } = useParticipantsQuery(projectId || "");
   const { mutate } = useTaskEditMutation();
 
-  const dropDownData = useMemo(() => data?.map(item => ({ id: item.id, value: item.name })), [data]);
+  const dropDownData: DropDownData[] = useMemo(() => data!.map(item => ({ id: item.id, value: item.name })), [data]);
 
   const readyToCreate = !!taskManager && !!title && !!startDate && !!dueDate && !!memo;
 
