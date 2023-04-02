@@ -30,7 +30,7 @@ const MyTaskDetailPage = () => {
   const [feedbackRequestCondition, setFeedbackRequestCondition] = useState<boolean>(false);
   const { openBottomSheet, closeBottomSheet } = useBottomSheet();
 
-  const { taskId, projectId } = useParams();
+  const { projectId, taskId } = useParams();
   const { data, refetch } = useTaskDetailQuery(taskId || "");
   const { data: feedbackList } = useFeedbackListQuery(taskId || "");
   const { mutate: mutateTaskContent } = useSendTaskContentMutation();
@@ -45,8 +45,9 @@ const MyTaskDetailPage = () => {
         taskId,
         taskStatus: state,
       });
+
+      refetch();
     }
-    refetch();
   };
 
   const handleRequestButton = () => {
@@ -60,17 +61,17 @@ const MyTaskDetailPage = () => {
     changeStatus("FEEDBACK");
   };
 
-  useMemo(() => {
-    if (data && data.taskStatus === "BEFORE" && startLeftDays < 0) {
+  useEffect(() => {
+    if (data && data.taskStatus === "BEFORE" && startLeftDays <= 0) {
       changeStatus("INPROGRESS");
     }
-    if (data && data.taskStatus === "INPROGRESS" && dueLeftDays < 0) {
+    if (data && data.taskStatus === "INPROGRESS" && dueLeftDays <= 0) {
       changeStatus("LATE");
     }
-    if (data && data.taskStatus === "FEEDBACK" && feedbackLeftDays < 0) {
+    if (data && data.taskStatus === "FEEDBACK" && feedbackLeftDays <= 0) {
       changeStatus("DONE");
     }
-  }, [data]);
+  }, [data, startLeftDays, dueLeftDays, feedbackLeftDays]);
 
   const handleFeedbackCancelButton = () => {
     openBottomSheet({
@@ -95,19 +96,20 @@ const MyTaskDetailPage = () => {
   };
 
   const handleEditClick = () => {
-    if (data) {
-      const taskManagerId = data.representative.participantId;
-      const taskManagerValue = data.representative.name;
+    const taskManagerId = data!.representative.participantId;
+    const taskManagerValue = data!.representative.name;
 
+    console.log("!! 아이디 잘 보내나", projectId, taskId);
+    if (projectId && taskId) {
       window.Android.navigateToEdit(
-        projectId!,
-        taskId!,
+        projectId,
+        taskId,
         String(taskManagerId),
         taskManagerValue,
-        data.title,
-        data.memo,
-        String(data.startDate),
-        String(data.dueDate),
+        data!.title,
+        data!.memo,
+        String(data!.startDate),
+        String(data!.dueDate),
       );
     }
   };
