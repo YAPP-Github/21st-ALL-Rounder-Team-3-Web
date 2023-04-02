@@ -34,7 +34,7 @@ const getTaskDetail = async (taskId: string): Promise<TaskDetail> => {
 };
 
 const useTaskDetailQuery = (taskId: string) => {
-  return useQuery(taskDetailKey.detail, () => getTaskDetail(taskId));
+  return useQuery(taskDetailKey.detail, () => getTaskDetail(taskId), { cacheTime: 0 });
 };
 
 export default useTaskDetailQuery;

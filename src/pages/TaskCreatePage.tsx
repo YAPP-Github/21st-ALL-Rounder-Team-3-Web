@@ -45,7 +45,6 @@ const TaskCreatePage = () => {
           memo,
           startDate: formatPayloadDate(startDate),
           dueDate: formatPayloadDate(dueDate),
-          taskStatus: "BEFORE",
         },
         {
           onSettled: () => {
